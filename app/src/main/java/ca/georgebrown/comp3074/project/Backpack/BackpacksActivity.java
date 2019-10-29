@@ -10,23 +10,26 @@ import android.widget.ImageButton;
 
 import ca.georgebrown.comp3074.project.AboutActivity;
 import ca.georgebrown.comp3074.project.R;
+import ca.georgebrown.comp3074.project.User.User;
 
 public class BackpacksActivity extends AppCompatActivity {
-
-    //ImageButton addBackpack = findViewById(R.id.btnAddBackpack);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backpack);
 
-        /*addBackpack.setOnClickListener(new View.OnClickListener()
+        ImageButton addBackpack = findViewById(R.id.btnAddBackpack);
+        final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
+
+        addBackpack.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
                 Intent addBackpack = new Intent(v.getContext(), AddBackpackActivity.class);
+//                addBackpack.putExtra("ValidatedUser", validatedUser);
                 startActivity(addBackpack);
             }
-        });*/
+        });
     }
 }
