@@ -1,6 +1,8 @@
 package ca.georgebrown.comp3074.project.Route;
 
-public class Route {
+import java.io.Serializable;
+
+public class Route implements Serializable {
 
     private int Route_Id;
     private String Route_Name;

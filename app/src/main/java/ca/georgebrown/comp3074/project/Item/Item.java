@@ -1,17 +1,20 @@
 package ca.georgebrown.comp3074.project.Item;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private int Item_Id;
     private String Item_Name;
     private String Item_Picture;
     private String Item_QR_Code;
 
-    public Item(int Id, String name, String item_pic, String item_code)
+    public Item(int Id, String name)
     {
         Item_Id = Id;
         Item_Name = name;
-        Item_Picture = item_pic;
-        Item_QR_Code = item_code;
+        //implement later with string for path to picture/ QR code
+        Item_Picture = "";
+        Item_QR_Code = "";
     }
     public int getItem_Id() {
         return Item_Id;

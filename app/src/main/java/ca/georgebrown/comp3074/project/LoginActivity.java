@@ -2,11 +2,13 @@ package ca.georgebrown.comp3074.project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import ca.georgebrown.comp3074.project.DatabaseAccess.UserDBAccess;
@@ -23,6 +25,18 @@ public class LoginActivity extends AppCompatActivity {
         final EditText txtPassword = findViewById(R.id.txtPassword);
         Button login = findViewById(R.id.btnLogin);
         final TextView txtError = findViewById(R.id.txtError);
+
+        @SuppressLint("WrongViewCast") ImageButton about = (ImageButton)findViewById(R.id.btnAbout);
+
+        about.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                Intent aboutIntent = new Intent(v.getContext(), )
+            }
+        });
+
+
         login.setOnClickListener(new View.OnClickListener()
         {
             @Override
