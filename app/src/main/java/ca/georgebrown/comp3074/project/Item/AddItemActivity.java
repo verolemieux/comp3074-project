@@ -24,8 +24,8 @@ import ca.georgebrown.comp3074.project.User.User;
 public class AddItemActivity extends AppCompatActivity {
 
     int maxId = 1;
-    ImageButton addPhoto = findViewById(R.id.btnAddPhoto);
-    ImageView imgItem = findViewById(R.id.imgItem);
+    ImageButton addPhoto;
+    ImageView imgItem;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -33,6 +33,8 @@ public class AddItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
+        addPhoto = findViewById(R.id.btnAddPhoto);
+        imgItem = findViewById(R.id.imgItem);
         Button btnSave = findViewById(R.id.btnSave);
         final TextView itemName = findViewById(R.id.txtItemName);
         final TextView itemDesc = findViewById(R.id.txtItemDescription);

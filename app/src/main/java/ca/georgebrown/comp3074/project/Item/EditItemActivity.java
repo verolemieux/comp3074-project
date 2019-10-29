@@ -28,6 +28,7 @@ public class EditItemActivity extends AppCompatActivity {
         itemName = findViewById(R.id.txtItemName);
         itemDesc = findViewById(R.id.txtItemDescription);
         Button btnSave = findViewById(R.id.btnSave);
+        Button btnDelete = findViewById(R.id.btnDelete);
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         editItem = (Item) getIntent().getSerializableExtra("Item");
         list = (ArrayList<Item>) getIntent().getSerializableExtra("ListItems");
@@ -44,6 +45,20 @@ public class EditItemActivity extends AppCompatActivity {
                 itemIntent.putExtra("ValidatedUser", validatedUser);
                 itemIntent.putExtra("ListItems", list);
                 itemIntent.putExtra("EditItem", editItem);
+                itemIntent.putExtra("Function", "Edit");
+                setResult(2, itemIntent);
+                finish();
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent itemIntent = new Intent(v.getContext(), ItemsActivity.class);
+                itemIntent.putExtra("ValidatedUser", validatedUser);
+                itemIntent.putExtra("ListItems", list);
+                itemIntent.putExtra("EditItem", editItem);
+                itemIntent.putExtra("Function", "Delete");
                 setResult(2, itemIntent);
                 finish();
             }
