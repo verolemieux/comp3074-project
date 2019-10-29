@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.R;
@@ -24,7 +25,7 @@ public class ItemsActivity extends AppCompatActivity {
         final ArrayList<Item> items = validatedUser.Item_List;
         ItemAdapter adapter2;
         final ItemAdapter adapter;
-        try{
+        /*try{
             adapter2 = (ItemAdapter)getIntent().getSerializableExtra("Adapter");
         }
         catch(Exception e)
@@ -32,17 +33,35 @@ public class ItemsActivity extends AppCompatActivity {
             adapter2 = new ItemAdapter(this, R.layout.item_layout, items);
         }
         adapter = adapter2;
+         */
+        adapter = new ItemAdapter(this, R.layout.item_layout, items);
         itemList.setAdapter(adapter);
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long l) {
                 Intent editItemIntent = new Intent(view.getContext(), EditItemActivity.class);
-                editItemIntent.putExtra("User", validatedUser);
+                editItemIntent.putExtra("ValidatedUser", validatedUser);
+                editItemIntent.putExtra("ListItems", validatedUser.Item_List);
                 Item editItem = (Item)parent.getItemAtPosition(position);
                 editItemIntent.putExtra("Item", editItem);
-                editItemIntent.putExtra("Adapter", adapter);
-                startActivity(editItemIntent);
+                startActivityForResult(editItemIntent, 1);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1)
+        {
+            ListView itemList = findViewById(R.id.listItems);
+            User validatedUser = (User)data.getSerializableExtra("ValidatedUser");
+            ArrayList<Item> itemlist = (ArrayList<Item>) data.getSerializableExtra("ItemList");
+            final ArrayList<Item> items = itemlist;
+            final ItemAdapter adapter;
+            adapter = new ItemAdapter(this, R.layout.item_layout, items);
+            itemList.setAdapter(adapter);
+        }
     }
 }
