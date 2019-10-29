@@ -9,8 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EE0D0442"
-        tools:context=".Backpack.AddBackpackActivity">
+        android:background="#EE0D0442">
 
         <ImageView
             android:id="@+id/imgQrCode"
@@ -114,6 +113,29 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtItemDescription" />
+
+        <ImageButton
+            android:id="@+id/btnAddPhoto"
+            android:layout_width="92dp"
+            android:layout_height="92dp"
+            android:layout_marginTop="35dp"
+            android:background="@android:drawable/ic_menu_camera"
+            app:layout_constraintEnd_toStartOf="@+id/imgItem"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtItemDescription"
+            style="?android:attr/borderlessButtonStyle" />
+
+        <ImageButton
+            android:id="@+id/btnAddQRCode"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="92dp"
+            android:layout_height="92dp"
+            android:layout_marginTop="60dp"
+            android:background="@android:drawable/ic_menu_add"
+            app:layout_constraintEnd_toStartOf="@+id/imgQrCode"
+            app:layout_constraintHorizontal_bias="0.47"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnAddPhoto" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
