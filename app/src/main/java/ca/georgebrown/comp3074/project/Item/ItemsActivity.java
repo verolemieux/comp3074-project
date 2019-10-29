@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import ca.georgebrown.comp3074.project.Home;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
@@ -28,6 +30,7 @@ public class ItemsActivity extends AppCompatActivity {
         ArrayList<Item> items = validatedUser.Item_List;
         ItemAdapter adapter;
         ImageButton addItem = findViewById(R.id.btnAddItem);
+        Button btnHome = findViewById(R.id.btnHome);
         adapter = new ItemAdapter(this, R.layout.item_layout, items);
         itemList.setAdapter(adapter);
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -49,6 +52,14 @@ public class ItemsActivity extends AppCompatActivity {
                 addItemIntent.putExtra("ValidatedUser", validatedUser);
                 addItemIntent.putExtra("ListItems", validatedUser.Item_List);
                 startActivityForResult(addItemIntent, 1);
+            }
+        });
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent Home = new Intent(view.getContext(), ca.georgebrown.comp3074.project.Home.class);
+                Home.putExtra("ValidatedUser", validatedUser);
+                startActivity(Home);
             }
         });
     }
@@ -89,6 +100,15 @@ public class ItemsActivity extends AppCompatActivity {
                     startActivityForResult(addItemIntent, 1);
                 }
             });
+            Button btnHome = findViewById(R.id.btnHome);
+            btnHome.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent Home = new Intent(view.getContext(), ca.georgebrown.comp3074.project.Home.class);
+                    Home.putExtra("ValidatedUser", validatedUser);
+                    startActivity(Home);
+                }
+            });
         }
         if(requestCode == 2)
         {
@@ -125,6 +145,7 @@ public class ItemsActivity extends AppCompatActivity {
                     item2.add(i);
                 }
                 items = item2;
+                validatedUser.Item_List = items;
             }
             adapter = new ItemAdapter(this, R.layout.item_layout, items);
             itemList.setAdapter(adapter);
@@ -149,42 +170,15 @@ public class ItemsActivity extends AppCompatActivity {
                     startActivityForResult(addItemIntent, 1);
                 }
             });
-        }
-        if(resultCode == 3)
-        {
-            ListView itemList = findViewById(R.id.listItems);
-            validatedUser = (User)data.getSerializableExtra("ValidatedUser");
-            ArrayList<Item> itemlist = (ArrayList<Item>) data.getSerializableExtra("ListItems");
-            Item editItem = (Item) data.getSerializableExtra("EditItem");
-            ArrayList<Item> items = itemlist;
-            items.remove(editItem);
-            validatedUser.Item_List = items;
-            ItemAdapter adapter;
-            ImageButton addItem = findViewById(R.id.btnAddItem);
-            adapter = new ItemAdapter(this, R.layout.item_layout, items);
-            itemList.setAdapter(adapter);
-            itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, final int position, long l) {
-                    Intent editItemIntent = new Intent(view.getContext(), EditItemActivity.class);
-                    editItemIntent.putExtra("ValidatedUser", validatedUser);
-                    editItemIntent.putExtra("ListItems", validatedUser.Item_List);
-                    Item editItem = (Item)parent.getItemAtPosition(position);
-                    editItemIntent.putExtra("Item", editItem);
-                    startActivityForResult(editItemIntent, 2);
-                }
-            });
-
-            addItem.setOnClickListener(new View.OnClickListener() {
+            Button btnHome = findViewById(R.id.btnHome);
+            btnHome.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent addItemIntent = new Intent(view.getContext(), AddItemActivity.class);
-                    addItemIntent.putExtra("ValidatedUser", validatedUser);
-                    addItemIntent.putExtra("ListItems", validatedUser.Item_List);
-                    startActivityForResult(addItemIntent, 1);
+                    Intent Home = new Intent(view.getContext(), ca.georgebrown.comp3074.project.Home.class);
+                    Home.putExtra("ValidatedUser", validatedUser);
+                    startActivity(Home);
                 }
             });
         }
-
     }
 }
