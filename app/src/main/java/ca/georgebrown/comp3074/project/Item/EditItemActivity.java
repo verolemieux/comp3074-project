@@ -16,16 +16,21 @@ import ca.georgebrown.comp3074.project.User.User;
 
 public class EditItemActivity extends AppCompatActivity {
 
+    TextView itemName;
+    TextView itemDesc;
+    Item editItem;
+    User validatedUser;
+    ArrayList<Item> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
-        final TextView itemName = findViewById(R.id.txtItemName);
-        final TextView itemDesc = findViewById(R.id.txtItemDescription);
+        itemName = findViewById(R.id.txtItemName);
+        itemDesc = findViewById(R.id.txtItemDescription);
         Button btnSave = findViewById(R.id.btnSave);
-        final User validatedUser = (User)getIntent().getSerializableExtra("Validated=User");
-        final Item editItem = (Item) getIntent().getSerializableExtra("Item");
-        final ArrayList<Item> list = (ArrayList<Item>) getIntent().getSerializableExtra("ListItems");
+        validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
+        editItem = (Item) getIntent().getSerializableExtra("Item");
+        list = (ArrayList<Item>) getIntent().getSerializableExtra("ListItems");
         //final ItemAdapter adapter = (ItemAdapter) getIntent().getSerializableExtra("Adapter");
         itemName.setText(editItem.getItem_Name());
         itemDesc.setText(editItem.getDescription());
@@ -35,19 +40,11 @@ public class EditItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 editItem.setItem_Name(itemName.getText().toString());
                 editItem.setDescription(itemDesc.getText().toString());
-                for(Item i : list)
-                {
-                    if(i.getItem_Id() == editItem.getItem_Id())
-                    {
-                        i.setItem_Name(editItem.getItem_Name());
-                        i.setDescription(editItem.getDescription());
-                    }
-                }
                 Intent itemIntent = new Intent(v.getContext(), ItemsActivity.class);
-                //list.add(new Item(4, "Mango"));
                 itemIntent.putExtra("ValidatedUser", validatedUser);
-                itemIntent.putExtra("ItemList", list);
-                setResult(1, itemIntent);
+                itemIntent.putExtra("ListItems", list);
+                itemIntent.putExtra("EditItem", editItem);
+                setResult(2, itemIntent);
                 finish();
             }
         });

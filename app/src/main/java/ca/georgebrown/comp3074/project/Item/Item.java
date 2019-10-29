@@ -54,4 +54,13 @@ public class Item implements Serializable {
 
     public void setDescription(String desc){Description = desc;}
 
+    public int maxValue(int current, int largest)
+    {
+        if(current > largest)
+        {
+            return current;
+        }
+        return largest;
+    }
+
 }
