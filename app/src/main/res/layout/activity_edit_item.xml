@@ -92,7 +92,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginEnd="107dp"
             android:layout_marginRight="107dp"
-            android:text="New Item"
+            android:text="Edit Item"
             android:textColor="@android:color/white"
             android:textSize="30sp"
             android:textStyle="bold"
