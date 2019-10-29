@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.lang.reflect.Array;
@@ -23,17 +24,8 @@ public class ItemsActivity extends AppCompatActivity {
         final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         ListView itemList = findViewById(R.id.listItems);
         final ArrayList<Item> items = validatedUser.Item_List;
-        ItemAdapter adapter2;
         final ItemAdapter adapter;
-        /*try{
-            adapter2 = (ItemAdapter)getIntent().getSerializableExtra("Adapter");
-        }
-        catch(Exception e)
-        {
-            adapter2 = new ItemAdapter(this, R.layout.item_layout, items);
-        }
-        adapter = adapter2;
-         */
+        ImageButton addItem = findViewById(R.id.btnAddItem);
         adapter = new ItemAdapter(this, R.layout.item_layout, items);
         itemList.setAdapter(adapter);
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -45,6 +37,16 @@ public class ItemsActivity extends AppCompatActivity {
                 Item editItem = (Item)parent.getItemAtPosition(position);
                 editItemIntent.putExtra("Item", editItem);
                 startActivityForResult(editItemIntent, 1);
+            }
+        });
+
+        addItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent addItemIntent = new Intent(view.getContext(), AddItemActivity.class);
+                addItemIntent.putExtra("ValidatedUser", validatedUser);
+                addItemIntent.putExtra("ListItems", validatedUser.Item_List);
+                startActivityForResult(addItemIntent, 1);
             }
         });
     }
