@@ -9,12 +9,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
 public class AddItemActivity extends AppCompatActivity {
 
+    int maxId = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,9 +30,13 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent addItemIntent = new Intent(view.getContext(), ItemsActivity.class);
-                list.add(new Item(4, itemName.getText().toString(), itemDesc.getText().toString()));
+                for(Item i : list)
+                {
+                    maxId = i.maxValue(maxId, i.getItem_Id());
+                }
+                list.add(new Item(maxId+1, itemName.getText().toString(), itemDesc.getText().toString()));
                 addItemIntent.putExtra("ValidatedUser", validatedUser);
-                addItemIntent.putExtra("ItemList", list);
+                addItemIntent.putExtra("ListItems", list);
                 setResult(1, addItemIntent);
                 finish();
             }

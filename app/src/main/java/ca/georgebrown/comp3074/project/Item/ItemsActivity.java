@@ -17,14 +17,16 @@ import ca.georgebrown.comp3074.project.User.User;
 
 public class ItemsActivity extends AppCompatActivity {
 
+    User validatedUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
-        final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
+        validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         ListView itemList = findViewById(R.id.listItems);
-        final ArrayList<Item> items = validatedUser.Item_List;
-        final ItemAdapter adapter;
+        ArrayList<Item> items = validatedUser.Item_List;
+        ItemAdapter adapter;
         ImageButton addItem = findViewById(R.id.btnAddItem);
         adapter = new ItemAdapter(this, R.layout.item_layout, items);
         itemList.setAdapter(adapter);
@@ -36,7 +38,7 @@ public class ItemsActivity extends AppCompatActivity {
                 editItemIntent.putExtra("ListItems", validatedUser.Item_List);
                 Item editItem = (Item)parent.getItemAtPosition(position);
                 editItemIntent.putExtra("Item", editItem);
-                startActivityForResult(editItemIntent, 1);
+                startActivityForResult(editItemIntent, 2);
             }
         });
 
@@ -58,12 +60,78 @@ public class ItemsActivity extends AppCompatActivity {
         if(requestCode == 1)
         {
             ListView itemList = findViewById(R.id.listItems);
-            User validatedUser = (User)data.getSerializableExtra("ValidatedUser");
-            ArrayList<Item> itemlist = (ArrayList<Item>) data.getSerializableExtra("ItemList");
-            final ArrayList<Item> items = itemlist;
-            final ItemAdapter adapter;
+            validatedUser = (User)data.getSerializableExtra("ValidatedUser");
+            ArrayList<Item> itemlist = (ArrayList<Item>) data.getSerializableExtra("ListItems");
+            ArrayList<Item> items = itemlist;
+            validatedUser.Item_List = items;
+            ItemAdapter adapter;
+            ImageButton addItem = findViewById(R.id.btnAddItem);
             adapter = new ItemAdapter(this, R.layout.item_layout, items);
             itemList.setAdapter(adapter);
+            itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, final int position, long l) {
+                    Intent editItemIntent = new Intent(view.getContext(), EditItemActivity.class);
+                    editItemIntent.putExtra("ValidatedUser", validatedUser);
+                    editItemIntent.putExtra("ListItems", validatedUser.Item_List);
+                    Item editItem = (Item)parent.getItemAtPosition(position);
+                    editItemIntent.putExtra("Item", editItem);
+                    startActivityForResult(editItemIntent, 2);
+                }
+            });
+
+            addItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent addItemIntent = new Intent(view.getContext(), AddItemActivity.class);
+                    addItemIntent.putExtra("ValidatedUser", validatedUser);
+                    addItemIntent.putExtra("ListItems", validatedUser.Item_List);
+                    startActivityForResult(addItemIntent, 1);
+                }
+            });
+        }
+        if(requestCode == 2)
+        {
+            ListView itemList = findViewById(R.id.listItems);
+            validatedUser = (User)data.getSerializableExtra("ValidatedUser");
+            ArrayList<Item> itemlist = (ArrayList<Item>) data.getSerializableExtra("ListItems");
+            Item editItem = (Item) data.getSerializableExtra("EditItem");
+            ArrayList<Item> items = itemlist;
+            validatedUser.Item_List = items;
+            ItemAdapter adapter;
+            ImageButton addItem = findViewById(R.id.btnAddItem);
+            adapter = new ItemAdapter(this, R.layout.item_layout, items);
+            itemList.setAdapter(adapter);
+            for(Item i : items)
+            {
+                if(i.getItem_Id() == editItem.getItem_Id())
+                {
+                    i.setItem_Name(editItem.getItem_Name());
+                    i.setDescription(editItem.getDescription());
+                }
+            }
+            adapter.notifyDataSetChanged();
+            itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, final int position, long l) {
+                    Intent editItemIntent = new Intent(view.getContext(), EditItemActivity.class);
+                    editItemIntent.putExtra("ValidatedUser", validatedUser);
+                    editItemIntent.putExtra("ListItems", validatedUser.Item_List);
+                    Item editItem = (Item)parent.getItemAtPosition(position);
+                    editItemIntent.putExtra("Item", editItem);
+                    startActivityForResult(editItemIntent, 2);
+                }
+            });
+
+            addItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent addItemIntent = new Intent(view.getContext(), AddItemActivity.class);
+                    addItemIntent.putExtra("ValidatedUser", validatedUser);
+                    addItemIntent.putExtra("ListItems", validatedUser.Item_List);
+                    startActivityForResult(addItemIntent, 1);
+                }
+            });
         }
     }
 }
