@@ -1,6 +1,8 @@
 package ca.georgebrown.comp3074.project.DatabaseAccess;
 
-public class UserDBAccess {
+import java.io.Serializable;
+
+public class UserDBAccess implements Serializable {
 
     //connection string parameters
 
