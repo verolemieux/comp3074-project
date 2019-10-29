@@ -1,12 +1,13 @@
 package ca.georgebrown.comp3074.project.User;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.Backpack.Backpack;
 import ca.georgebrown.comp3074.project.Route.Route;
 
-public class User {
+public class User implements Serializable {
 
     private String email;
     private String name;
