@@ -44,7 +44,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/btnAddBackpack"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="92dp"
         android:layout_height="92dp"

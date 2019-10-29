@@ -58,10 +58,10 @@ public class Home extends AppCompatActivity {
         {
             @Override
             public void onClick(View v) {
-                    Intent itemIntent = new Intent(v.getContext(), ItemsActivity.class);
-                    itemIntent.putExtra("ValidatedUser", validatedUser);
-                    startActivity(itemIntent);
+                Intent itemIntent = new Intent(v.getContext(), ItemsActivity.class);
+                itemIntent.putExtra("ValidatedUser", validatedUser);
+                startActivity(itemIntent);
             }
-        });
+    });
     }
 }
