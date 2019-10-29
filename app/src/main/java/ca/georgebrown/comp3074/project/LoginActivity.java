@@ -26,13 +26,14 @@ public class LoginActivity extends AppCompatActivity {
         Button login = findViewById(R.id.btnLogin);
         final TextView txtError = findViewById(R.id.txtError);
 
-        @SuppressLint("WrongViewCast") ImageButton about = (ImageButton)findViewById(R.id.btnAbout);
+        ImageButton about = findViewById(R.id.btnAbout);
 
         about.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
-                Intent aboutIntent = new Intent(v.getContext(), )
+                Intent aboutIntent = new Intent(v.getContext(), AboutActivity.class);
+                startActivity(aboutIntent);
             }
         });
 
