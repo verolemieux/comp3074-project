@@ -9,21 +9,24 @@ import android.widget.ImageButton;
 
 import ca.georgebrown.comp3074.project.Backpack.AddBackpackActivity;
 import ca.georgebrown.comp3074.project.R;
+import ca.georgebrown.comp3074.project.User.User;
 
 public class EventsActivity extends AppCompatActivity {
-
-    ImageButton addEvent = findViewById(R.id.btnAddEvent);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
+        ImageButton addEvent = findViewById(R.id.btnAddEvent);
+        final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
+
         addEvent.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
                 Intent addEvent = new Intent(v.getContext(), AddEventActivity.class);
+                addEvent.putExtra("ValidatedUser", validatedUser);
                 startActivity(addEvent);
             }
         });
