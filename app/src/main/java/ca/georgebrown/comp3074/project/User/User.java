@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.Backpack.Backpack;
+import ca.georgebrown.comp3074.project.Event.Event;
 import ca.georgebrown.comp3074.project.Item.Item;
 import ca.georgebrown.comp3074.project.Route.Route;
 
@@ -17,6 +18,7 @@ public class User implements Serializable {
     public ArrayList<Backpack> Backpack_List;
     public ArrayList<Route> Route_List;
     public ArrayList<Item> Item_List;
+    public ArrayList<Event> Event_List = new ArrayList<Event>();
 
     public User(String email, String name, String password, String enroll_date, String phone_number)
     {
@@ -31,6 +33,9 @@ public class User implements Serializable {
         Item_List.add(new Item(1, "Apple", "red fruit"));
         Item_List.add(new Item(2, "Banana", "yellow fruit"));
         Item_List.add(new Item(3, "Orange", "orange fruit"));
+        Backpack_List.add(new Backpack(1,"Backpack 1",1));
+        Route_List.add(new Route(1,"Danforth",3,5,4,"content"));
+        Event_List.add(new Event(1,"Doctor's appointment","2019-10-29","Migraine check", Backpack_List.get(0),Route_List.get(0)));
     }
     public String getEmail() {
         return email;
