@@ -1,12 +1,11 @@
 package ca.georgebrown.comp3074.project.Backpack;
 
-import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.Item.Item;
 
-public class Backpack implements Serializable{
+public class Backpack {
     private int Backpack_Id;
     private String Backpack_Name;
     private ArrayList<Item> Item_List;

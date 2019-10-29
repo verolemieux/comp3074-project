@@ -1,10 +1,10 @@
 package ca.georgebrown.comp3074.project.User;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.Backpack.Backpack;
-import ca.georgebrown.comp3074.project.Item.Item;
 import ca.georgebrown.comp3074.project.Route.Route;
 
 public class User implements Serializable {
@@ -14,9 +14,8 @@ public class User implements Serializable {
     private String password;
     private String enroll_date;
     private String phone_number;
-    public ArrayList<Backpack> Backpack_List;
-    public ArrayList<Route> Route_List;
-    public ArrayList<Item> Item_List;
+    ArrayList<Backpack> Backpack_List;
+    ArrayList<Route> Route_List;
 
     public User(String email, String name, String password, String enroll_date, String phone_number)
     {
@@ -27,10 +26,6 @@ public class User implements Serializable {
         this.phone_number = phone_number;
         Backpack_List = new ArrayList<Backpack>();
         Route_List = new ArrayList<Route>();
-        Item_List = new ArrayList<Item>();
-        Item_List.add(new Item(1, "Apple"));
-        Item_List.add(new Item(2, "Banana"));
-        Item_List.add(new Item(3, "Orange"));
     }
     public String getEmail() {
         return email;

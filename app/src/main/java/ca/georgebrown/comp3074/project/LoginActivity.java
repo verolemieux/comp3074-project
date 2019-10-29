@@ -23,8 +23,6 @@ public class LoginActivity extends AppCompatActivity {
         final EditText txtPassword = findViewById(R.id.txtPassword);
         Button login = findViewById(R.id.btnLogin);
         final TextView txtError = findViewById(R.id.txtError);
-
-
         login.setOnClickListener(new View.OnClickListener()
         {
             @Override

@@ -1,11 +1,9 @@
 package ca.georgebrown.comp3074.project.Event;
 
-import java.io.Serializable;
-
 import ca.georgebrown.comp3074.project.Backpack.Backpack;
 import ca.georgebrown.comp3074.project.Route.Route;
 
-public class Event implements Serializable {
+public class Event {
     private int Event_Id;
     private String Event_Name;
     private String Date;
