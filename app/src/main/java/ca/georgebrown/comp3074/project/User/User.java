@@ -28,9 +28,9 @@ public class User implements Serializable {
         Backpack_List = new ArrayList<Backpack>();
         Route_List = new ArrayList<Route>();
         Item_List = new ArrayList<Item>();
-        Item_List.add(new Item(1, "Apple"));
-        Item_List.add(new Item(2, "Banana"));
-        Item_List.add(new Item(3, "Orange"));
+        Item_List.add(new Item(1, "Apple", "red fruit"));
+        Item_List.add(new Item(2, "Banana", "yellow fruit"));
+        Item_List.add(new Item(3, "Orange", "orange fruit"));
     }
     public String getEmail() {
         return email;

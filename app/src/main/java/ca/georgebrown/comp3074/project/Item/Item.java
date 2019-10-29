@@ -7,11 +7,13 @@ public class Item implements Serializable {
     private String Item_Name;
     private String Item_Picture;
     private String Item_QR_Code;
+    private String Description;
 
-    public Item(int Id, String name)
+    public Item(int Id, String name, String description)
     {
         Item_Id = Id;
         Item_Name = name;
+        Description = description;
         //implement later with string for path to picture/ QR code
         Item_Picture = "";
         Item_QR_Code = "";
@@ -48,5 +50,8 @@ public class Item implements Serializable {
         Item_QR_Code = item_QR_Code;
     }
 
+    public String getDescription() {return Description;}
+
+    public void setDescription(String desc){Description = desc;}
 
 }
