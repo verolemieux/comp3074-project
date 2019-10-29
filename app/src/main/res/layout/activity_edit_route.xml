@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EE0D0442"
     tools:context=".Route.EditRouteActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Route.ShareRouteActivity"></activity>
+        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".Route.ShareRouteActivity" />
         <activity android:name=".Home" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".LoginActivity" />
