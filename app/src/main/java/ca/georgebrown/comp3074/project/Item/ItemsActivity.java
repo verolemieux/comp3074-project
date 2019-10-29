@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -20,15 +23,17 @@ import ca.georgebrown.comp3074.project.User.User;
 public class ItemsActivity extends AppCompatActivity {
 
     User validatedUser;
-
+    ArrayList<Item> items;
+    ListView itemList;
+    ItemAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
-        ListView itemList = findViewById(R.id.listItems);
-        ArrayList<Item> items = validatedUser.Item_List;
-        ItemAdapter adapter;
+        itemList = findViewById(R.id.listItems);
+        final TextView txtItemName = findViewById(R.id.txtItemName);
+        items = validatedUser.Item_List;
         ImageButton addItem = findViewById(R.id.btnAddItem);
         Button btnHome = findViewById(R.id.btnHome);
         adapter = new ItemAdapter(this, R.layout.item_layout, items);
@@ -42,6 +47,23 @@ public class ItemsActivity extends AppCompatActivity {
                 Item editItem = (Item)parent.getItemAtPosition(position);
                 editItemIntent.putExtra("Item", editItem);
                 startActivityForResult(editItemIntent, 2);
+            }
+        });
+
+        txtItemName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 

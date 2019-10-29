@@ -26,7 +26,8 @@ public class LoginActivity extends AppCompatActivity {
         Button login = findViewById(R.id.btnLogin);
         final TextView txtError = findViewById(R.id.txtError);
 
-        ImageButton about = findViewById(R.id.btnAbout);
+        //Commented out as it was causing crash
+        /*ImageButton about = findViewById(R.id.btnAbout);
 
         about.setOnClickListener(new View.OnClickListener()
         {
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent aboutIntent = new Intent(v.getContext(), AboutActivity.class);
                 startActivity(aboutIntent);
             }
-        });
+        });*/
 
 
         login.setOnClickListener(new View.OnClickListener()
