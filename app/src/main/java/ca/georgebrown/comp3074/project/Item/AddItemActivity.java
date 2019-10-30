@@ -88,15 +88,6 @@ public class AddItemActivity extends AppCompatActivity {
                     OutputStream os = new BufferedOutputStream(new FileOutputStream(file));
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
                     os.close();
-                    /*File dir = new File("comp3074-project\\app\\src\\main\\Assets\\Test.bmp");
-                    if(!dir.exists())
-                    {
-                        dir.mkdirs();
-                    }
-                    FileOutputStream out = new FileOutputStream(dir);{
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
-                        // PNG is a lossless format, the compression factor (100) is ignored
-                    }*/
                 } catch (WriterException e) {
                     e.printStackTrace();
                 } catch (FileNotFoundException e) {
