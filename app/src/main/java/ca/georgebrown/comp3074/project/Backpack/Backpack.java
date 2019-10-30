@@ -11,6 +11,7 @@ public class Backpack implements Serializable{
     private String Backpack_Name;
     private ArrayList<Item> Item_List;
     private int Size;
+    private int numItems;
 
     public Backpack(int Id, String name, int user_id)
     {
@@ -18,6 +19,7 @@ public class Backpack implements Serializable{
         Backpack_Name = name;
         Item_List = new ArrayList<Item>();
         Size = 20;
+        numItems = 0;
     }
     public int getBackpack_Id() {
         return Backpack_Id;
@@ -49,5 +51,25 @@ public class Backpack implements Serializable{
 
     public void setSize(int size) {
         Size = size;
+    }
+
+    public int getNumItems()
+    {
+        return numItems;
+    }
+
+    public void setNumItem(int i)
+    {
+        numItems = i;
+    }
+
+    public boolean addItem(Item i)
+    {
+        if(Size >= 20)
+        {
+            return false;
+        }
+        Item_List.add(i);
+        return true;
     }
 }

@@ -30,10 +30,14 @@ public class User implements Serializable {
         Backpack_List = new ArrayList<Backpack>();
         Route_List = new ArrayList<Route>();
         Item_List = new ArrayList<Item>();
+
+        //Instantiation of dummy data
         Item_List.add(new Item(1, "Apple", "red fruit"));
         Item_List.add(new Item(2, "Banana", "yellow fruit"));
         Item_List.add(new Item(3, "Orange", "orange fruit"));
         Backpack_List.add(new Backpack(1,"Backpack 1",1));
+        Backpack_List.add(new Backpack(2,"Backpack 2",1));
+        Backpack_List.add(new Backpack(3,"Backpack 3",1));
         Route_List.add(new Route(1,"Danforth",3,5,4,"content"));
         Event_List.add(new Event(1,"Doctor's appointment","2019-10-29","Migraine check", Backpack_List.get(0),Route_List.get(0)));
     }
