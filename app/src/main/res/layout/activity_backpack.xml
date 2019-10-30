@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EE0D0442"
-    tools:context=".Backpack.BackpacksActivity" >
+    tools:context=".Backpack.BackpacksActivity"
+    android:focusable="true" android:focusableInTouchMode="true">
 
     <EditText
         android:id="@+id/txtSearchBackpacks"
