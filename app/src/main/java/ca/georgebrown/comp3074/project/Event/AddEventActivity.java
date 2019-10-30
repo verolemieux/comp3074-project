@@ -45,8 +45,8 @@ public class AddEventActivity extends AppCompatActivity {
 
         Button add_button = findViewById(R.id.btnAdd2);
         final EditText event_name = findViewById(R.id.event_name);
-        final TextView event_date = findViewById(R.id.event_date);
-        final TextView event_desc = findViewById(R.id.event_desc);
+        final EditText event_date = findViewById(R.id.date_et);
+        final EditText event_desc = findViewById(R.id.desc_et);
         final TextView error_label = findViewById(R.id.error_message);
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +57,10 @@ public class AddEventActivity extends AppCompatActivity {
                     Backpack backpack = validatedUser.getBackpack(backpack_spinner.getSelectedItem().toString());
                     Route route = validatedUser.getRoute(route_spinner.getSelectedItem().toString());
                     Event event = new Event(lastId,event_name.getText().toString(),event_date.getText().toString(),event_desc.getText().toString(),backpack,route);
-
+                    validatedUser.Event_List.add(event);
+                    for(Event e : validatedUser.Event_List){
+                        System.out.println(e.getEvent_Name());
+                    }
                 }else {
                     if (event_name.getText().toString().equals("")) {
                         error_label.setText("Please add a name");
