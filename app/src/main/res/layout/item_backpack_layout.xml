@@ -4,10 +4,8 @@
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/txtItemLayout"
+    <Switch
+        android:id="@+id/switchLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:textSize="24sp" />
+        android:layout_height="wrap_content" />
 </LinearLayout>
