@@ -60,4 +60,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtSearchBackpacks"
         app:layout_constraintVertical_bias="1.0" />
+
+    <ListView
+        android:id="@+id/route_list"
+        android:layout_width="256dp"
+        android:layout_height="291dp"
+        android:layout_marginTop="220dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
 </androidx.constraintlayout.widget.ConstraintLayout>
