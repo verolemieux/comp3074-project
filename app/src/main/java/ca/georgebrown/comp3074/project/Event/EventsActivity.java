@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -20,7 +21,7 @@ public class EventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-        ImageButton addEvent = findViewById(R.id.btnAddEvent);
+        Button addEvent = findViewById(R.id.addEvent_btn);
         final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         final ArrayList<Event> events = validatedUser.Event_List;
         ListView eventList = findViewById(R.id.event_list);

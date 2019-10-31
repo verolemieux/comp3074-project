@@ -5,25 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EE0D0442"
+    android:focusable="true" android:focusableInTouchMode="true"
     tools:context=".Event.EventsActivity">
-
-    <ImageButton
-        android:id="@+id/btnAddEvent"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="92dp"
-        android:layout_height="92dp"
-        android:layout_margin="10dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginLeft="150dp"
-        android:layout_marginEnd="150dp"
-        android:layout_marginRight="150dp"
-        android:layout_marginBottom="40dp"
-        android:background="@android:drawable/ic_menu_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSearchBackpacks"
-        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/txtSearchEvents"
@@ -65,9 +48,21 @@
         android:id="@+id/event_list"
         android:layout_width="294dp"
         android:layout_height="337dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.615"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtSearchEvents" />
+
+    <Button
+        android:id="@+id/addEvent_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Add Event"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_list"
+        app:layout_constraintVertical_bias="0.271" />
 </androidx.constraintlayout.widget.ConstraintLayout>
