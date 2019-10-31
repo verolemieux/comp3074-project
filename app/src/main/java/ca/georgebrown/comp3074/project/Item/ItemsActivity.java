@@ -93,6 +93,7 @@ public class ItemsActivity extends AppCompatActivity {
         if(requestCode == 1)
         {
             ListView itemList = findViewById(R.id.listItems);
+            //itemList.getAdapter();
             validatedUser = (User)data.getSerializableExtra("ValidatedUser");
             ArrayList<Item> itemlist = (ArrayList<Item>) data.getSerializableExtra("ListItems");
             ArrayList<Item> items = itemlist;
