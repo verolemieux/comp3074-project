@@ -11,6 +11,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.Backpack.AddBackpackActivity;
+import ca.georgebrown.comp3074.project.Home;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
@@ -28,6 +29,7 @@ public class EventsActivity extends AppCompatActivity {
         final EventAdapter adapter;
         adapter = new EventAdapter(this,R.layout.event_layout,events);
         eventList.setAdapter(adapter);
+        Button home_btn = findViewById(R.id.home_btn);
 
 
         addEvent.setOnClickListener(new View.OnClickListener()
@@ -37,6 +39,14 @@ public class EventsActivity extends AppCompatActivity {
                 Intent addEvent = new Intent(v.getContext(), AddEventActivity.class);
                 addEvent.putExtra("ValidatedUser", validatedUser);
                 startActivity(addEvent);
+            }
+        });
+        home_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent return_home = new Intent(view.getContext(), Home.class);
+                return_home.putExtra("ValidatedUser", validatedUser);
+                startActivity(return_home);
             }
         });
     }

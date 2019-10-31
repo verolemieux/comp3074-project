@@ -2,6 +2,7 @@ package ca.georgebrown.comp3074.project.Event;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -58,9 +59,9 @@ public class AddEventActivity extends AppCompatActivity {
                     Route route = validatedUser.getRoute(route_spinner.getSelectedItem().toString());
                     Event event = new Event(lastId,event_name.getText().toString(),event_date.getText().toString(),event_desc.getText().toString(),backpack,route);
                     validatedUser.Event_List.add(event);
-                    for(Event e : validatedUser.Event_List){
-                        System.out.println(e.getEvent_Name());
-                    }
+                    Intent return_event = new Intent(view.getContext(), EventsActivity.class);
+                    return_event.putExtra("ValidatedUser", validatedUser);
+                    startActivity(return_event);
                 }else {
                     if (event_name.getText().toString().equals("")) {
                         error_label.setText("Please add a name");
