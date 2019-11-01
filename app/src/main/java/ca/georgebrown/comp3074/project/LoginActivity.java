@@ -21,13 +21,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        ImageButton about = findViewById(R.id.btnAbout);
         final EditText txtEmail = findViewById(R.id.txtEmail);
         final EditText txtPassword = findViewById(R.id.txtPassword);
         Button login = findViewById(R.id.btnLogin);
+        Button register = findViewById(R.id.btnRegister);
         final TextView txtError = findViewById(R.id.txtError);
-
-        //Commented out as it was causing crash
-        ImageButton about = findViewById(R.id.btnAbout);
 
         about.setOnClickListener(new View.OnClickListener()
         {
@@ -37,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(aboutIntent);
             }
         });
-
 
         login.setOnClickListener(new View.OnClickListener()
         {
@@ -56,8 +54,17 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    txtError.setText("Wrong username and password!");
+                    txtError.setText("Wrong username or password!");
                 }
+            }
+        });
+
+        register.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                Intent registerIntent = new Intent(v.getContext(), RegistrationActivity.class);
+                startActivity(registerIntent);
             }
         });
     }

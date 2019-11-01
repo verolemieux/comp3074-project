@@ -7,6 +7,6 @@
         android:id="@+id/route_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#B32626"
-        android:text="TextView" />
+        android:background="@android:color/holo_red_dark"
+        android:textSize="24sp" />
 </LinearLayout>

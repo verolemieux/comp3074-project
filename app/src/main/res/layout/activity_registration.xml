@@ -7,13 +7,27 @@
     android:background="#EE0D0442"
     tools:context=".RegistrationActivity">
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="152dp"
+        android:layout_height="182dp"
+        android:layout_marginStart="136dp"
+        android:layout_marginLeft="136dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="136dp"
+        android:layout_marginRight="136dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/backpack" />
+
     <EditText
         android:id="@+id/txtEmail"
         android:layout_width="326dp"
         android:layout_height="46dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:background="@android:color/white"
@@ -32,7 +46,7 @@
         android:layout_height="46dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:background="@android:color/white"
@@ -51,7 +65,7 @@
         android:layout_height="46dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:background="@android:color/holo_red_dark"
@@ -68,7 +82,7 @@
         android:layout_height="46dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:background="@android:color/white"
@@ -79,5 +93,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 </androidx.constraintlayout.widget.ConstraintLayout>
