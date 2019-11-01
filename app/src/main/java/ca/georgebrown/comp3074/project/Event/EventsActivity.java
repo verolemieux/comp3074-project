@@ -22,7 +22,7 @@ public class EventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-        Button addEvent = findViewById(R.id.addEvent_btn);
+        ImageButton addEvent = findViewById(R.id.addEvent_btn);
         final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         final ArrayList<Event> events = validatedUser.Event_List;
         ListView eventList = findViewById(R.id.event_list);
