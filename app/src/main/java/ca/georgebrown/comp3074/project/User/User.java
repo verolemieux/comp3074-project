@@ -88,7 +88,23 @@ public class User implements Serializable {
     public void setBackpack_List(ArrayList<Backpack> backpack_List) {
         Backpack_List = backpack_List;
     }
+    public Backpack getBackpack(String name){
+        for(Backpack bk : Backpack_List){
+            if(bk.getBackpack_Name().equals(name)){
+                return bk;
+            }
+        }
+        return null;
+    }
 
+    public Route getRoute(String name){
+        for(Route r : Route_List){
+            if(r.getRoute_Name().equals(name)){
+                return r;
+            }
+        }
+        return null;
+    }
     public ArrayList<Route> getRoute_List() {
         return Route_List;
     }
