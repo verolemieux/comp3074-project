@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
 import ca.georgebrown.comp3074.project.DatabaseAccess.UserDBAccess;
+import ca.georgebrown.comp3074.project.DatabaseAccess.UsersDAO;
 import ca.georgebrown.comp3074.project.Item.Item;
 import ca.georgebrown.comp3074.project.User.User;
 
@@ -31,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         Button login = findViewById(R.id.btnLogin);
         Button register = findViewById(R.id.btnRegister);
         final TextView txtError = findViewById(R.id.txtError);
+        final UsersDAO usersDAO = new UsersDAO(this);
 
         about.setOnClickListener(new View.OnClickListener()
         {
@@ -48,10 +50,23 @@ public class LoginActivity extends AppCompatActivity {
                 UserDBAccess userDB = new UserDBAccess();
                 String email = txtEmail.getText().toString();
                 String pw = txtPassword.getText().toString();
-                if(userDB.ValidateUser(email, pw))
+                if(email.equals("")||pw.equals("")){
+                    txtError.setText("Fields cannot be empty");
+                }else{
+                    User validatedUser = usersDAO.validateUser(email,pw);
+                    if(validatedUser == null){
+                        txtError.setText("Credentials are invalid");
+                    }else{
+                        Intent homeIntent = new Intent(v.getContext(), Home.class);
+                        homeIntent.putExtra("ValidatedUser", validatedUser);
+                        startActivity(homeIntent);
+                    }
+                }
+                /*if(userDB.ValidateUser(email, pw))
                 {
                     //dummy test user
-                    User validatedUser = new User(email, "Admin", pw, "January 1st 2020", "123-456-7890");
+                    //User validatedUser = new User(email, "Admin", pw, "January 1st 2020", "123-456-7890");
+
                     Intent homeIntent = new Intent(v.getContext(), Home.class);
                     homeIntent.putExtra("ValidatedUser", validatedUser);
 
@@ -67,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                 else
                 {
                     txtError.setText("Wrong username or password!");
-                }
+                }*/
             }
         });
 

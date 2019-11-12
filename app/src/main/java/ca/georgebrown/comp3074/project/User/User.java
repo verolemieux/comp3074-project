@@ -20,13 +20,12 @@ public class User implements Serializable {
     public ArrayList<Item> Item_List;
     public ArrayList<Event> Event_List = new ArrayList<Event>();
 
-    public User(String email, String name, String password, String enroll_date, String phone_number)
+    public User(String email, String name, String password, String enroll_date)
     {
         this.email = email;
         this.name = name;
         this.password = password;
         this.enroll_date = enroll_date;
-        this.phone_number = phone_number;
         Backpack_List = new ArrayList<Backpack>();
         Route_List = new ArrayList<Route>();
         Item_List = new ArrayList<Item>();
