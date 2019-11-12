@@ -12,6 +12,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import ca.georgebrown.comp3074.project.DatabaseAccess.UserDBAccess;
+<<<<<<< Updated upstream
+=======
+import ca.georgebrown.comp3074.project.DatabaseAccess.UsersDAO;
+import ca.georgebrown.comp3074.project.Item.Item;
+>>>>>>> Stashed changes
 import ca.georgebrown.comp3074.project.User.User;
 
 public class LoginActivity extends AppCompatActivity {
@@ -25,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText txtPassword = findViewById(R.id.txtPassword);
         Button login = findViewById(R.id.btnLogin);
         final TextView txtError = findViewById(R.id.txtError);
+        final UsersDAO userDAO = new UsersDAO(this);
 
         //Commented out as it was causing crash
         ImageButton about = findViewById(R.id.btnAbout);
@@ -46,9 +52,9 @@ public class LoginActivity extends AppCompatActivity {
                 UserDBAccess userDB = new UserDBAccess();
                 String email = txtEmail.getText().toString();
                 String pw = txtPassword.getText().toString();
-                if(userDB.ValidateUser(email, pw))
-                {
+
                     //dummy test user
+<<<<<<< Updated upstream
                     User validatedUser = new User(email, "Admin", pw, "January 1st 2020", "123-456-7890");
                     Intent homeIntent = new Intent(v.getContext(), Home.class);
                     homeIntent.putExtra("ValidatedUser", validatedUser);
@@ -57,8 +63,26 @@ public class LoginActivity extends AppCompatActivity {
                 else
                 {
                     txtError.setText("Wrong username and password!");
+=======
+                    //User validatedUser = new User(email, "Admin", pw, "January 1st 2020", "123-456-7890");
+                    User validatedUser = userDAO.validateUser(txtEmail.getText().toString(),txtPassword.getText().toString());
+                    if(validatedUser == null){
+                        txtError.setText("Credentials are invalid");
+                    }else {
+                        Intent homeIntent = new Intent(v.getContext(), Home.class);
+                        homeIntent.putExtra("ValidatedUser", validatedUser);
+
+                    /*Adding dummy content to DB
+                    ItemsDAO itemAccess = new ItemsDAO(loginContext);
+                    Item i = new Item(1, "Apple", "A red fruit");
+                    itemAccess.addItem(i, validatedUser);*/
+
+                        startActivity(homeIntent);
+                    }
+>>>>>>> Stashed changes
                 }
-            }
+
+
         });
     }
 }

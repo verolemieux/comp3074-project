@@ -10,7 +10,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+<<<<<<< Updated upstream
 import ca.georgebrown.comp3074.project.DatabaseAccess.UserDao;
+=======
+import ca.georgebrown.comp3074.project.DatabaseAccess.UsersDAO;
+>>>>>>> Stashed changes
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -23,7 +27,11 @@ public class RegistrationActivity extends AppCompatActivity {
         final EditText txtEmail = findViewById(R.id.txtEmail);
         final EditText txtPassword = findViewById(R.id.txtPassword);
         final TextView error_msg = findViewById(R.id.error_msg_registration);
+<<<<<<< Updated upstream
         final UserDao userDao = new UserDao(this);
+=======
+        final UsersDAO userDao = new UsersDAO(this);
+>>>>>>> Stashed changes
         Button register = findViewById(R.id.btnRegister);
 
         register.setOnClickListener(new View.OnClickListener()
@@ -46,7 +54,10 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
     }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     public boolean isEmpty(EditText et){
         return et.getText().toString().equals("");
     }
