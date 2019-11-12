@@ -3,6 +3,7 @@ package ca.georgebrown.comp3074.project;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,10 +12,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
 import ca.georgebrown.comp3074.project.DatabaseAccess.UserDBAccess;
+import ca.georgebrown.comp3074.project.Item.Item;
 import ca.georgebrown.comp3074.project.User.User;
 
 public class LoginActivity extends AppCompatActivity {
+
+    Context loginContext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,12 @@ public class LoginActivity extends AppCompatActivity {
                     User validatedUser = new User(email, "Admin", pw, "January 1st 2020", "123-456-7890");
                     Intent homeIntent = new Intent(v.getContext(), Home.class);
                     homeIntent.putExtra("ValidatedUser", validatedUser);
+
+                    /*Adding dummy content to DB
+                    ItemsDAO itemAccess = new ItemsDAO(loginContext);
+                    Item i = new Item(1, "Apple", "A red fruit");
+                    itemAccess.addItem(i, validatedUser);*/
+
                     startActivity(homeIntent);
                 }
                 else

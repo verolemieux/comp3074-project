@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
 import ca.georgebrown.comp3074.project.Home;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
@@ -26,14 +27,21 @@ public class ItemsActivity extends AppCompatActivity {
     ArrayList<Item> items;
     ListView itemList;
     ItemAdapter adapter;
+    ItemsDAO itemTable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        itemTable = new ItemsDAO(this);
+
         setContentView(R.layout.activity_item);
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         itemList = findViewById(R.id.listItems);
         final TextView txtItemName = findViewById(R.id.txtItemName);
-        items = validatedUser.Item_List;
+        //items = validatedUser.Item_List;
+
+        items = itemTable.getItems(validatedUser.getEmail());
+
         ImageButton addItem = findViewById(R.id.btnAddItem);
         Button btnHome = findViewById(R.id.btnHome);
         adapter = new ItemAdapter(this, R.layout.item_layout, items);
@@ -47,23 +55,6 @@ public class ItemsActivity extends AppCompatActivity {
                 Item editItem = (Item)parent.getItemAtPosition(position);
                 editItemIntent.putExtra("Item", editItem);
                 startActivityForResult(editItemIntent, 2);
-            }
-        });
-
-        txtItemName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
             }
         });
 
@@ -92,49 +83,12 @@ public class ItemsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1)
         {
-            ListView itemList = findViewById(R.id.listItems);
-            //itemList.getAdapter();
-            validatedUser = (User)data.getSerializableExtra("ValidatedUser");
-            ArrayList<Item> itemlist = (ArrayList<Item>) data.getSerializableExtra("ListItems");
-            ArrayList<Item> items = itemlist;
-            validatedUser.Item_List = items;
-            ItemAdapter adapter;
-            ImageButton addItem = findViewById(R.id.btnAddItem);
-            adapter = new ItemAdapter(this, R.layout.item_layout, items);
-            itemList.setAdapter(adapter);
-            itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, final int position, long l) {
-                    Intent editItemIntent = new Intent(view.getContext(), EditItemActivity.class);
-                    editItemIntent.putExtra("ValidatedUser", validatedUser);
-                    editItemIntent.putExtra("ListItems", validatedUser.Item_List);
-                    Item editItem = (Item)parent.getItemAtPosition(position);
-                    editItemIntent.putExtra("Item", editItem);
-                    startActivityForResult(editItemIntent, 2);
-                }
-            });
-
-            addItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent addItemIntent = new Intent(view.getContext(), AddItemActivity.class);
-                    addItemIntent.putExtra("ValidatedUser", validatedUser);
-                    addItemIntent.putExtra("ListItems", validatedUser.Item_List);
-                    startActivityForResult(addItemIntent, 1);
-                }
-            });
-            Button btnHome = findViewById(R.id.btnHome);
-            btnHome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent Home = new Intent(view.getContext(), ca.georgebrown.comp3074.project.Home.class);
-                    Home.putExtra("ValidatedUser", validatedUser);
-                    startActivity(Home);
-                }
-            });
+            items = (ArrayList<Item>) getIntent().getSerializableExtra("ListItems");
+            adapter.notifyDataSetChanged();
         }
         if(requestCode == 2)
         {
+            /*
             ListView itemList = findViewById(R.id.listItems);
             validatedUser = (User)data.getSerializableExtra("ValidatedUser");
             ArrayList<Item> itemlist = (ArrayList<Item>) data.getSerializableExtra("ListItems");
@@ -182,8 +136,10 @@ public class ItemsActivity extends AppCompatActivity {
                     editItemIntent.putExtra("Item", editItem);
                     startActivityForResult(editItemIntent, 2);
                 }
-            });
 
+
+            });
+*
             addItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -202,6 +158,10 @@ public class ItemsActivity extends AppCompatActivity {
                     startActivity(Home);
                 }
             });
+             */
+
+
+
         }
     }
 }
