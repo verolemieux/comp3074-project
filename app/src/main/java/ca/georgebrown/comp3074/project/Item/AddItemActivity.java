@@ -23,6 +23,7 @@ import android.widget.ImageView;
 
 import com.google.zxing.WriterException;
 
+import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 import com.google.zxing.BarcodeFormat;
@@ -40,10 +41,14 @@ public class AddItemActivity extends AppCompatActivity {
     public final static int QRcodeWidth = 500 ;
     TextView itemName;
     Bitmap bitmap;
+    ItemsDAO itemTable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
+
+        itemTable = new ItemsDAO(this);
+
         addPhoto = findViewById(R.id.btnAddPhoto);
         imgItem = findViewById(R.id.imgItem);
         imgQRCode =  findViewById(R.id.imgQrCode);
@@ -56,13 +61,15 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent addItemIntent = new Intent(view.getContext(), ItemsActivity.class);
-                for(Item i : list)
+                /*for(Item i : list)
                 {
                     maxId = i.maxValue(maxId, i.getItem_Id());
                 }
-                list.add(new Item(maxId+1, itemName.getText().toString(), itemDesc.getText().toString()));
+                list.add(new Item(maxId+1, itemName.getText().toString(), itemDesc.getText().toString()));*/
                 addItemIntent.putExtra("ValidatedUser", validatedUser);
-                addItemIntent.putExtra("ListItems", list);
+                itemTable.addItem(new Item(1, itemName.getText().toString(), itemDesc.getText().toString()),
+                        validatedUser);
+                //addItemIntent.putExtra("ListItems", list);
                 setResult(1, addItemIntent);
                 finish();
             }

@@ -76,4 +76,27 @@ public class ItemsDAO {
 
         db.insert(ItemsContract.ItemsEntity.TABLE_NAME_ITEMS, null, cv);
     }
+
+    public void editItem(Item i, User u, int id)
+    {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_NAME, i.getItem_Name());
+        cv.put(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_DESCRIPTION, i.getDescription());
+        cv.put(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_PICTURE, i.getItem_Picture());
+        cv.put(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_CODE, i.getItem_QR_Code());
+        cv.put(ItemsContract.ItemsEntity.COLUMN_NAME_USER_EMAIL_ITEMS, u.getEmail());
+
+        db.update(ItemsContract.ItemsEntity.TABLE_NAME_ITEMS, cv, "_ID="+id + " and email='"
+        + u.getEmail() + "'", null);
+    }
+
+    public void deleteItem(int id, User u)
+    {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        db.delete(ItemsContract.ItemsEntity.TABLE_NAME_ITEMS, "_ID="+id + " and email='"
+        + u.getEmail() + "'", null);
+    }
 }

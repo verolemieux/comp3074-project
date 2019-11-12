@@ -25,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         ImageButton about = findViewById(R.id.btnAbout);
         final EditText txtEmail = findViewById(R.id.txtEmail);
         final EditText txtPassword = findViewById(R.id.txtPassword);
@@ -56,10 +55,12 @@ public class LoginActivity extends AppCompatActivity {
                     Intent homeIntent = new Intent(v.getContext(), Home.class);
                     homeIntent.putExtra("ValidatedUser", validatedUser);
 
-                    /*Adding dummy content to DB
-                    ItemsDAO itemAccess = new ItemsDAO(loginContext);
-                    Item i = new Item(1, "Apple", "A red fruit");
-                    itemAccess.addItem(i, validatedUser);*/
+                    //Adding dummy content to DB
+                    //ItemsDAO itemAccess = new ItemsDAO(loginContext);
+                    //Item i = new Item(1, "Banana", "A red fruit");
+                    //itemAccess.addItem(i, validatedUser);
+                    //itemAccess.deleteItem(1, validatedUser);
+                    //itemAccess.editItem(i, validatedUser, 1);
 
                     startActivity(homeIntent);
                 }

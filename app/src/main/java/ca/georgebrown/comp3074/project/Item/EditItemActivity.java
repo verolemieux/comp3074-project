@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
@@ -20,19 +21,20 @@ public class EditItemActivity extends AppCompatActivity {
     TextView itemDesc;
     Item editItem;
     User validatedUser;
-    ArrayList<Item> list;
+    ItemsDAO itemTable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
+
+        itemTable = new ItemsDAO(this);
+
         itemName = findViewById(R.id.txtItemName);
         itemDesc = findViewById(R.id.txtItemDescription);
         Button btnSave = findViewById(R.id.btnSave);
         Button btnDelete = findViewById(R.id.btnDelete);
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         editItem = (Item) getIntent().getSerializableExtra("Item");
-        list = (ArrayList<Item>) getIntent().getSerializableExtra("ListItems");
-        //final ItemAdapter adapter = (ItemAdapter) getIntent().getSerializableExtra("Adapter");
         itemName.setText(editItem.getItem_Name());
         itemDesc.setText(editItem.getDescription());
 
@@ -43,9 +45,7 @@ public class EditItemActivity extends AppCompatActivity {
                 editItem.setDescription(itemDesc.getText().toString());
                 Intent itemIntent = new Intent(v.getContext(), ItemsActivity.class);
                 itemIntent.putExtra("ValidatedUser", validatedUser);
-                itemIntent.putExtra("ListItems", list);
-                itemIntent.putExtra("EditItem", editItem);
-                itemIntent.putExtra("Function", "Edit");
+                itemTable.editItem(editItem, validatedUser, editItem.getItem_Id());
                 setResult(2, itemIntent);
                 finish();
             }
@@ -56,9 +56,7 @@ public class EditItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent itemIntent = new Intent(v.getContext(), ItemsActivity.class);
                 itemIntent.putExtra("ValidatedUser", validatedUser);
-                itemIntent.putExtra("ListItems", list);
-                itemIntent.putExtra("EditItem", editItem);
-                itemIntent.putExtra("Function", "Delete");
+                itemTable.deleteItem(editItem.getItem_Id(), validatedUser);
                 setResult(2, itemIntent);
                 finish();
             }
