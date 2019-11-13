@@ -136,9 +136,11 @@ public class AddItemActivity extends BaseActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             imgItem.setImageBitmap(imageBitmap);
 
+            ByteArrayOutputStream bosPic = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, bosPic);
+            byte[] picArray = bosPic.toByteArray();
 
-
-            addItem.setItem_Picture(imageBitmap);
+            addItem.setItem_Picture(picArray);
         }
     }
 

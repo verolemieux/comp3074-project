@@ -39,6 +39,7 @@ public class ItemsDAO {
              , c.getString(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_DESCRIPTION)));
             // , c.getString(c.getColumnIndexOrThrow(DBContract.DBEntity.COLUMN_NAME_ITEM_PICTURE))
            // , c.getString(c.getColumnIndexOrThrow(DBContract.DBEntity.COLUMN_NAME_ITEM_CODE)));
+            byte[] itemPhoto = c.getBlob(c.getColumnIndex(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_PICTURE));
             byte[] qrCode = c.getBlob(c.getColumnIndex(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_CODE));
             if(qrCode != null)
             {
@@ -46,10 +47,12 @@ public class ItemsDAO {
                 //Bitmap qrBM = BitmapFactory.decodeByteArray(qrCode, 0, qrCode.length);
                 i.setItem_QR_Code(qrCode);
             }
-            else
+
+            if(itemPhoto != null)
             {
-                Log.d("a", "failure");
+                i.setItem_Picture(itemPhoto);
             }
+
             ItemList.add(i);
         }
         c.close();
@@ -85,12 +88,12 @@ public class ItemsDAO {
         byte[] picArray = null;
         byte[] qrArray = null;
 
-        if(i.getItem_Picture()!= null)
+        /*if(i.getItem_Picture()!= null)
         {
             ByteArrayOutputStream bosPic = new ByteArrayOutputStream();
             i.getItem_Picture().compress(Bitmap.CompressFormat.PNG, 100, bosPic);
             picArray = bosPic.toByteArray();
-        }
+        }*/
 
         /*if(i.getItem_QR_Code() != null)
         {
@@ -106,7 +109,7 @@ public class ItemsDAO {
         ContentValues cv = new ContentValues();
         cv.put(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_NAME, i.getItem_Name());
         cv.put(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_DESCRIPTION, i.getDescription());
-        cv.put(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_PICTURE, picArray);
+        cv.put(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_PICTURE, i.getItem_Picture());
         cv.put(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_CODE, i.getItem_QR_Code());
         cv.put(ItemsContract.ItemsEntity.COLUMN_NAME_USER_EMAIL_ITEMS, u.getEmail());
 
@@ -116,7 +119,7 @@ public class ItemsDAO {
     public void editItem(Item i, User u, int id)
     {
         ByteArrayOutputStream bosPic = new ByteArrayOutputStream();
-        i.getItem_Picture().compress(Bitmap.CompressFormat.PNG, 100, bosPic);
+        //i.getItem_Picture().compress(Bitmap.CompressFormat.PNG, 100, bosPic);
         byte[] picArray = bosPic.toByteArray();
 
         ByteArrayOutputStream bosQR = new ByteArrayOutputStream();

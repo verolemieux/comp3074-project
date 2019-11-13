@@ -1,13 +1,11 @@
 package ca.georgebrown.comp3074.project.Item;
 
-import android.graphics.Bitmap;
-
 import java.io.Serializable;
 
 public class Item implements Serializable {
     private int Item_Id;
     private String Item_Name;
-    private Bitmap Item_Picture;
+    private byte[] Item_Picture;
     private byte[] Item_QR_Code;
     private String Description;
 
@@ -36,11 +34,11 @@ public class Item implements Serializable {
         Item_Name = item_Name;
     }
 
-    public Bitmap getItem_Picture() {
+    public byte[] getItem_Picture() {
         return Item_Picture;
     }
 
-    public void setItem_Picture(Bitmap item_Picture) {
+    public void setItem_Picture(byte[] item_Picture) {
         Item_Picture = item_Picture;
     }
 

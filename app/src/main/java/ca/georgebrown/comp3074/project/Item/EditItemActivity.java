@@ -34,6 +34,7 @@ public class EditItemActivity extends BaseActivity {
     User validatedUser;
     ItemsDAO itemTable;
     ImageView qrCode;
+    ImageView imgItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,7 @@ public class EditItemActivity extends BaseActivity {
         editItem = (Item) getIntent().getSerializableExtra("Item");
         itemName.setText(editItem.getItem_Name());
         itemDesc.setText(editItem.getDescription());
-
+        imgItem = findViewById(R.id.imgItem);
         qrCode = findViewById(R.id.imgQrCode);
 
         byte[] qrArr = editItem.getItem_QR_Code();
@@ -64,7 +65,13 @@ public class EditItemActivity extends BaseActivity {
         }
 
 
+        byte[] itemPhoto = editItem.getItem_Picture();
 
+        if(itemPhoto!= null)
+        {
+            Bitmap itemP = BitmapFactory.decodeByteArray(itemPhoto, 0, itemPhoto.length);
+            imgItem.setImageBitmap(itemP);
+        }
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override

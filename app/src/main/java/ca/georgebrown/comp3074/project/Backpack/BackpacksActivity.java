@@ -75,9 +75,13 @@ public class BackpacksActivity extends BaseActivity {
         {
             validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
             userBackpacks = (ArrayList<Backpack>)getIntent().getSerializableExtra("UserBackpacks");
-            backpackList = findViewById(R.id.listBackpack);
-            adapter = new BackpackAdapter(this, R.layout.backpack_layout, userBackpacks);
-            backpackList.setAdapter(adapter);
+            if(userBackpacks != null)
+            {
+                backpackList = findViewById(R.id.listBackpack);
+                adapter = new BackpackAdapter(this, R.layout.backpack_layout, userBackpacks);
+                backpackList.setAdapter(adapter);
+            }
+
         }
     }
 
