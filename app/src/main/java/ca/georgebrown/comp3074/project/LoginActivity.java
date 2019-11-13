@@ -21,14 +21,15 @@ import ca.georgebrown.comp3074.project.User.User;
 public class LoginActivity extends AppCompatActivity {
 
     Context loginContext = this;
-
+    EditText txtEmail;
+    EditText txtPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ImageButton about = findViewById(R.id.btnAbout);
-        final EditText txtEmail = findViewById(R.id.txtEmail);
-        final EditText txtPassword = findViewById(R.id.txtPassword);
+        txtEmail = findViewById(R.id.txtEmail);
+        txtPassword = findViewById(R.id.txtPassword);
         Button login = findViewById(R.id.btnLogin);
         Button register = findViewById(R.id.btnRegister);
         final TextView txtError = findViewById(R.id.txtError);

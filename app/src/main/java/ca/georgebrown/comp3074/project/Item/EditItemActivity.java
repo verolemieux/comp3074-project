@@ -3,9 +3,13 @@ package ca.georgebrown.comp3074.project.Item;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.lang.reflect.Array;
@@ -22,6 +26,7 @@ public class EditItemActivity extends AppCompatActivity {
     Item editItem;
     User validatedUser;
     ItemsDAO itemTable;
+    ImageView qrCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +42,18 @@ public class EditItemActivity extends AppCompatActivity {
         editItem = (Item) getIntent().getSerializableExtra("Item");
         itemName.setText(editItem.getItem_Name());
         itemDesc.setText(editItem.getDescription());
+
+        qrCode = findViewById(R.id.imgQrCode);
+
+        byte[] qrArr = editItem.getItem_QR_Code();
+
+        if(qrArr != null) {
+            Bitmap qrBM = BitmapFactory.decodeByteArray(qrArr, 0, qrArr.length);
+            qrCode.setImageBitmap(qrBM);
+        }
+
+
+
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override

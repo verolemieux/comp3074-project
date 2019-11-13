@@ -1,12 +1,14 @@
 package ca.georgebrown.comp3074.project.Item;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 public class Item implements Serializable {
     private int Item_Id;
     private String Item_Name;
-    private String Item_Picture;
-    private String Item_QR_Code;
+    private Bitmap Item_Picture;
+    private byte[] Item_QR_Code;
     private String Description;
 
     public Item(int Id, String name, String description)
@@ -15,8 +17,8 @@ public class Item implements Serializable {
         Item_Name = name;
         Description = description;
         //implement later with string for path to picture/ QR code
-        Item_Picture = "";
-        Item_QR_Code = "";
+        Item_Picture = null;
+        Item_QR_Code = null;
     }
     public int getItem_Id() {
         return Item_Id;
@@ -34,19 +36,19 @@ public class Item implements Serializable {
         Item_Name = item_Name;
     }
 
-    public String getItem_Picture() {
+    public Bitmap getItem_Picture() {
         return Item_Picture;
     }
 
-    public void setItem_Picture(String item_Picture) {
+    public void setItem_Picture(Bitmap item_Picture) {
         Item_Picture = item_Picture;
     }
 
-    public String getItem_QR_Code() {
+    public byte[] getItem_QR_Code() {
         return Item_QR_Code;
     }
 
-    public void setItem_QR_Code(String item_QR_Code) {
+    public void setItem_QR_Code(byte[] item_QR_Code) {
         Item_QR_Code = item_QR_Code;
     }
 
