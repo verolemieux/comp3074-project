@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/home"
+        android:icon="@mipmap/baseline_home_black_18dp"
+        android:title="Home"/>
+    <item android:id="@+id/backpacks"
+        android:icon="@drawable/backpack"
+        android:title="Backpacks"/>
+    <item android:id="@+id/items"
+        android:icon="@mipmap/baseline_local_offer_black_18dp"
+        android:title="Items"/>
+    <item android:id="@+id/events"
+        android:icon="@mipmap/baseline_event_black_18dp"
+        android:title="Events"/>
+    <item android:id="@+id/routes"
+        android:icon="@mipmap/baseline_map_black_18dp"
+        android:title="Routes"/>
+    <item android:id="@+id/account"
+        android:icon="@mipmap/baseline_person_black_18dp"
+        android:title="My Account"/>
+    <item android:id="@+id/logout"
+        android:icon="@mipmap/baseline_exit_to_app_black_18dp"
+        android:title="Logout"/>
+</menu>

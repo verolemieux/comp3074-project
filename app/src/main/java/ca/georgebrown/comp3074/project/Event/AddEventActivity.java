@@ -1,9 +1,15 @@
 package ca.georgebrown.comp3074.project.Event;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,17 +22,22 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.Backpack.Backpack;
+import ca.georgebrown.comp3074.project.BaseActivity;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.Route.Route;
 import ca.georgebrown.comp3074.project.User.User;
 
-public class AddEventActivity extends AppCompatActivity {
+public class AddEventActivity extends BaseActivity {
     ArrayList<Event> events;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_event);
+
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        @SuppressLint("InflateParams")
+        View contentView = inflater.inflate(R.layout.activity_add_event, null, false);
+        drawer.addView(contentView, 0);
 
         //POPULATING SPINNERS
         final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
@@ -75,6 +86,10 @@ public class AddEventActivity extends AppCompatActivity {
                 }
             }
         });
-        //
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }

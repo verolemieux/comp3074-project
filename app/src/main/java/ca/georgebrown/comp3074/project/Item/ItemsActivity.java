@@ -1,11 +1,13 @@
 package ca.georgebrown.comp3074.project.Item;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -13,29 +15,37 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
+import androidx.annotation.NonNull;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import java.util.ArrayList;
 
-import ca.georgebrown.comp3074.project.Home;
+import ca.georgebrown.comp3074.project.HomeActivity;
+import ca.georgebrown.comp3074.project.BaseActivity;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
-public class ItemsActivity extends AppCompatActivity {
+public class ItemsActivity extends BaseActivity {
 
     User validatedUser;
     ArrayList<Item> items;
     ListView itemList;
     ItemAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item);
+
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        @SuppressLint("InflateParams")
+        View contentView = inflater.inflate(R.layout.activity_item, null, false);
+        drawer.addView(contentView, 0);
+
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         itemList = findViewById(R.id.listItems);
         final TextView txtItemName = findViewById(R.id.txtItemName);
         items = validatedUser.Item_List;
         ImageButton addItem = findViewById(R.id.btnAddItem);
-        Button btnHome = findViewById(R.id.btnHome);
         adapter = new ItemAdapter(this, R.layout.item_layout, items);
         itemList.setAdapter(adapter);
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,14 +86,6 @@ public class ItemsActivity extends AppCompatActivity {
                 startActivityForResult(addItemIntent, 1);
             }
         });
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent Home = new Intent(view.getContext(), ca.georgebrown.comp3074.project.Home.class);
-                Home.putExtra("ValidatedUser", validatedUser);
-                startActivity(Home);
-            }
-        });
     }
 
     @Override
@@ -121,15 +123,6 @@ public class ItemsActivity extends AppCompatActivity {
                     addItemIntent.putExtra("ValidatedUser", validatedUser);
                     addItemIntent.putExtra("ListItems", validatedUser.Item_List);
                     startActivityForResult(addItemIntent, 1);
-                }
-            });
-            Button btnHome = findViewById(R.id.btnHome);
-            btnHome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent Home = new Intent(view.getContext(), ca.georgebrown.comp3074.project.Home.class);
-                    Home.putExtra("ValidatedUser", validatedUser);
-                    startActivity(Home);
                 }
             });
         }
@@ -193,15 +186,12 @@ public class ItemsActivity extends AppCompatActivity {
                     startActivityForResult(addItemIntent, 1);
                 }
             });
-            Button btnHome = findViewById(R.id.btnHome);
-            btnHome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent Home = new Intent(view.getContext(), ca.georgebrown.comp3074.project.Home.class);
-                    Home.putExtra("ValidatedUser", validatedUser);
-                    startActivity(Home);
-                }
-            });
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
 }
+

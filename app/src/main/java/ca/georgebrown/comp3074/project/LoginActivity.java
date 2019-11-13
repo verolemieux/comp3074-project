@@ -2,7 +2,6 @@ package ca.georgebrown.comp3074.project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -48,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     //dummy test user
                     User validatedUser = new User(email, "Admin", pw, "January 1st 2020", "123-456-7890");
-                    Intent homeIntent = new Intent(v.getContext(), Home.class);
+                    Intent homeIntent = new Intent(v.getContext(), HomeActivity.class);
                     homeIntent.putExtra("ValidatedUser", validatedUser);
                     startActivity(homeIntent);
                 }

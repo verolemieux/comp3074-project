@@ -1,9 +1,15 @@
 package ca.georgebrown.comp3074.project.Item;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,13 +29,14 @@ import android.widget.ImageView;
 
 import com.google.zxing.WriterException;
 
+import ca.georgebrown.comp3074.project.BaseActivity;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 
-public class AddItemActivity extends AppCompatActivity {
+public class AddItemActivity extends BaseActivity {
 
     int maxId = 1;
     ImageButton addPhoto;
@@ -40,10 +47,16 @@ public class AddItemActivity extends AppCompatActivity {
     public final static int QRcodeWidth = 500 ;
     TextView itemName;
     Bitmap bitmap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_item);
+
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        @SuppressLint("InflateParams")
+        View contentView = inflater.inflate(R.layout.activity_add_item, null, false);
+        drawer.addView(contentView, 0);
+
         addPhoto = findViewById(R.id.btnAddPhoto);
         imgItem = findViewById(R.id.imgItem);
         imgQRCode =  findViewById(R.id.imgQrCode);
@@ -147,5 +160,10 @@ public class AddItemActivity extends AppCompatActivity {
 
         bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight);
         return bitmap;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }
