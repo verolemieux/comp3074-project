@@ -10,11 +10,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -30,6 +32,7 @@ import android.widget.ImageView;
 import com.google.zxing.WriterException;
 
 import ca.georgebrown.comp3074.project.BaseActivity;
+import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 import com.google.zxing.BarcodeFormat;
@@ -48,6 +51,9 @@ public class AddItemActivity extends BaseActivity {
     TextView itemName;
     Bitmap bitmap;
 
+    ItemsDAO itemTable;
+    Item addItem = new Item(1, "", "");
+    int nextId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +62,8 @@ public class AddItemActivity extends BaseActivity {
         @SuppressLint("InflateParams")
         View contentView = inflater.inflate(R.layout.activity_add_item, null, false);
         drawer.addView(contentView, 0);
+
+        itemTable = new ItemsDAO(this);
 
         addPhoto = findViewById(R.id.btnAddPhoto);
         imgItem = findViewById(R.id.imgItem);
@@ -69,13 +77,11 @@ public class AddItemActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent addItemIntent = new Intent(view.getContext(), ItemsActivity.class);
-                for(Item i : list)
-                {
-                    maxId = i.maxValue(maxId, i.getItem_Id());
-                }
-                list.add(new Item(maxId+1, itemName.getText().toString(), itemDesc.getText().toString()));
                 addItemIntent.putExtra("ValidatedUser", validatedUser);
-                addItemIntent.putExtra("ListItems", list);
+
+                addItem.setItem_Name(itemName.getText().toString());
+                addItem.setDescription(itemDesc.getText().toString());
+                itemTable.addItem(addItem, validatedUser);
                 setResult(1, addItemIntent);
                 finish();
             }
@@ -97,15 +103,19 @@ public class AddItemActivity extends BaseActivity {
                     bitmap = TextToImageEncode(itemName.getText().toString());
 
                     imgQRCode.setImageBitmap(bitmap);
-                    File file = new File("ca/georgebrown/comp3074/project/Item/Test.bmp");
-                    OutputStream os = new BufferedOutputStream(new FileOutputStream(file));
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
-                    os.close();
+
+
+                    //File file = new File("ca/georgebrown/comp3074/project/Item/Test.bmp");
+                    //OutputStream os = new BufferedOutputStream(new FileOutputStream(file));
+                    //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+
+                    ByteArrayOutputStream bosQR = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, bosQR);
+                    byte[] qrArray = bosQR.toByteArray();
+
+                    addItem.setItem_QR_Code(qrArray);
+                    //os.close();
                 } catch (WriterException e) {
-                    e.printStackTrace();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -125,6 +135,10 @@ public class AddItemActivity extends BaseActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             imgItem.setImageBitmap(imageBitmap);
+
+
+
+            addItem.setItem_Picture(imageBitmap);
         }
     }
 
