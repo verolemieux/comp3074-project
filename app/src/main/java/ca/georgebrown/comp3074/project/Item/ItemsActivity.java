@@ -178,7 +178,7 @@ public class ItemsActivity extends BaseActivity {
                 }
             });
         }
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

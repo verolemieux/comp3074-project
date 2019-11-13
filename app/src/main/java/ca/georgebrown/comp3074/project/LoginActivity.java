@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(validatedUser == null){
                         txtError.setText("Credentials are invalid");
                     }else{
-                        Intent homeIntent = new Intent(v.getContext(), Home.class);
+                        Intent homeIntent = new Intent(v.getContext(), HomeActivity.class);
                         homeIntent.putExtra("ValidatedUser", validatedUser);
                         startActivity(homeIntent);
                     }
