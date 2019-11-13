@@ -40,8 +40,6 @@ public class ItemsActivity extends BaseActivity {
 
         itemTable = new ItemsDAO(this);
 
-        setContentView(R.layout.activity_item);
-
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         @SuppressLint("InflateParams")
         View contentView = inflater.inflate(R.layout.activity_item, null, false);
