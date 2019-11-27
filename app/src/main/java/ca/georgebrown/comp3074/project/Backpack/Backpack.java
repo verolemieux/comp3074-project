@@ -7,21 +7,28 @@ import java.util.ArrayList;
 import ca.georgebrown.comp3074.project.Item.Item;
 
 public class Backpack implements Serializable{
-    private int Backpack_Id;
+    private long Backpack_Id;
     private String Backpack_Name;
     private ArrayList<Item> Item_List;
     private int Size;
     private int numItems;
+    private String user_email;
 
-    public Backpack(int Id, String name, int user_id)
+    public Backpack(long Id, String name, String user_email)
     {
         Backpack_Id = Id;
         Backpack_Name = name;
         Item_List = new ArrayList<Item>();
         Size = 20;
+        this.user_email = user_email;
         numItems = 0;
     }
-    public int getBackpack_Id() {
+    public Backpack(String name, String user_email){
+        this.user_email = user_email;
+        this.Backpack_Name = name;
+    }
+    public String getUser_email(){return user_email;}
+    public long getBackpack_Id() {
         return Backpack_Id;
     }
 

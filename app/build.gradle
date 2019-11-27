@@ -47,4 +47,9 @@ dependencies {
     implementation 'com.google.zxing:core:3.2.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
+<<<<<<< Updated upstream
+=======
+    implementation 'com.android.support:design:29.0.0'
+    implementation 'androidx.gridlayout:gridlayout:1.0.0'
+>>>>>>> Stashed changes
 }

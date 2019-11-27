@@ -20,6 +20,8 @@ public class ItemAdapter extends ArrayAdapter<Item> implements Serializable {
         super(context, resource, objects);
     }
 
+
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)

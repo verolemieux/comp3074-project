@@ -18,22 +18,40 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+<<<<<<< Updated upstream
         db.execSQL(DBContract.DBEntity.SQL_CREATE_ITEMS);
         db.execSQL(DBContract.DBEntity.SQL_CREATE_USERS);
+=======
+        db.execSQL(ItemsContract.ItemsEntity.SQL_CREATE_ITEMS);
+        db.execSQL(UsersContract.UsersEntity.SQL_CREATE_USERS);
+        db.execSQL(BPContract.BPEntity.SQL_CREATE_BP);
+        db.execSQL(EventsContract.EventsEntity.SQL_CREATE_EVENTS);
+        //db.execSQL(DBContract.DBEntity.SQL_CREATE_ITEMS);
+        //db.execSQL(DBContract.DBEntity.SQL_CREATE_USERS);
+>>>>>>> Stashed changes
         db.execSQL(DBContract.DBEntity.SQL_CREATE_ROUTES);
-        db.execSQL(DBContract.DBEntity.SQL_CREATE_BACKPACK);
+        //db.execSQL(DBContract.DBEntity.SQL_CREATE_BACKPACK);
         db.execSQL(DBContract.DBEntity.SQL_CREATE_ITEM_BACKPACK);
-        db.execSQL(DBContract.DBEntity.SQL_CREATE_EVENTS);
+        //db.execSQL(DBContract.DBEntity.SQL_CREATE_EVENTS);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+<<<<<<< Updated upstream
         db.execSQL(DBContract.DBEntity.SQL_DROP_ITEMS_);
         db.execSQL(DBContract.DBEntity.SQL_DROP_USERS_);
         db.execSQL(DBContract.DBEntity.SQL_DROP_BACKPACKS_);
+=======
+        db.execSQL(ItemsContract.ItemsEntity.SQL_DROP_ITEMS_);
+        db.execSQL(UsersContract.UsersEntity.SQL_DROP_USERS_);
+        db.execSQL(BPContract.BPEntity.SQL_DROP_BP);
+        //db.execSQL(DBContract.DBEntity.SQL_DROP_USERS_);
+        //db.execSQL(DBContract.DBEntity.SQL_DROP_BACKPACKS_);
+>>>>>>> Stashed changes
         db.execSQL(DBContract.DBEntity.SQL_DROP_ITEM_BACKPACK_);
         db.execSQL(DBContract.DBEntity.SQL_DROP_ROUTES_);
         db.execSQL(DBContract.DBEntity.SQL_DROP_EVENTS_);
         onCreate(db);
     }
+
 }
