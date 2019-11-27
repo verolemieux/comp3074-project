@@ -1,11 +1,5 @@
 package ca.georgebrown.comp3074.project.Backpack;
 
-<<<<<<< Updated upstream
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
-=======
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -31,12 +25,11 @@ import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
 import ca.georgebrown.comp3074.project.Item.AddItemActivity;
 import ca.georgebrown.comp3074.project.Item.Item;
 import ca.georgebrown.comp3074.project.Item.ItemAdapter;
->>>>>>> Stashed changes
 import ca.georgebrown.comp3074.project.R;
+import ca.georgebrown.comp3074.project.User.User;
 
-<<<<<<< Updated upstream
-public class AddBackpackActivity extends AppCompatActivity {
-=======
+public class AddBackpackActivity extends BaseActivity {
+
     ListView itemlist;
     Button btnAdd;
     User validatedUser;
@@ -48,14 +41,10 @@ public class AddBackpackActivity extends AppCompatActivity {
     BPDAO bpdao;
     ArrayList<String> selected = new ArrayList<>();
     ArrayList<Item> selected_items = new ArrayList<>();
->>>>>>> Stashed changes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< Updated upstream
-        setContentView(R.layout.activity_add_backpack);
-=======
 
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         @SuppressLint("InflateParams")
@@ -171,6 +160,5 @@ public class AddBackpackActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         return super.onOptionsItemSelected(item);
->>>>>>> Stashed changes
     }
 }

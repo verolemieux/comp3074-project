@@ -4,11 +4,10 @@
     android:layout_height="match_parent">
 
 
-
     <TextView
         android:id="@+id/txtItemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:background="@android:color/holo_red_dark"/>
+        android:background="@color/colorAccent"
+        android:textSize="24sp" />
 </LinearLayout>

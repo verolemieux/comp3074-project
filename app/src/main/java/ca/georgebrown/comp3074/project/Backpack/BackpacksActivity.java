@@ -1,45 +1,34 @@
 package ca.georgebrown.comp3074.project.Backpack;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-<<<<<<< Updated upstream
-import android.widget.Adapter;
-import android.widget.Button;
-=======
 import android.widget.AdapterView;
->>>>>>> Stashed changes
 import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
-<<<<<<< Updated upstream
-import ca.georgebrown.comp3074.project.AboutActivity;
-=======
 import ca.georgebrown.comp3074.project.BaseActivity;
 import ca.georgebrown.comp3074.project.DatabaseAccess.BPDAO;
 import ca.georgebrown.comp3074.project.Item.Item;
->>>>>>> Stashed changes
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
-public class BackpacksActivity extends AppCompatActivity {
+public class BackpacksActivity extends BaseActivity {
 
     User validatedUser;
     ImageButton addBackpack;
     ListView backpackList;
     ArrayList<Backpack> userBackpacks;
     BackpackAdapter adapter;
-<<<<<<< Updated upstream
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_backpack);
-
-=======
     BPDAO bpdao;
 
     @Override
@@ -53,7 +42,6 @@ public class BackpacksActivity extends AppCompatActivity {
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         bpdao = new BPDAO(this);
->>>>>>> Stashed changes
         addBackpack = findViewById(R.id.btnAddBackpack);
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         userBackpacks = bpdao.getAllBP(validatedUser.getEmail());
@@ -67,11 +55,20 @@ public class BackpacksActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent addBackpack = new Intent(v.getContext(), AddBackpackActivity.class);
                 addBackpack.putExtra("ValidatedUser", validatedUser);
-                startActivity(addBackpack);
+                addBackpack.putExtra("UserBackpacks", validatedUser.Backpack_List);
+                startActivityForResult(addBackpack, 1);
             }
         });
-<<<<<<< Updated upstream
-=======
+        addBackpack = findViewById(R.id.btnAddBackpack);
+        addBackpack.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                Intent addBackpack = new Intent(v.getContext(), AddBackpackActivity.class);
+                addBackpack.putExtra("ValidatedUser", validatedUser);
+                startActivityForResult(addBackpack, 1);
+            }
+        });
         backpackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
@@ -110,6 +107,5 @@ public class BackpacksActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         return super.onOptionsItemSelected(item);
->>>>>>> Stashed changes
     }
 }

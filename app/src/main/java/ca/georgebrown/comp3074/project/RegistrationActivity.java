@@ -10,11 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-<<<<<<< Updated upstream
-import ca.georgebrown.comp3074.project.DatabaseAccess.UserDao;
-=======
 import ca.georgebrown.comp3074.project.DatabaseAccess.UsersDAO;
->>>>>>> Stashed changes
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -27,21 +23,20 @@ public class RegistrationActivity extends AppCompatActivity {
         final EditText txtEmail = findViewById(R.id.txtEmail);
         final EditText txtPassword = findViewById(R.id.txtPassword);
         final TextView error_msg = findViewById(R.id.error_msg_registration);
-<<<<<<< Updated upstream
-        final UserDao userDao = new UserDao(this);
-=======
-        final UsersDAO userDao = new UsersDAO(this);
->>>>>>> Stashed changes
         Button register = findViewById(R.id.btnRegister);
+        final UsersDAO userDao = new UsersDAO(this);
 
         register.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
-                if(isEmpty(txtName)){error_msg.setText("Name cannot be empty");}
-                else if(isEmpty(txtEmail)){error_msg.setText("Email cannot be empty");}
-                else if(isEmpty(txtPassword)){error_msg.setText("Password cannot be empty");}
-                else {
+                if (isEmpty(txtName)) {
+                    error_msg.setText("Name cannot be empty");
+                } else if (isEmpty(txtEmail)) {
+                    error_msg.setText("Email cannot be empty");
+                } else if (isEmpty(txtPassword)) {
+                    error_msg.setText("Password cannot be empty");
+                } else {
                     long id = userDao.addUser(
                             txtEmail.getText().toString(),
                             txtName.getText().toString(),
@@ -53,12 +48,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
-    public boolean isEmpty(EditText et){
+        }
+    public boolean isEmpty(EditText et) {
         return et.getText().toString().equals("");
     }
 }

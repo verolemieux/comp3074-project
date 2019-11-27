@@ -1,40 +1,77 @@
 package ca.georgebrown.comp3074.project.Item;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
+import ca.georgebrown.comp3074.project.BaseActivity;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
-public class EditItemActivity extends AppCompatActivity {
+public class EditItemActivity extends BaseActivity {
 
     TextView itemName;
     TextView itemDesc;
     Item editItem;
     User validatedUser;
-    ArrayList<Item> list;
+    ItemsDAO itemTable;
+    ImageView qrCode;
+    ImageView imgItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_item);
+
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        @SuppressLint("InflateParams")
+        View contentView = inflater.inflate(R.layout.activity_edit_item, null, false);
+        drawer.addView(contentView, 0);
+
+        itemTable = new ItemsDAO(this);
+
         itemName = findViewById(R.id.txtItemName);
         itemDesc = findViewById(R.id.txtItemDescription);
         Button btnSave = findViewById(R.id.btnSave);
         Button btnDelete = findViewById(R.id.btnDelete);
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         editItem = (Item) getIntent().getSerializableExtra("Item");
-        list = (ArrayList<Item>) getIntent().getSerializableExtra("ListItems");
-        //final ItemAdapter adapter = (ItemAdapter) getIntent().getSerializableExtra("Adapter");
         itemName.setText(editItem.getItem_Name());
         itemDesc.setText(editItem.getDescription());
+        imgItem = findViewById(R.id.imgItem);
+        qrCode = findViewById(R.id.imgQrCode);
+
+        byte[] qrArr = editItem.getItem_QR_Code();
+
+        if(qrArr != null) {
+            Bitmap qrBM = BitmapFactory.decodeByteArray(qrArr, 0, qrArr.length);
+            qrCode.setImageBitmap(qrBM);
+        }
+
+
+        byte[] itemPhoto = editItem.getItem_Picture();
+
+        if(itemPhoto!= null)
+        {
+            Bitmap itemP = BitmapFactory.decodeByteArray(itemPhoto, 0, itemPhoto.length);
+            imgItem.setImageBitmap(itemP);
+        }
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,9 +80,7 @@ public class EditItemActivity extends AppCompatActivity {
                 editItem.setDescription(itemDesc.getText().toString());
                 Intent itemIntent = new Intent(v.getContext(), ItemsActivity.class);
                 itemIntent.putExtra("ValidatedUser", validatedUser);
-                itemIntent.putExtra("ListItems", list);
-                itemIntent.putExtra("EditItem", editItem);
-                itemIntent.putExtra("Function", "Edit");
+                itemTable.editItem(editItem, validatedUser, editItem.getItem_Id());
                 setResult(2, itemIntent);
                 finish();
             }
@@ -56,12 +91,15 @@ public class EditItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent itemIntent = new Intent(v.getContext(), ItemsActivity.class);
                 itemIntent.putExtra("ValidatedUser", validatedUser);
-                itemIntent.putExtra("ListItems", list);
-                itemIntent.putExtra("EditItem", editItem);
-                itemIntent.putExtra("Function", "Delete");
+                itemTable.deleteItem(editItem.getItem_Id(), validatedUser);
                 setResult(2, itemIntent);
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }

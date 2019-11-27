@@ -13,35 +13,6 @@ public class DBContract {
         //################
         // USERS
 
-        public static final String TABLE_NAME_USERS = "users";
-        public static final String COLUMN_NAME_USER_EMAIL = "email";
-        public static final String COLUMN_NAME_USER_NAME = "user_name";
-        public static final String COLUMN_NAME_PASSWORD = "password";
-        public static final String COLUMN_NAME_ENROLLMENT_DATE = "enrollment_date";
-
-        public static final String SQL_CREATE_USERS = "CREATE TABLE " + TABLE_NAME_USERS + " ( " + COLUMN_NAME_USER_EMAIL +
-                " TEXT PRIMARY KEY, " +COLUMN_NAME_USER_NAME + " TEXT, " + COLUMN_NAME_PASSWORD
-                + " TEXT, " + COLUMN_NAME_ENROLLMENT_DATE + " TEXT NOT NULL)";
-
-        public static final String SQL_DROP_USERS_ ="DROP TABLE IF EXISTS " + TABLE_NAME_USERS;
-
-        //################
-        // ITEMS
-
-        public static final String TABLE_NAME_ITEMS = "items";
-        public static final String COLUMN_NAME_ITEM_NAME = "item_name";
-        public static final String COLUMN_NAME_ITEM_DESCRIPTION = "item_desc";
-        public static final String COLUMN_NAME_ITEM_PICTURE = "item_picture";
-        public static final String COLUMN_NAME_ITEM_CODE = "item_qr_code";
-        public static final String COLUMN_NAME_ITEM_CREATION_DATE = "item_creation_date";
-
-        public static final String SQL_CREATE_ITEMS = "CREATE TABLE " + TABLE_NAME_ITEMS + " ( " + _ID +
-                " INTEGER PRIMARY KEY, " +COLUMN_NAME_ITEM_NAME + " TEXT, " + COLUMN_NAME_ITEM_DESCRIPTION
-                + " TEXT, " + COLUMN_NAME_ITEM_PICTURE + " TEXT, " + COLUMN_NAME_ITEM_CODE + " TEXT, " +
-                COLUMN_NAME_ITEM_CREATION_DATE + " TIMESTAMP NOT NULL CURRENT_TIMESTAMP)";
-
-        public static final String SQL_DROP_ITEMS_ ="DROP TABLE IF EXISTS " + TABLE_NAME_ITEMS;
-
 
 
         //################
@@ -51,10 +22,12 @@ public class DBContract {
         public static final String COLUMN_NAME_BACKPACK_NAME = "backpack_name";
         public static final String COLUMN_NAME_NUMBER_ITEMS = "number_of_items";
         public static final String COLUMN_NAME_BACKPACK_CREATION_DATE = "backpack_creation_date";
+        public static final String COLUMN_NAME_USER_EMAIL_BACKPACKS = "email";
 
         public static final String SQL_CREATE_BACKPACK = "CREATE TABLE " + TABLE_NAME_BACKPACK + " ( " + _ID +
                 " INTEGER PRIMARY KEY, " +COLUMN_NAME_BACKPACK_NAME + " TEXT, " + COLUMN_NAME_NUMBER_ITEMS
-                + " INTEGER, " + COLUMN_NAME_BACKPACK_CREATION_DATE + " TIMESTAMP NOT NULL CURRENT_TIMESTAMP)";
+                + " INTEGER, " + COLUMN_NAME_BACKPACK_CREATION_DATE + " TEXT, " +
+            COLUMN_NAME_USER_EMAIL_BACKPACKS + " TEXT)";
 
         public static final String SQL_DROP_BACKPACKS_ ="DROP TABLE IF EXISTS " + TABLE_NAME_BACKPACK;
 
@@ -66,8 +39,8 @@ public class DBContract {
         public static final String COLUMN_NAME_ITEM_ID = "item_id";
 
         public static final String SQL_CREATE_ITEM_BACKPACK = "CREATE TABLE " + TABLE_NAME_ITEM_BACKPACK +
-                " ( " + COLUMN_NAME_BACKPACK_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME_ITEM_ID +
-                " INTEGER PRIMARY KEY)";
+                " ( " + COLUMN_NAME_BACKPACK_ID + " INTEGER, " + COLUMN_NAME_ITEM_ID +
+                " INTEGER)";
 
         public static final String SQL_DROP_ITEM_BACKPACK_ ="DROP TABLE IF EXISTS " + TABLE_NAME_ITEM_BACKPACK;
 
@@ -82,13 +55,15 @@ public class DBContract {
         public static final String COLUMN_NAME_ROUTE_DIFFICULTY = "route_difficulty";
         public static final String COLUMN_NAME_ROUTE_RATING = "route_rating";
         public static final String COLUMN_NAME_ROUTE_CREATION_DATE = "route_creation_date";
+        public static final String COLUMN_NAME_USER_EMAIL_ROUTES = "email";
 
         public static final String SQL_CREATE_ROUTES = "CREATE TABLE " + TABLE_NAME_ROUTES + " ( " + _ID +
                 " INTEGER PRIMARY KEY, " +COLUMN_NAME_ROUTE_NAME + " TEXT, " + COLUMN_NAME_ROUTE_DISTANCE
                 + " FLOAT, " + COLUMN_NAME_START_LOCATION + " TEXT, " + COLUMN_NAME_END_LOCATION + " TEXT, " +
                 COLUMN_NAME_ROUTE_DIFFICULTY + " INTEGER, " +
                 COLUMN_NAME_ROUTE_RATING + " INTEGER, " +
-                COLUMN_NAME_ROUTE_CREATION_DATE + " TIMESTAMP NOT NULL CURRENT_TIMESTAMP)";
+                COLUMN_NAME_ROUTE_CREATION_DATE + " TEXT " +
+                COLUMN_NAME_USER_EMAIL_ROUTES + " TEXT)";
 
         public static final String SQL_DROP_ROUTES_ ="DROP TABLE IF EXISTS " + TABLE_NAME_ROUTES;
 
@@ -101,11 +76,13 @@ public class DBContract {
         public static final String COLUMN_NAME_EVENT_DATE = "event_date";
         public static final String COLUMN_NAME_EVENT_BACKPACK = "backpack_id";
         public static final String COLUMN_NAME_EVENT_ROUTE = "route_id";
+        public static final String COLUMN_NAME_USER_EMAIL_EVENTS = "email";
 
         public static final String SQL_CREATE_EVENTS = "CREATE TABLE " + TABLE_NAME_EVENTS + " ( " + _ID +
                 " INTEGER PRIMARY KEY, " + COLUMN_NAME_EVENT_NAME + " TEXT, " + COLUMN_NAME_EVENT_DESCRIPTION +
-                " TEXT, " + COLUMN_NAME_EVENT_DATE + " TIMESTAMP, " + COLUMN_NAME_EVENT_BACKPACK + " INTEGER, " +
-                COLUMN_NAME_EVENT_ROUTE + " INTEGER)";
+                " TEXT, " + COLUMN_NAME_EVENT_DATE + " TEXT, " + COLUMN_NAME_EVENT_BACKPACK + " INTEGER, " +
+                COLUMN_NAME_EVENT_ROUTE + " INTEGER " +
+                COLUMN_NAME_USER_EMAIL_EVENTS + " TEXT)";
 
         public static final String SQL_DROP_EVENTS_ ="DROP TABLE IF EXISTS " + TABLE_NAME_EVENTS;
 

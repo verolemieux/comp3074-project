@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="106dp"
         android:layout_marginLeft="106dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="107dp"
         android:layout_marginRight="107dp"
         android:text="My Routes"
@@ -53,21 +53,23 @@
         android:layout_marginLeft="150dp"
         android:layout_marginEnd="150dp"
         android:layout_marginRight="150dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="80dp"
         android:background="@android:drawable/ic_menu_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSearchBackpacks"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ListView
         android:id="@+id/route_list"
-        android:layout_width="256dp"
-        android:layout_height="291dp"
-        android:layout_marginTop="220dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="85dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintTop_toBottomOf="@+id/txtSearchBackpacks2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
