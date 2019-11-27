@@ -37,7 +37,7 @@ public class User implements Serializable {
         Backpack_List.add(new Backpack(1,"Backpack 1",1));
         Backpack_List.add(new Backpack(2,"Backpack 2",1));
         Backpack_List.add(new Backpack(3,"Backpack 3",1));
-        Route_List.add(new Route(1,"Danforth",3,5,4,"content"));
+        Route_List.add(new Route(1,"Danforth",3,5,4,"GBC", "dupont"));
         Event_List.add(new Event(1,"Doctor's appointment","2019-10-29","Migraine check", Backpack_List.get(0),Route_List.get(0)));
     }
     public String getEmail() {
