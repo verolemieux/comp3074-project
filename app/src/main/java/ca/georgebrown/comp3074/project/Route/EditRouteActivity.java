@@ -68,7 +68,7 @@ public class EditRouteActivity extends BaseActivity {
                 openMaps.putExtra("ValidatedUser", validatedUser);
                 String originAddress = routeOriginTxt.getText().toString();
                 openMaps.putExtra("address", originAddress);
-                startActivity(openMaps);
+                if (!originAddress.isEmpty()) startActivity(openMaps);
             }
         });
 
@@ -79,7 +79,7 @@ public class EditRouteActivity extends BaseActivity {
                 openMaps.putExtra("ValidatedUser", validatedUser);
                 String destAddress = routeDestinationTxt.getText().toString();
                 openMaps.putExtra("address", destAddress);
-                startActivity(openMaps);
+                if (!destAddress.isEmpty()) startActivity(openMaps);
             }
         });
 
@@ -92,7 +92,7 @@ public class EditRouteActivity extends BaseActivity {
                 openMaps.putExtra("origin", originAddress);
                 String destAddress = routeDestinationTxt.getText().toString();
                 openMaps.putExtra("destination", destAddress);
-                startActivity(openMaps);
+                if (!originAddress.isEmpty() && !destAddress.isEmpty()) startActivity(openMaps);
             }
         });
 
