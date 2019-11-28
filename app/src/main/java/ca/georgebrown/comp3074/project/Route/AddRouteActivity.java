@@ -7,6 +7,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -81,7 +82,9 @@ public class AddRouteActivity extends BaseActivity {
                 openMaps.putExtra("origin", originAddress);
                 String destAddress = routeDestinationTxt.getText().toString();
                 openMaps.putExtra("destination", destAddress);
-                startActivity(openMaps);
+
+                //startActivity(openMaps);
+                startActivityForResult(openMaps, 1);
             }
         });
 
@@ -101,6 +104,17 @@ public class AddRouteActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1)
+        {
+            Log.d("1", "1");
+        }
+
     }
 
     @Override

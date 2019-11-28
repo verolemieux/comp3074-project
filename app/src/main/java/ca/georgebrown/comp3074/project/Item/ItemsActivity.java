@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,6 +34,7 @@ public class ItemsActivity extends BaseActivity {
     ArrayList<Item> items;
     ListView itemList;
     ItemAdapter adapter;
+    EditText txtItemName;
 
     ItemsDAO itemTable;
     @Override
@@ -45,11 +48,13 @@ public class ItemsActivity extends BaseActivity {
         View contentView = inflater.inflate(R.layout.activity_item, null, false);
         drawer.addView(contentView, 0);
 
+        txtItemName = findViewById(R.id.txtItemName);
+
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         itemList = findViewById(R.id.listItems);
         items = itemTable.getItems(validatedUser.getEmail());
         ImageButton addItem = findViewById(R.id.btnAddItem);
-        adapter = new ItemAdapter(this, R.layout.item_layout, items);
+        adapter = new ItemAdapter(this, R.layout.item_layout, items, "apple");
         itemList.setAdapter(adapter);
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -59,6 +64,23 @@ public class ItemsActivity extends BaseActivity {
                 Item editItem = (Item)parent.getItemAtPosition(position);
                 editItemIntent.putExtra("Item", editItem);
                 startActivityForResult(editItemIntent, 2);
+            }
+        });
+
+        txtItemName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 

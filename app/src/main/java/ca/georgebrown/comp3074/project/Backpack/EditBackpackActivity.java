@@ -56,8 +56,8 @@ public class EditBackpackActivity extends AppCompatActivity {
         final ListView total_item_list = findViewById(R.id.item_list);
         final ListView selected_item_list = findViewById(R.id.selected_item_list);
         final ArrayList<Item> selected_items = itemsDAO.getBPItems(selected_bp.getBackpack_Id(),validatedUser.getEmail());
-        itemAdapter = new ItemAdapter(this,R.layout.item_layout,items);
-        itemAdapter2 = new ItemAdapter(this,R.layout.item_layout, selected_items);
+        itemAdapter = new ItemAdapter(this,R.layout.item_layout,items, "");
+        itemAdapter2 = new ItemAdapter(this,R.layout.item_layout, selected_items, "");
         total_item_list.setAdapter(itemAdapter);
         selected_item_list.setAdapter(itemAdapter2);
         for(int i = 0; i<itemAdapter2.getCount();i++){
