@@ -25,6 +25,7 @@ public class EditRouteActivity extends BaseActivity {
     TextView routeDestinationTxt;
     ImageButton openRouteOriginBtn;
     ImageButton openRouteDestinationBtn;
+    Button openRouteBtn;
     Button saveBtn;
     Button deleteBtn;
     Button shareBtn;
@@ -43,6 +44,7 @@ public class EditRouteActivity extends BaseActivity {
         routeDestinationTxt = findViewById(R.id.txtRouteTo);
         openRouteOriginBtn = findViewById(R.id.btnOpenOrigin);
         openRouteDestinationBtn = findViewById(R.id.btnOpenDest);
+        openRouteBtn = findViewById(R.id.btnOpenRoute);
         saveBtn = findViewById(R.id.btnAdd);
         deleteBtn = findViewById(R.id.btnDelete);
         shareBtn = findViewById(R.id.btnShare);
@@ -65,6 +67,19 @@ public class EditRouteActivity extends BaseActivity {
                 openMaps.putExtra("ValidatedUser", validatedUser);
                 String destAddress = routeDestinationTxt.getText().toString();
                 openMaps.putExtra("address", destAddress);
+                startActivity(openMaps);
+            }
+        });
+
+        openRouteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent openMaps = new Intent(view.getContext(), MapsActivity.class);
+                openMaps.putExtra("ValidatedUser", validatedUser);
+                String originAddress = routeOriginTxt.getText().toString();
+                openMaps.putExtra("origin", originAddress);
+                String destAddress = routeDestinationTxt.getText().toString();
+                openMaps.putExtra("destination", destAddress);
                 startActivity(openMaps);
             }
         });

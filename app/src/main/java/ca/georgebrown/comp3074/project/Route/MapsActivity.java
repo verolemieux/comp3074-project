@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PointOfInterest;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,6 +43,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static final float INITIAL_ZOOM = 12f;
 
     LatLng location;
+    LatLng origin;
+    LatLng destination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +52,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
 
         final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
+
         String address = getIntent().getStringExtra("address");
-        location = getLocationFromAddress(address);
+        if (address != null) this.location = getLocationFromAddress(address);
+
+        String originAddress = getIntent().getStringExtra("origin");
+        if (originAddress != null) this.origin = getLocationFromAddress(originAddress);
+
+        String destinationAddress = getIntent().getStringExtra("destination");
+        if (destinationAddress != null) this.destination = getLocationFromAddress(destinationAddress);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -91,11 +101,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         enableMyLocation();
 
-        mMap.addMarker(new MarkerOptions().position(location));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.location, INITIAL_ZOOM));
-        setMapLongClick(mMap);
-        setPoiClick(mMap);
-        setMapStyle(mMap);
+        if (this.location != null) {
+            mMap.addMarker(new MarkerOptions().position(location));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.location, INITIAL_ZOOM));
+            setMapLongClick(mMap);
+            setPoiClick(mMap);
+            setMapStyle(mMap);
+        } else {
+            new GetPathFromLocation(this.origin, this.destination, new DirectionPointListener() {
+                @Override
+                public void onPath(PolylineOptions polyLine) {
+                    mMap.addMarker(new MarkerOptions().position(origin));
+                    mMap.addMarker(new MarkerOptions().position(destination));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, INITIAL_ZOOM));
+                    mMap.addPolyline(polyLine);
+                    setMapLongClick(mMap);
+                    setPoiClick(mMap);
+                    setMapStyle(mMap);
+                }
+            }).execute();
+        }
     }
 
     private void setMapLongClick(final GoogleMap map) {

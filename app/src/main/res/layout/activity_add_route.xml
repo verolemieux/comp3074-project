@@ -121,4 +121,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtRouteTo"
         app:layout_constraintTop_toBottomOf="@+id/btnOpenOrigin" />
+
+    <Button
+        android:id="@+id/btnOpenRoute"
+        android:layout_width="326dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="44dp"
+        android:text="Open Route in Maps"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

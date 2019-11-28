@@ -26,7 +26,9 @@ public class AddRouteActivity extends BaseActivity {
     TextView routeDestinationTxt;
     ImageButton openRouteOriginBtn;
     ImageButton openRouteDestinationBtn;
+    Button openRouteBtn;
     Button addBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class AddRouteActivity extends BaseActivity {
         routeDestinationTxt = findViewById(R.id.txtRouteTo);
         openRouteOriginBtn = findViewById(R.id.btnOpenOrigin);
         openRouteDestinationBtn = findViewById(R.id.btnOpenDest);
+        openRouteBtn = findViewById(R.id.btnOpenRoute);
         addBtn = findViewById(R.id.btnAdd);
 
         openRouteOriginBtn.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +64,19 @@ public class AddRouteActivity extends BaseActivity {
                 openMaps.putExtra("ValidatedUser", validatedUser);
                 String destAddress = routeDestinationTxt.getText().toString();
                 openMaps.putExtra("address", destAddress);
+                startActivity(openMaps);
+            }
+        });
+
+        openRouteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent openMaps = new Intent(view.getContext(), MapsActivity.class);
+                openMaps.putExtra("ValidatedUser", validatedUser);
+                String originAddress = routeOriginTxt.getText().toString();
+                openMaps.putExtra("origin", originAddress);
+                String destAddress = routeDestinationTxt.getText().toString();
+                openMaps.putExtra("destination", destAddress);
                 startActivity(openMaps);
             }
         });
