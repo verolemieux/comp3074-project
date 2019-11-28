@@ -16,9 +16,6 @@
     <item android:id="@+id/routes"
         android:icon="@mipmap/baseline_map_black_18dp"
         android:title="Routes"/>
-    <item android:id="@+id/account"
-        android:icon="@mipmap/baseline_person_black_18dp"
-        android:title="My Account"/>
     <item android:id="@+id/logout"
         android:icon="@mipmap/baseline_exit_to_app_black_18dp"
         android:title="Logout"/>

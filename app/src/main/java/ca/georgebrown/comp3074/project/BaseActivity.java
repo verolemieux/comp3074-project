@@ -55,8 +55,6 @@ public class BaseActivity extends AppCompatActivity
         Intent intent = new Intent();
         switch(id)
         {
-            case R.id.account:
-                break;
             case R.id.home:
                 intent = new Intent(getApplicationContext(), HomeActivity.class);
                 break;
