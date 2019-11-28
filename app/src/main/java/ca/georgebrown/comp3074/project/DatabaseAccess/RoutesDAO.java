@@ -1,0 +1,73 @@
+package ca.georgebrown.comp3074.project.DatabaseAccess;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+
+import ca.georgebrown.comp3074.project.Route.Route;
+
+public class RoutesDAO {
+
+    private DBHelper dbHelper;
+    Cursor c;
+
+    private ArrayList<Route> routeList = new ArrayList<Route>();
+
+    public RoutesDAO(Context context)
+    {
+        dbHelper = new DBHelper(context);
+        dbHelper.getReadableDatabase();
+    }
+
+    public ArrayList<Route> getRouteList(String email)
+    {
+        c = getAllRoutes(email);
+        routeList.clear();
+
+        while(c.moveToNext())
+        {
+            Route r = new Route(
+                    c.getInt(c.getColumnIndexOrThrow(RoutesContract.RoutesEntity._ID)),
+                    c.getString(c.getColumnIndexOrThrow(RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_NAME)),
+                    c.getFloat(c.getColumnIndexOrThrow(RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_DISTANCE)),
+                    c.getInt(c.getColumnIndexOrThrow(RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_DIFFICULTY)),
+                    c.getInt(c.getColumnIndexOrThrow(RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_RATING)),
+                    c.getString(c.getColumnIndexOrThrow(RoutesContract.RoutesEntity.COLUMN_NAME_START_LOCATION)),
+                    c.getString(c.getColumnIndexOrThrow(RoutesContract.RoutesEntity.COLUMN_NAME_END_LOCATION)));
+
+            routeList.add(r);
+        }
+        c.close();
+        return routeList;
+    }
+
+    public Cursor getAllRoutes(String email)
+    {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String[] projection = {
+                RoutesContract.RoutesEntity._ID,
+                RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_NAME,
+                RoutesContract.RoutesEntity.COLUMN_NAME_START_LOCATION,
+                RoutesContract.RoutesEntity.COLUMN_NAME_END_LOCATION,
+                RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_DISTANCE,
+                RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_DIFFICULTY,
+                RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_RATING,
+                RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_CREATION_DATE
+        };
+        String selection = RoutesContract.RoutesEntity.COLUMN_NAME_USER_EMAIL_ROUTES + "=?";
+        String[] selectionArgs = {email};
+
+        return db.query(
+                RoutesContract.RoutesEntity.TABLE_NAME_ROUTES,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+    }
+
+}
