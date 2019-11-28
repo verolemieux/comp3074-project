@@ -22,8 +22,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(UsersContract.UsersEntity.SQL_CREATE_USERS);
         db.execSQL(BPContract.BPEntity.SQL_CREATE_BP);
         db.execSQL(EventsContract.EventsEntity.SQL_CREATE_EVENTS);
-        //db.execSQL(DBContract.DBEntity.SQL_CREATE_ITEMS);
-        //db.execSQL(DBContract.DBEntity.SQL_CREATE_USERS);
         db.execSQL(RoutesContract.RoutesEntity.SQL_CREATE_ROUTES);
         //db.execSQL(DBContract.DBEntity.SQL_CREATE_BACKPACK);
         db.execSQL(DBContract.DBEntity.SQL_CREATE_ITEM_BACKPACK);
@@ -36,7 +34,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(UsersContract.UsersEntity.SQL_DROP_USERS_);
         db.execSQL(BPContract.BPEntity.SQL_DROP_BP);
         db.execSQL(EventsContract.EventsEntity.SQL_DROP_EVENTS_);
-        //db.execSQL(DBContract.DBEntity.SQL_DROP_USERS_);
         //db.execSQL(DBContract.DBEntity.SQL_DROP_BACKPACKS_);
         db.execSQL(DBContract.DBEntity.SQL_DROP_ITEM_BACKPACK_);
         db.execSQL(RoutesContract.RoutesEntity.SQL_DROP_ROUTES_);

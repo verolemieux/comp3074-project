@@ -17,7 +17,9 @@
         android:text="Open Route in Maps"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
+        app:layout_constraintTop_toBottomOf="@+id/txtRouteTo"
+        android:layout_marginLeft="41dp"
+        android:layout_marginRight="44dp" />
 
     <ImageButton
         android:id="@+id/btnOpenDest"
@@ -81,9 +83,10 @@
         android:text="Delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.983"
+        app:layout_constraintHorizontal_bias="0.988"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnShare" />
+        app:layout_constraintTop_toBottomOf="@+id/btnShare"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnSave"
@@ -101,7 +104,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnShare" />
+        app:layout_constraintTop_toBottomOf="@+id/btnShare"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView15"

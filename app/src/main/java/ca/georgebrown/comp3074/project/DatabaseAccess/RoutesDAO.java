@@ -88,4 +88,28 @@ public class RoutesDAO {
 
     }
 
+    public void editRoute(Route r, User u, int id)
+    {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_NAME, r.getRoute_Name());
+        cv.put(RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_DISTANCE, r.getRoute_Distance());
+        cv.put(RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_DIFFICULTY, r.getRoute_Difficulty());
+        cv.put(RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_RATING, r.getRoute_Rating());
+        cv.put(RoutesContract.RoutesEntity.COLUMN_NAME_START_LOCATION, r.getRoute_Start_Location());
+        cv.put(RoutesContract.RoutesEntity.COLUMN_NAME_END_LOCATION, r.getRoute_End_Location());
+        cv.put(RoutesContract.RoutesEntity.COLUMN_NAME_USER_EMAIL_ROUTES, u.getEmail());
+
+        db.update(RoutesContract.RoutesEntity.TABLE_NAME_ROUTES, cv, "_ID=" + id + " and email='" +
+                u.getEmail() + "'", null);
+    }
+
+    public void deleteRoute(User u, int id)
+    {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(RoutesContract.RoutesEntity.TABLE_NAME_ROUTES, "_ID=" + id + " and email='" +
+                u.getEmail() + "'", null);
+    }
+
 }

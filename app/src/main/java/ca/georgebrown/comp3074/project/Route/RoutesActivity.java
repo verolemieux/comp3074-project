@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -94,10 +95,6 @@ public class RoutesActivity extends BaseActivity
 
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         routes = routeTable.getRouteList(validatedUser.getEmail());
-        for (Route r : routes)
-        {
-            Log.d("a", r.getRoute_Name());
-        }
         ListView route_list = findViewById(R.id.route_list);
         adapter = new RouteAdapter(this,R.layout.route_layout,routes);
         route_list.setAdapter(adapter);
@@ -110,12 +107,28 @@ public class RoutesActivity extends BaseActivity
                 startActivityForResult(addRoute, 1);
             }
         });
+
+        route_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
+                Intent editRouteIntent = new Intent(view.getContext(), EditRouteActivity.class);
+                editRouteIntent.putExtra("validatedUser", validatedUser);
+                Route editRoute = (Route)parent.getItemAtPosition(position);
+                editRouteIntent.putExtra("editRoute", editRoute);
+                startActivityForResult(editRouteIntent, 2);
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestcode, int resultcode, Intent data) {
         super.onActivityResult(requestcode, resultcode, data);
         if(requestcode == 1)
+        {
+            routes = routeTable.getRouteList(validatedUser.getEmail());
+            adapter.notifyDataSetChanged();
+        }
+        if(requestcode == 2)
         {
             routes = routeTable.getRouteList(validatedUser.getEmail());
             adapter.notifyDataSetChanged();
