@@ -96,11 +96,20 @@ public class RoutesActivity extends BaseActivity
             public void onClick(View v) {
                 Intent addRoute = new Intent(v.getContext(), AddRouteActivity.class);
                 addRoute.putExtra("ValidatedUser", validatedUser);
-                startActivity(addRoute);
+                startActivityForResult(addRoute, 1);
             }
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestcode, int resultcode, Intent data) {
+        super.onActivityResult(requestcode, resultcode, data);
+        if(requestcode == 1)
+        {
+            //route_list = routesTable.getRoutes(validatedUser.getemail());
+            //adapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
