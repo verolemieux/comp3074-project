@@ -40,6 +40,11 @@ public class RoutesActivity extends BaseActivity
     private FusedLocationProviderClient locationProviderClient;
     private LocationCallback locationCallback;
 
+    User validatedUser;
+    ArrayList<Route> routes;
+    RouteAdapter adapter;
+    ListView route_list;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +55,12 @@ public class RoutesActivity extends BaseActivity
         drawer.addView(contentView, 0);
 
         if (ActivityCompat.checkSelfPermission(this,
-            Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED) {
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
             //NO PERMISSION YET
             ActivityCompat.requestPermissions(this, new String[]
-                {Manifest.permission.ACCESS_FINE_LOCATION},
-                REQUEST_LOCATION_PERMISSION);
+                            {Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_LOCATION_PERMISSION);
         } else {
             Log.d("PERMISSION", "Permissions granted");
         }
@@ -84,10 +89,13 @@ public class RoutesActivity extends BaseActivity
 
         ImageButton addRoute = findViewById(R.id.btnAddRoute);
 
-        final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
-        final ArrayList<Route> routes = validatedUser.Route_List;
+        validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
+        routes = validatedUser.Route_List;
+        for (Route r : routes)
+        {
+            Log.d("a", r.getRoute_Name());
+        }
         ListView route_list = findViewById(R.id.route_list);
-        final RouteAdapter adapter;
         adapter = new RouteAdapter(this,R.layout.route_layout,routes);
         route_list.setAdapter(adapter);
         addRoute.setOnClickListener(new View.OnClickListener()

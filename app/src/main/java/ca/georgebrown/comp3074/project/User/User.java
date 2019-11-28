@@ -30,6 +30,8 @@ public class User implements Serializable {
         Route_List = new ArrayList<Route>();
         Item_List = new ArrayList<Item>();
 
+        Route_List.add(new Route(1, "work", 20, 3, 3, "Home", "Work"));
+
         //Instantiation of dummy data
         /*Item_List.add(new Item(1, "Apple", "red fruit"));
         Item_List.add(new Item(2, "Banana", "yellow fruit"));

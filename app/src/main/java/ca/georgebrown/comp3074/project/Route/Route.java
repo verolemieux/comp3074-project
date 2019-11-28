@@ -19,6 +19,8 @@ public class Route implements Serializable {
         Route_Distance = length;
         Route_Rating = rating;
         Route_Difficulty = difficulty;
+        Route_Start_Location = start_loc;
+        Route_End_Location = end_loc;
         //Route_Content = content;
     }
     public int getRoute_Id() {
