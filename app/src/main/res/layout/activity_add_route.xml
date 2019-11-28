@@ -7,32 +7,12 @@
     android:background="#EE0D0442"
     tools:context=".Route.AddRouteActivity">
 
-    <EditText
-        android:id="@+id/txtRouteBackpack"
-        android:layout_width="326dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:background="@android:color/white"
-        android:ems="10"
-        android:hint="Backpack"
-        android:inputType="textPersonName"
-        android:padding="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
-
     <Button
         android:id="@+id/btnAdd"
         android:layout_width="329dp"
         android:layout_height="46dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="83dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="80dp"
@@ -40,46 +20,43 @@
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRouteBackpack"
-        app:layout_constraintVertical_bias="0.885" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/txtRouteTo"
-        android:layout_width="326dp"
+        android:layout_width="255dp"
         android:layout_height="46dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
         android:background="@android:color/white"
         android:ems="10"
         android:hint="To"
         android:inputType="textPersonName"
         android:padding="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintEnd_toStartOf="@+id/btnOpenDest"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtRouteFrom" />
 
     <EditText
         android:id="@+id/txtRouteFrom"
-        android:layout_width="326dp"
+        android:layout_width="255dp"
         android:layout_height="46dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
         android:background="@android:color/white"
         android:ems="10"
         android:hint="From"
         android:inputType="textPersonName"
         android:padding="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnOpenOrigin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRouteDate" />
+        app:layout_constraintTop_toBottomOf="@+id/txtRouteName" />
 
     <EditText
         android:id="@+id/txtRouteName"
@@ -99,25 +76,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
-    <EditText
-        android:id="@+id/txtRouteDate"
-        android:layout_width="326dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:background="@android:color/white"
-        android:ems="10"
-        android:hint="Date"
-        android:inputType="date"
-        android:padding="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.608"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRouteName" />
-
     <TextView
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
@@ -135,4 +93,32 @@
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnOpenOrigin"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="53dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginRight="42dp"
+        android:background="@android:drawable/ic_dialog_map"
+        android:tint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtRouteFrom"
+        app:layout_constraintTop_toBottomOf="@+id/txtRouteName" />
+
+    <ImageButton
+        android:id="@+id/btnOpenDest"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="53dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="41dp"
+        android:layout_marginRight="41dp"
+        android:background="@android:drawable/ic_dialog_map"
+        android:tint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtRouteTo"
+        app:layout_constraintTop_toBottomOf="@+id/btnOpenOrigin" />
 </androidx.constraintlayout.widget.ConstraintLayout>

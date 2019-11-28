@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -26,6 +28,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PointOfInterest;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 
 import ca.georgebrown.comp3074.project.R;
@@ -37,12 +41,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     public static final float INITIAL_ZOOM = 12f;
 
+    LatLng location;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
         final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
+        String address = getIntent().getStringExtra("address");
+        location = getLocationFromAddress(address);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -81,15 +89,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         enableMyLocation();
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        LatLng school = new LatLng(43.67641, -79.410435);
-
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, INITIAL_ZOOM));
+        mMap.addMarker(new MarkerOptions().position(location));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.location, INITIAL_ZOOM));
         setMapLongClick(mMap);
         setPoiClick(mMap);
         setMapStyle(mMap);
@@ -164,6 +167,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             case REQUEST_LOCATION_PERMISSION:
                 if (grantResults.length > 0
                         && grantResults[0]
+
                         == PackageManager.PERMISSION_GRANTED) {
                     enableMyLocation();
                     break;
@@ -171,4 +175,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    public LatLng getLocationFromAddress(String strAddress){
+        Geocoder coder = new Geocoder(this);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress,5);
+            if (address==null) {
+                return null;
+            }
+            Address location=address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return p1;
+    }
 }

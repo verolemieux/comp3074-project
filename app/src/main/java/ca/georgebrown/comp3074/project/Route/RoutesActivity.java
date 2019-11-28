@@ -82,7 +82,6 @@ public class RoutesActivity extends BaseActivity
         };
 
         ImageButton addRoute = findViewById(R.id.btnAddRoute);
-        Button openMaps = findViewById(R.id.btnOpenMaps);
 
         final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         final ArrayList<Route> routes = validatedUser.Route_List;
@@ -97,15 +96,6 @@ public class RoutesActivity extends BaseActivity
                 Intent addRoute = new Intent(v.getContext(), AddRouteActivity.class);
                 addRoute.putExtra("ValidatedUser", validatedUser);
                 startActivity(addRoute);
-            }
-        });
-
-        openMaps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent openMaps = new Intent(v.getContext(), MapsActivity.class);
-                openMaps.putExtra("ValidatedUser", validatedUser);
-                startActivity(openMaps);
             }
         });
     }
