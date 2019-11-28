@@ -35,12 +35,7 @@ import ca.georgebrown.comp3074.project.DatabaseAccess.RoutesDAO;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
-public class RoutesActivity extends BaseActivity
-    implements FetchAddressTask.OnTaskCompleted{
-
-    private static final int REQUEST_LOCATION_PERMISSION = 1;
-    private FusedLocationProviderClient locationProviderClient;
-    private LocationCallback locationCallback;
+public class RoutesActivity extends BaseActivity {
 
     User validatedUser;
     ArrayList<Route> routes;
@@ -57,39 +52,6 @@ public class RoutesActivity extends BaseActivity
         @SuppressLint("InflateParams")
         View contentView = inflater.inflate(R.layout.activity_routes, null, false);
         drawer.addView(contentView, 0);
-
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            //NO PERMISSION YET
-            ActivityCompat.requestPermissions(this, new String[]
-                            {Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_LOCATION_PERMISSION);
-        } else {
-            Log.d("PERMISSION", "Permissions granted");
-        }
-
-        locationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    //do something
-                }
-            }
-        });
-
-        locationCallback = new LocationCallback(){
-            @Override
-            public void onLocationResult(LocationResult locationResult){
-                Location location = locationResult.getLastLocation();
-                if (location != null){
-                    //do something
-                    new FetchAddressTask(RoutesActivity.this, RoutesActivity.this).execute(location);
-                }
-            }
-        };
 
         ImageButton addRoute = findViewById(R.id.btnAddRoute);
 
@@ -133,52 +95,6 @@ public class RoutesActivity extends BaseActivity
             routes = routeTable.getRouteList(validatedUser.getEmail());
             adapter.notifyDataSetChanged();
         }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        if (requestCode == REQUEST_LOCATION_PERMISSION){
-            if(grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this, "Permission granted", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Permission NOT granted", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    private void startTracking(){
-        LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(10000); //every 10 secs
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationProviderClient.requestLocationUpdates(
-                locationRequest, locationCallback, null
-        );
-    }
-
-    private void stopTracking(){
-        locationProviderClient.removeLocationUpdates(locationCallback);
-    }
-
-    @Override
-    protected void onResume(){
-        startTracking();
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause(){
-        stopTracking();
-        super.onPause();
-    }
-
-    @Override
-    public void onTaskCompleted(String result) {
-//        TextView address = findViewById(R.id.textAddress);
-//        address.setText(result);
-        //do something
     }
 
     @Override
