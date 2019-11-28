@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.georgebrown.comp3074.project.HomeActivity;
 import ca.georgebrown.comp3074.project.BaseActivity;

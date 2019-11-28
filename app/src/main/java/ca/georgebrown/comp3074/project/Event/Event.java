@@ -10,17 +10,17 @@ public class Event implements Serializable {
     private String Event_Name;
     private String Date;
     private String Description;
-    private Backpack backpack;
-    private Route route;
+    private long backpack;
+    private long route;
 
-    public Event(int id, String name, String date, String desc, Backpack bp, Route r)
+    public Event(int id, String name, String date, String desc, long bp_id, long r_id)
     {
         Event_Id = id;
         Event_Name = name;
         Date = date;
         Description = desc;
-        backpack = bp;
-        route = r;
+        backpack = bp_id;
+        route = r_id;
     }
     public int getEvent_Id() {
         return Event_Id;
@@ -54,19 +54,19 @@ public class Event implements Serializable {
         Description = description;
     }
 
-    public Backpack getBackpack() {
+    public long getBackpack() {
         return backpack;
     }
 
-    public void setBackpack(Backpack backpack) {
+    public void setBackpack(long backpack) {
         this.backpack = backpack;
     }
 
-    public Route getRoute() {
+    public long getRoute() {
         return route;
     }
 
-    public void setRoute(Route route) {
+    public void setRoute(long route) {
         this.route = route;
     }
 }

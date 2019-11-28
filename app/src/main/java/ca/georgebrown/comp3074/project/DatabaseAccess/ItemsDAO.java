@@ -25,6 +25,8 @@ public class ItemsDAO {
     {
         dbHelper = new DBHelper(context);
         dbHelper.getReadableDatabase();
+        //dbHelper.getWritableDatabase().execSQL(ItemsContract.ItemsEntity.SQL_DROP_ITEMS_);
+        //dbHelper.getWritableDatabase().execSQL(ItemsContract.ItemsEntity.SQL_CREATE_ITEMS);
     }
 
     public ArrayList<Item> getItems(String email)
@@ -67,7 +69,8 @@ public class ItemsDAO {
                 ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_NAME,
                 ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_DESCRIPTION,
                 ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_PICTURE,
-                ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_CODE
+                ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_CODE,
+                ItemsContract.ItemsEntity.COLUMN_NAME_BP_ID
         };
         String selection = ItemsContract.ItemsEntity.COLUMN_NAME_USER_EMAIL_ITEMS + "=?";
         String[] selectionArgs = {email};
@@ -114,6 +117,36 @@ public class ItemsDAO {
         cv.put(ItemsContract.ItemsEntity.COLUMN_NAME_USER_EMAIL_ITEMS, u.getEmail());
 
         db.insert(ItemsContract.ItemsEntity.TABLE_NAME_ITEMS, null, cv);
+    }
+    public void addToBP(Item i, long bp_id, String email){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(ItemsContract.ItemsEntity.COLUMN_NAME_BP_ID, bp_id);
+        db.update(ItemsContract.ItemsEntity.TABLE_NAME_ITEMS, cv,
+                "_id="+i.getItem_Id()+" AND "+ ItemsContract.ItemsEntity.COLUMN_NAME_USER_EMAIL_ITEMS+" ='"+email+"'",
+                null);
+    }
+    public void removeAllItemsFromBP(String email){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(ItemsContract.ItemsEntity.COLUMN_NAME_BP_ID, 0);
+        db.update(ItemsContract.ItemsEntity.TABLE_NAME_ITEMS, cv,
+                ItemsContract.ItemsEntity.COLUMN_NAME_BP_ID+" != 0 " +
+                        "AND "+ ItemsContract.ItemsEntity.COLUMN_NAME_USER_EMAIL_ITEMS+" ='"+email+"'", null);
+    }
+    public ArrayList<Item> getBPItems(long bp_id, String email){
+        Cursor c = getAllItems(email);
+        ArrayList<Item> items = new ArrayList<>();
+        while(c.moveToNext()){
+            long backpack_id = c.getInt(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity.COLUMN_NAME_BP_ID));
+            if(backpack_id == bp_id){
+                Item i = new Item(c.getInt(c.getColumnIndexOrThrow(DBContract.DBEntity._ID))
+                        , c.getString(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_NAME))
+                        , c.getString(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_DESCRIPTION)));
+                items.add(i);
+            }
+        }
+        return items;
     }
 
     public void editItem(Item i, User u, int id)

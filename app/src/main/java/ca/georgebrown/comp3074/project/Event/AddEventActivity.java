@@ -68,7 +68,7 @@ public class AddEventActivity extends BaseActivity {
                     lastId++;
                     Backpack backpack = validatedUser.getBackpack(backpack_spinner.getSelectedItem().toString());
                     Route route = validatedUser.getRoute(route_spinner.getSelectedItem().toString());
-                    Event event = new Event(lastId,event_name.getText().toString(),event_date.getText().toString(),event_desc.getText().toString(),backpack,route);
+                    Event event = new Event(lastId,event_name.getText().toString(),event_date.getText().toString(),event_desc.getText().toString(),backpack.getBackpack_Id(),route.getRoute_Id());
                     validatedUser.Event_List.add(event);
                     Intent return_event = new Intent(view.getContext(), EventsActivity.class);
                     return_event.putExtra("ValidatedUser", validatedUser);
