@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import ca.georgebrown.comp3074.project.BaseActivity;
+import ca.georgebrown.comp3074.project.DatabaseAccess.RoutesDAO;
 import ca.georgebrown.comp3074.project.R;
 
 public class AddRouteActivity extends BaseActivity {
@@ -28,7 +29,8 @@ public class AddRouteActivity extends BaseActivity {
     ImageButton openRouteDestinationBtn;
     Button openRouteBtn;
     Button addBtn;
-
+    RoutesDAO routeTable;
+    Route newR = new Route(1, "", 0, 0, 0, "1", "1");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,8 @@ public class AddRouteActivity extends BaseActivity {
         openRouteDestinationBtn = findViewById(R.id.btnOpenDest);
         openRouteBtn = findViewById(R.id.btnOpenRoute);
         addBtn = findViewById(R.id.btnAdd);
+
+        routeTable = new RoutesDAO(this);
 
         openRouteOriginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,10 +88,17 @@ public class AddRouteActivity extends BaseActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent addRIntent = new Intent(v.getContext(), RoutesActivity.class);
+                addRIntent.putExtra("validatedUser", validatedUser);
                 String routeName = routeNameTxt.getText().toString();
                 String originAddress = routeOriginTxt.getText().toString();
                 String destinationAddress = routeDestinationTxt.getText().toString();
-                //persist to database
+                newR.setRoute_Name(routeName);
+                newR.setRoute_Start_Location(originAddress);
+                newR.setRoute_End_Location(destinationAddress);
+                routeTable.addRoute(newR, validatedUser);
+                setResult(1, addRIntent);
+                finish();
             }
         });
     }

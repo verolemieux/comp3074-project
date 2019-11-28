@@ -21,7 +21,7 @@ public class RoutesContract {
                 + " FLOAT, " + COLUMN_NAME_START_LOCATION + " TEXT, " + COLUMN_NAME_END_LOCATION + " TEXT, " +
                 COLUMN_NAME_ROUTE_DIFFICULTY + " INTEGER, " +
                 COLUMN_NAME_ROUTE_RATING + " INTEGER, " +
-                COLUMN_NAME_ROUTE_CREATION_DATE + " TEXT " +
+                COLUMN_NAME_ROUTE_CREATION_DATE + " TEXT, " +
                 COLUMN_NAME_USER_EMAIL_ROUTES + " TEXT)";
 
         public static final String SQL_DROP_ROUTES_ ="DROP TABLE IF EXISTS " + TABLE_NAME_ROUTES;

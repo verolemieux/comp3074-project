@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "project.db";
 
     public DBHelper(Context context)
@@ -24,7 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(EventsContract.EventsEntity.SQL_CREATE_EVENTS);
         //db.execSQL(DBContract.DBEntity.SQL_CREATE_ITEMS);
         //db.execSQL(DBContract.DBEntity.SQL_CREATE_USERS);
-        db.execSQL(DBContract.DBEntity.SQL_CREATE_ROUTES);
+        db.execSQL(RoutesContract.RoutesEntity.SQL_CREATE_ROUTES);
         //db.execSQL(DBContract.DBEntity.SQL_CREATE_BACKPACK);
         db.execSQL(DBContract.DBEntity.SQL_CREATE_ITEM_BACKPACK);
         //db.execSQL(DBContract.DBEntity.SQL_CREATE_EVENTS);
@@ -39,7 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
         //db.execSQL(DBContract.DBEntity.SQL_DROP_USERS_);
         //db.execSQL(DBContract.DBEntity.SQL_DROP_BACKPACKS_);
         db.execSQL(DBContract.DBEntity.SQL_DROP_ITEM_BACKPACK_);
-        db.execSQL(DBContract.DBEntity.SQL_DROP_ROUTES_);
+        db.execSQL(RoutesContract.RoutesEntity.SQL_DROP_ROUTES_);
         //db.execSQL(DBContract.DBEntity.SQL_DROP_EVENTS_);
         onCreate(db);
     }

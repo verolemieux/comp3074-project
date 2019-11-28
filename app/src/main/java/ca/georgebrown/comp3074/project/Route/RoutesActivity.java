@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.BaseActivity;
+import ca.georgebrown.comp3074.project.DatabaseAccess.RoutesDAO;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
@@ -44,11 +45,13 @@ public class RoutesActivity extends BaseActivity
     ArrayList<Route> routes;
     RouteAdapter adapter;
     ListView route_list;
+    RoutesDAO routeTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        routeTable = new RoutesDAO(this);
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         @SuppressLint("InflateParams")
         View contentView = inflater.inflate(R.layout.activity_routes, null, false);
@@ -90,7 +93,7 @@ public class RoutesActivity extends BaseActivity
         ImageButton addRoute = findViewById(R.id.btnAddRoute);
 
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
-        routes = validatedUser.Route_List;
+        routes = routeTable.getRouteList(validatedUser.getEmail());
         for (Route r : routes)
         {
             Log.d("a", r.getRoute_Name());
@@ -114,8 +117,8 @@ public class RoutesActivity extends BaseActivity
         super.onActivityResult(requestcode, resultcode, data);
         if(requestcode == 1)
         {
-            //route_list = routesTable.getRoutes(validatedUser.getemail());
-            //adapter.notifyDataSetChanged();
+            routes = routeTable.getRouteList(validatedUser.getEmail());
+            adapter.notifyDataSetChanged();
         }
     }
 

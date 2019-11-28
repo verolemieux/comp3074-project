@@ -1,5 +1,6 @@
 package ca.georgebrown.comp3074.project.DatabaseAccess;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.Route.Route;
+import ca.georgebrown.comp3074.project.User.User;
 
 public class RoutesDAO {
 
@@ -68,6 +70,22 @@ public class RoutesDAO {
                 null,
                 null
         );
+    }
+
+    public void addRoute(Route r, User u)
+    {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_NAME, r.getRoute_Name());
+        cv.put(RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_DISTANCE, r.getRoute_Distance());
+        cv.put(RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_DIFFICULTY, r.getRoute_Difficulty());
+        cv.put(RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_RATING, r.getRoute_Rating());
+        cv.put(RoutesContract.RoutesEntity.COLUMN_NAME_START_LOCATION, r.getRoute_Start_Location());
+        cv.put(RoutesContract.RoutesEntity.COLUMN_NAME_END_LOCATION, r.getRoute_End_Location());
+        cv.put(RoutesContract.RoutesEntity.COLUMN_NAME_USER_EMAIL_ROUTES, u.getEmail());
+
+        db.insert(RoutesContract.RoutesEntity.TABLE_NAME_ROUTES, null, cv);
+
     }
 
 }
