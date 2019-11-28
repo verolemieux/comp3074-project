@@ -2,6 +2,7 @@ package ca.georgebrown.comp3074.project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import ca.georgebrown.comp3074.project.DatabaseAccess.UsersDAO;
+import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
+import ca.georgebrown.comp3074.project.DatabaseAccess.UsersDAO;
+import ca.georgebrown.comp3074.project.Item.Item;
 import ca.georgebrown.comp3074.project.User.User;
 
 public class LoginActivity extends AppCompatActivity {
