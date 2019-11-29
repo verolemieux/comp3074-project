@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,6 +45,7 @@ public class RoutesActivity extends BaseActivity {
     RouteAdapter adapter;
     ListView route_list;
     RoutesDAO routeTable;
+    TextView searchRoute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +59,10 @@ public class RoutesActivity extends BaseActivity {
 
         ImageButton addRoute = findViewById(R.id.btnAddRoute);
 
+        searchRoute = findViewById(R.id.txtSearchRoutes);
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
-        routes = routeTable.getRouteList(validatedUser.getEmail());
-        ListView route_list = findViewById(R.id.route_list);
+        routes = routeTable.getRouteList(validatedUser.getEmail(), "");
+        route_list = findViewById(R.id.route_list);
         adapter = new RouteAdapter(this,R.layout.route_layout,routes);
         route_list.setAdapter(adapter);
         addRoute.setOnClickListener(new View.OnClickListener()
@@ -67,6 +72,24 @@ public class RoutesActivity extends BaseActivity {
                 Intent addRoute = new Intent(v.getContext(), AddRouteActivity.class);
                 addRoute.putExtra("ValidatedUser", validatedUser);
                 startActivityForResult(addRoute, 1);
+            }
+        });
+
+        searchRoute.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                routes = routeTable.getRouteList(validatedUser.getEmail(), searchRoute.getText().toString());
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -87,12 +110,12 @@ public class RoutesActivity extends BaseActivity {
         super.onActivityResult(requestcode, resultcode, data);
         if(requestcode == 1)
         {
-            routes = routeTable.getRouteList(validatedUser.getEmail());
+            routes = routeTable.getRouteList(validatedUser.getEmail(), "");
             adapter.notifyDataSetChanged();
         }
         if(requestcode == 2)
         {
-            routes = routeTable.getRouteList(validatedUser.getEmail());
+            routes = routeTable.getRouteList(validatedUser.getEmail(), "");
             adapter.notifyDataSetChanged();
         }
     }

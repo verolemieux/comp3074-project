@@ -74,7 +74,7 @@ public class AddBackpackActivity extends BaseActivity {
         final TextView bp_name = findViewById(R.id.bp_name);
         btnAdd = findViewById(R.id.btnAdd);
         itemlist = findViewById(R.id.listItems);
-        adapter = new ItemAdapter(this, R.layout.item_layout, items, "");
+        adapter = new ItemAdapter(this, R.layout.item_layout, items);
         itemlist.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         itemlist.setAdapter(adapter);
         btnAdd.setOnClickListener(new View.OnClickListener(){
@@ -157,7 +157,7 @@ public class AddBackpackActivity extends BaseActivity {
             if (resultCode == RESULT_OK){
                 validatedUser.Item_List = itemsDAO.getItems(validatedUser.getEmail(), "");
                 items = validatedUser.Item_List;
-                adapter = new ItemAdapter(this, R.layout.item_layout, items, "");
+                adapter = new ItemAdapter(this, R.layout.item_layout, items);
                 itemlist.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 itemlist.setAdapter(adapter);
 

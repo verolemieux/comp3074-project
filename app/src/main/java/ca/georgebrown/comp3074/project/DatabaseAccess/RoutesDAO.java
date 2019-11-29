@@ -23,9 +23,9 @@ public class RoutesDAO {
         dbHelper.getReadableDatabase();
     }
 
-    public ArrayList<Route> getRouteList(String email)
+    public ArrayList<Route> getRouteList(String email, String key)
     {
-        c = getAllRoutes(email);
+        c = getAllRoutes(email, key);
         routeList.clear();
 
         while(c.moveToNext())
@@ -45,7 +45,7 @@ public class RoutesDAO {
         return routeList;
     }
 
-    public Cursor getAllRoutes(String email)
+    public Cursor getAllRoutes(String email, String key)
     {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = {
@@ -58,6 +58,22 @@ public class RoutesDAO {
                 RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_RATING,
                 RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_CREATION_DATE
         };
+
+        if(key != "") {
+            String selection = RoutesContract.RoutesEntity.COLUMN_NAME_USER_EMAIL_ROUTES + "=? AND " +
+                    RoutesContract.RoutesEntity.COLUMN_NAME_ROUTE_NAME + " LIKE '%" + key + "%'";
+            String[] selectionArgs = {email};
+
+            return db.query(
+                    RoutesContract.RoutesEntity.TABLE_NAME_ROUTES,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+        }
         String selection = RoutesContract.RoutesEntity.COLUMN_NAME_USER_EMAIL_ROUTES + "=?";
         String[] selectionArgs = {email};
 

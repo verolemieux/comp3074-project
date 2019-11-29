@@ -8,7 +8,7 @@
     tools:context=".Route.RoutesActivity">
 
     <EditText
-        android:id="@+id/txtSearchBackpacks2"
+        android:id="@+id/txtSearchRoutes"
         android:layout_width="326dp"
         android:layout_height="46dp"
         android:layout_marginStart="42dp"
@@ -70,7 +70,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnAddRoute"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSearchBackpacks2"
+        app:layout_constraintTop_toBottomOf="@+id/txtSearchRoutes"
         app:layout_constraintVertical_bias="0.044" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
