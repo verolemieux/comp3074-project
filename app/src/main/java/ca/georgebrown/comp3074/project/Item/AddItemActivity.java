@@ -132,9 +132,9 @@ public class AddItemActivity extends BaseActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void dispatchTakePictureIntent() {
-        final int MY_CAMERA_REQUEST_CODE = 100;
+        //final int MY_CAMERA_REQUEST_CODE = 100;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (checkSelfPermission(Manifest.permission.CAMERA)
+        /*if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA},
                     MY_CAMERA_REQUEST_CODE);
@@ -142,7 +142,9 @@ public class AddItemActivity extends BaseActivity {
         if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);  }
-        }
+        }*/
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);  }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
