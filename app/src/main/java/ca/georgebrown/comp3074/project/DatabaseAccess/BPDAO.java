@@ -44,8 +44,8 @@ public class BPDAO {
         db.delete(BPContract.BPEntity.TABLE_NAME_BP, "_id="+bp.getBackpack_Id()+" AND "+
                 BPContract.BPEntity.COLUMN_USER_EMAIL+" = '"+email+"'",null);
     }
-    public Backpack getBackpackByName(String name, String email){
-        ArrayList<Backpack> backpacks = getAllBP(email);
+    public Backpack getBackpackByName(String name, String email, String key){
+        ArrayList<Backpack> backpacks = getAllBP(email, key);
         for(Backpack bp: backpacks){
             if(bp.getBackpack_Name().equals(name)){
                 return bp;
@@ -54,7 +54,7 @@ public class BPDAO {
         return null;
     }
     public Backpack getBackpackById(long id, String email){
-        ArrayList<Backpack> backpacks = getAllBP(email);
+        ArrayList<Backpack> backpacks = getAllBP(email, "");
         for(Backpack bp: backpacks){
             if(bp.getBackpack_Id() == id){
                 return bp;
@@ -62,8 +62,8 @@ public class BPDAO {
         }
         return null;
     }
-    public long getBPID(String name, String email){
-        Cursor c = getAllBPHelper(email);
+    public long getBPID(String name, String email, String key){
+        Cursor c = getAllBPHelper(email, key);
         while(c.moveToNext()){
             String db_bp_name = c.getString(c.getColumnIndexOrThrow(BPContract.BPEntity.COLUMN_NAME_BP_NAME));
             if(db_bp_name.equals(name)){
@@ -72,8 +72,8 @@ public class BPDAO {
         }
         return -1;
     }
-    public ArrayList<Backpack> getAllBP(String email){
-        Cursor c = getAllBPHelper(email);
+    public ArrayList<Backpack> getAllBP(String email, String key){
+        Cursor c = getAllBPHelper(email, key);
         while(c.moveToNext()){
             Backpack bp = new Backpack(
                     c.getInt(c.getColumnIndexOrThrow(BPContract.BPEntity._ID)),
@@ -86,7 +86,7 @@ public class BPDAO {
         return backpacks;
 
     }
-    private Cursor getAllBPHelper(String email){
+    private Cursor getAllBPHelper(String email, String key){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = {
                 BPContract.BPEntity._ID,
@@ -98,9 +98,23 @@ public class BPDAO {
                 ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_PICTURE,
                 ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_CODE*/
         };
-        String selection = BPContract.BPEntity.COLUMN_USER_EMAIL + "=?";
-        String[] selectionArgs = {email};
+        if(key!="") {
+            String selection = BPContract.BPEntity.COLUMN_USER_EMAIL + "=? AND "+
+                    BPContract.BPEntity.COLUMN_NAME_BP_NAME + " like '%"+key+"%'";
+            String[] selectionArgs = {email};
 
+            return db.query(
+                    BPContract.BPEntity.TABLE_NAME_BP,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+        }
+        String selection = BPContract.BPEntity.COLUMN_USER_EMAIL+"=?";
+        String[] selectionArgs = {email};
         return db.query(
                 BPContract.BPEntity.TABLE_NAME_BP,
                 projection,

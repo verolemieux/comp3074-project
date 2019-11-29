@@ -1,15 +1,10 @@
 package ca.georgebrown.comp3074.project.Backpack;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,7 +18,6 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-import ca.georgebrown.comp3074.project.BaseActivity;
 import ca.georgebrown.comp3074.project.DatabaseAccess.BPDAO;
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemBPDAO;
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
@@ -33,7 +27,7 @@ import ca.georgebrown.comp3074.project.QRCode.QRCode;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
-public class EditBackpackActivity extends BaseActivity {
+public class EditBackpackActivity extends AppCompatActivity {
     BPDAO bpdao;
     ItemsDAO itemsDAO;
     TextView bp_name;
@@ -52,11 +46,7 @@ public class EditBackpackActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        @SuppressLint("InflateParams")
-        View contentView = inflater.inflate(R.layout.activity_edit_backpack, null, false);
-        drawer.addView(contentView, 0);
+        setContentView(R.layout.activity_edit_backpack);
 
         bpdao = new BPDAO(this);
         itemBPDAO = new ItemBPDAO(this);
@@ -65,15 +55,18 @@ public class EditBackpackActivity extends BaseActivity {
         bp_name = findViewById(R.id.txtBPName);
         save_btn = findViewById(R.id.saveBtn);
         delete_btn = findViewById(R.id.deleteBtn);
+        edit_button = findViewById(R.id.btn_AddQR);
 
+
+        items_added = new ArrayList<>();
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         selected_bp = (Backpack)getIntent().getSerializableExtra("BP");
         bp_name.setText(selected_bp.getBackpack_Name());
+        final String originText = bp_name.getText().toString();
         items = itemsDAO.getItems(validatedUser.getEmail(), "");
         final ListView total_item_list = findViewById(R.id.item_list);
-        edit_button = findViewById(R.id.btn_AddQR);
         final ListView selected_item_list = findViewById(R.id.selected_item_list);
-        final ArrayList<Item> selected_items = itemsDAO.getBPItems(selected_bp.getBackpack_Id(),validatedUser.getEmail());
+        final ArrayList<Item> selected_items = itemBPDAO.getItemsFromBP(selected_bp.getBackpack_Id(), validatedUser.getEmail());//itemsDAO.getBPItems(selected_bp.getBackpack_Id(),validatedUser.getEmail());
         itemAdapter = new ItemAdapter(this,R.layout.item_layout,items);
         itemAdapter2 = new ItemAdapter(this,R.layout.item_layout, selected_items);
         total_item_list.setAdapter(itemAdapter);
@@ -123,6 +116,7 @@ public class EditBackpackActivity extends BaseActivity {
                 Item delete_item = (Item)parent.getItemAtPosition(i);
                 for(int x = 0; x<selected_items.size();x++){
                     if(selected_items.get(x).getItem_Name().equals(delete_item.getItem_Name())){
+                        itemBPDAO.deleteItemToBP(selected_bp.getBackpack_Id(), selected_items.get(x).getItem_Id(), validatedUser.getEmail());
                         selected_items.remove(x);
                     }
                 }
@@ -133,7 +127,7 @@ public class EditBackpackActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 itemsDAO.removeAllItemsFromBP(validatedUser.getEmail());
-                ArrayList<Backpack> backpacks = bpdao.getAllBP(validatedUser.getEmail());
+                ArrayList<Backpack> backpacks = bpdao.getAllBP(validatedUser.getEmail(), "");
                 boolean name_exists = false;
                 for (int x = 0; x < backpacks.size(); x++) {
                     if (backpacks.get(x).getBackpack_Name().equals(bp_name.getText().toString())) {
@@ -142,9 +136,7 @@ public class EditBackpackActivity extends BaseActivity {
                 }
                 if (bp_name.getText().toString().equals("")) {
                     error_msg.setText("Backpack name cannot be empty");
-
-                } else if (name_exists) {
-                    //&& !originText.equals(bp_name.getText().toString())
+                } else if (name_exists && !originText.equals(bp_name.getText().toString())) {
                     error_msg.setText("Backpack name already exists!");
                 } else {
                     selected_bp.setBackpack_Name(bp_name.getText().toString());
@@ -168,6 +160,7 @@ public class EditBackpackActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 bpdao.deleteBP(selected_bp, validatedUser.getEmail());
+                itemBPDAO.deleteBP(selected_bp.getBackpack_Id(), validatedUser.getEmail());
                 Intent returnIntent = new Intent(view.getContext(), BackpacksActivity.class);
                 returnIntent.putExtra("ValidatedUser", validatedUser);
                 setResult(2,returnIntent);
@@ -199,10 +192,5 @@ public class EditBackpackActivity extends BaseActivity {
             final int childIndex = pos - firstListItemPosition;
             return listView.getChildAt(childIndex);
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return super.onOptionsItemSelected(item);
     }
 }

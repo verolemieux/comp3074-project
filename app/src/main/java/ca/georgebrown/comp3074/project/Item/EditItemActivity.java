@@ -8,7 +8,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -18,7 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,10 +32,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.ArrayList;
@@ -60,7 +54,6 @@ public class EditItemActivity extends BaseActivity {
     ImageView imgItem;
     Bitmap bitmap;
     ImageButton addQRCode;
-    Button exportCode;
     ImageButton addPhoto;
     Bitmap qrBM;
 
@@ -87,7 +80,6 @@ public class EditItemActivity extends BaseActivity {
         qrCode = findViewById(R.id.imgQrCode);
         addPhoto = findViewById(R.id.btnAddPhoto);
         addQRCode = findViewById(R.id.btnAddQRCode);
-        exportCode = findViewById(R.id.btnExport);
 
         final byte[] qrArr = editItem.getItem_QR_Code();
 
@@ -116,39 +108,11 @@ public class EditItemActivity extends BaseActivity {
             editItem.setItem_Picture(itemPhoto);
         }
 
-        exportCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(bitmap != null)
-                {
-                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap,"title", null);
-                    Log.d("Path", path);
-                    Uri screenshotUri = Uri.parse(path);
-                    Intent i = new Intent(Intent.ACTION_SEND);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.setType("application/image");
-                    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{validatedUser.getEmail()});
-                    i.putExtra(Intent.EXTRA_SUBJECT, "QR Code");
-                    i.putExtra(Intent.EXTRA_TEXT   , "This is the QR Code for " + itemName.getText().toString());
-                    i.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-                    try {
-                        startActivity(Intent.createChooser(i, "Send mail..."));
-                    } catch (android.content.ActivityNotFoundException ex) {
-                        Toast.makeText(EditItemActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else
-                {
-                    Toast.makeText(EditItemActivity.this, "There is no QR Code generated", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
         addQRCode.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view)
             {
-                if(!itemName.getText().toString().equals("") && !itemName.getText().equals(null)) {
+                /*if(!itemName.getText().toString().equals("") && !itemName.getText().equals(null)) {
                     try {
                         bitmap = TextToImageEncode(itemName.getText().toString());
 
@@ -162,7 +126,21 @@ public class EditItemActivity extends BaseActivity {
                     } catch (WriterException e) {
                         e.printStackTrace();
                     }
+                }*/
+
+
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("application/image");
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"thibeau.jeremy@gmail.com"});
+                i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
+                i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+                i.putExtra(Intent.EXTRA_STREAM, Uri.parse(String.valueOf(qrBM)));
+                try {
+                    startActivity(Intent.createChooser(i, "Send mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(EditItemActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
@@ -215,30 +193,6 @@ public class EditItemActivity extends BaseActivity {
                 finish();
             }
         });
-    }
-
-    private String saveToInternalStorage(Bitmap bitmapImage){
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        // path to /data/data/yourapp/app_data/imageDir
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        // Create imageDir
-        File mypath=new File(directory,"profile.jpg");
-
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(mypath);
-            // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return directory.getAbsolutePath();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
+import ca.georgebrown.comp3074.project.Backpack.Backpack;
 import ca.georgebrown.comp3074.project.Route.Route;
 import ca.georgebrown.comp3074.project.User.User;
 
@@ -27,6 +28,15 @@ public class RoutesDAO {
         for(Route route: routes){
             if(route.getRoute_Name().equals(name)){
                 return route;
+            }
+        }
+        return null;
+    }
+    public Route getRouteById(long id, String email, String key){
+        ArrayList<Route> routes = getRouteList(email, key);
+        for(Route r: routes){
+            if(r.getRoute_Id() == id){
+                return r;
             }
         }
         return null;

@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import ca.georgebrown.comp3074.project.User.User;
@@ -24,36 +23,6 @@ public class UsersDAO {
         cv.put(UsersContract.UsersEntity.COLUMN_NAME_PASSWORD, password);
         cv.put(UsersContract.UsersEntity.COLUMN_NAME_ENROLLMENT_DATE,  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         return db.insert(UsersContract.UsersEntity.TABLE_NAME_USERS, null, cv);
-    }
-    public boolean userExist(String email)
-    {
-        ArrayList<String> userList = new ArrayList<String>();
-
-
-        Cursor c = getUsers(email);
-        if(c.moveToNext())
-        {
-            return true;
-        }
-        return false;
-
-    }
-    public Cursor getUsers(String email)
-    {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String[] projection = {UsersContract.UsersEntity.COLUMN_NAME_USER_EMAIL};
-        String selection = UsersContract.UsersEntity.COLUMN_NAME_USER_EMAIL + "=?";
-        String[] selectionArgs = {email};
-
-        return db.query(
-                UsersContract.UsersEntity.TABLE_NAME_USERS,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
     }
     public User validateUser(String email, String password){
         //CREATE USER INSTANCE AND SET VALUES TO DATABASE VALUES AND THEN RETURN THE OBJECT

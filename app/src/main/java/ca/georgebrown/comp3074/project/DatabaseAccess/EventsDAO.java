@@ -30,6 +30,24 @@ public class EventsDAO {
         db.update(EventsContract.EventsEntity.TABLE_NAME_EVENTS, cv, "_id="+event.getEvent_Id()+" and "+
                 EventsContract.EventsEntity.COLUMN_NAME_USER_EMAIL_EVENTS+" = '"+email+"'", null);
     }
+    public long getBPId(long eventId, String email, String key){
+        ArrayList<Event> events = getAllEvents(email, key);
+        for(int x = 0; x<events.size();x++){
+            if(events.get(x).getEvent_Id() == eventId){
+                return events.get(x).getBackpack();
+            }
+        }
+        return -1;
+    }
+    public long getRouteId(long eventId, String email, String key){
+        ArrayList<Event> events = getAllEvents(email, key);
+        for(int x = 0; x<events.size();x++){
+            if(events.get(x).getEvent_Id() == eventId){
+                return events.get(x).getRoute();
+            }
+        }
+        return -1;
+    }
     public long addEvent(String name, String date, String desc, long bp_id, long r_id, String email){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -48,9 +66,8 @@ public class EventsDAO {
                 EventsContract.EventsEntity.COLUMN_NAME_USER_EMAIL_EVENTS +" = '"+email+"'",null);
     }
 
-    public ArrayList<Event> getAllEvents(String email){
-        Cursor c = getAllEventsHelper(email);
-        events.clear();
+    public ArrayList<Event> getAllEvents(String email, String key){
+        Cursor c = getAllEventsHelper(email, key);
         while(c.moveToNext()){
             Event e = new Event(
                     c.getInt(c.getColumnIndexOrThrow(EventsContract.EventsEntity._ID)),
@@ -65,7 +82,7 @@ public class EventsDAO {
         c.close();
         return events;
     }
-    private Cursor getAllEventsHelper(String email){
+    private Cursor getAllEventsHelper(String email, String key){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = {
                 EventsContract.EventsEntity._ID,
@@ -76,7 +93,22 @@ public class EventsDAO {
                 EventsContract.EventsEntity.COLUMN_NAME_EVENT_ROUTE,
                 EventsContract.EventsEntity.COLUMN_NAME_USER_EMAIL_EVENTS
         };
-        String selection = EventsContract.EventsEntity.COLUMN_NAME_USER_EMAIL_EVENTS+"=?";
+        if(key!="") {
+            String selection = EventsContract.EventsEntity.COLUMN_NAME_USER_EMAIL_EVENTS + "=? AND "+
+                    EventsContract.EventsEntity.COLUMN_NAME_EVENT_NAME + " LIKE '%"+key+"%'";
+            String[] selectionArgs = {email};
+
+            return db.query(
+                    EventsContract.EventsEntity.TABLE_NAME_EVENTS,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+        }
+        String selection = EventsContract.EventsEntity.COLUMN_NAME_USER_EMAIL_EVENTS + "=?";
         String[] selectionArgs = {email};
 
         return db.query(
@@ -88,5 +120,6 @@ public class EventsDAO {
                 null,
                 null
         );
+
     }
 }

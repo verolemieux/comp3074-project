@@ -35,6 +35,12 @@ public class ItemBPDAO {
                 + " = "+ bp;
         db.delete(ItemBPContract.ItempBPEntity.TABLE_NAME_ITEM_BACKPACK,where,null);
     }
+    public void deleteBP(long bp, String email){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String where = ItemBPContract.ItempBPEntity.COLUMN_NAME_USER_EMAIL + " = '"+email+"'"+" AND "+
+                ItemBPContract.ItempBPEntity.COLUMN_NAME_BACKPACK_ID+" = "+bp;
+        db.delete(ItemBPContract.ItempBPEntity.TABLE_NAME_ITEM_BACKPACK, where, null);
+    }
     public ArrayList<Item> getItemsFromBP(long bp, String email){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ArrayList<Item> items = new ArrayList<>();

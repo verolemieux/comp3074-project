@@ -1,13 +1,15 @@
 package ca.georgebrown.comp3074.project.Backpack;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,19 +19,31 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+
 import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.BaseActivity;
 import ca.georgebrown.comp3074.project.DatabaseAccess.BPDAO;
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemBPDAO;
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
-import ca.georgebrown.comp3074.project.Item.AddItemActivity;
 import ca.georgebrown.comp3074.project.Item.Item;
 import ca.georgebrown.comp3074.project.Item.ItemAdapter;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
 public class AddBackpackActivity extends BaseActivity {
+
+    private IntentIntegrator qrScan;
 
     ListView itemlist;
     Button btnAdd;
@@ -38,6 +52,7 @@ public class AddBackpackActivity extends BaseActivity {
     ArrayList<Item> items;
     ItemAdapter adapter;
     ItemBPDAO itemBPDAO;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     ItemsDAO itemsDAO;
     Button addItem;
@@ -78,7 +93,7 @@ public class AddBackpackActivity extends BaseActivity {
             public void onClick(View v)
             {
                 boolean name_exists =  false;
-                userBackpacks = bpdao.getAllBP(validatedUser.getEmail());
+                userBackpacks = bpdao.getAllBP(validatedUser.getEmail(), "");
                 for(int i = 0; i<userBackpacks.size();i++){
                     if(userBackpacks.get(i).getBackpack_Name().equals(bp_name.getText().toString())){
                         name_exists = true;
@@ -109,12 +124,18 @@ public class AddBackpackActivity extends BaseActivity {
             }
         });
         addItem.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                Intent addItemIntent = new Intent(view.getContext(), AddItemActivity.class);
-                addItemIntent.putExtra("ValidatedUser", validatedUser);
-                startActivityForResult(addItemIntent,1);
-                finish();
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(AddBackpackActivity.this, new String[] {Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE);
+                }
+                qrScan = new IntentIntegrator(AddBackpackActivity.this);
+                qrScan.setBeepEnabled(true);
+                qrScan.setOrientationLocked(true);
+                qrScan.setPrompt("Scan a QR Code");
+                qrScan.initiateScan();
             }
         });
         itemlist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -146,7 +167,6 @@ public class AddBackpackActivity extends BaseActivity {
         });
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -159,7 +179,23 @@ public class AddBackpackActivity extends BaseActivity {
                 itemlist.setAdapter(adapter);
 
             }
+        } else {
+            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (result != null){
+                if(result.getContents() == null) {
+                    Log.d("MainActivity", "Cancelled scan");
+                    Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+                } else {
+                    Log.d("MainActivity", "Scanned");
+                    Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+
+                }
+            } else {
+                // This is important, otherwise the result will not be passed to the fragment
+                super.onActivityResult(requestCode, resultCode, data);
+            }
         }
+
     }
 
     @Override

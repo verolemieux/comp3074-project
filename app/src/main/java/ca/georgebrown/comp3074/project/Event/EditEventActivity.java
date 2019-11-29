@@ -67,7 +67,8 @@ public class EditEventActivity extends BaseActivity {
         event_date.setText(selected_event.getDate());
         event_desc = findViewById(R.id.txtEventDescription);
         event_desc.setText(selected_event.getDescription());
-        final ArrayList<Backpack> backpacks = bpdao.getAllBP(validatedUser.getEmail());
+
+        final ArrayList<Backpack> backpacks = bpdao.getAllBP(validatedUser.getEmail(), "");
         final ArrayList<Route> routes = routesDAO.getRouteList(validatedUser.getEmail(), "");
         final BackpackSpinAdapter Backpack_adapter;
         final RouteSpinAdapter route_adapter;
@@ -75,6 +76,22 @@ public class EditEventActivity extends BaseActivity {
         backpack_spinner.setAdapter(Backpack_adapter);
         route_adapter = new RouteSpinAdapter(this,R.layout.route_row_layout,routes);
         route_spinner.setAdapter(route_adapter);
+        selected_bp = (Backpack) backpack_spinner.getItemAtPosition(0);
+        selected_route = (Route) route_spinner.getItemAtPosition(0);
+        selected_bp.setBackpack_Id(eventsDAO.getBPId(selected_event.getEvent_Id(), validatedUser.getEmail(), ""));
+        selected_route.setRoute_Id((int)eventsDAO.getRouteId(selected_event.getEvent_Id(), validatedUser.getEmail(), ""));
+
+        if(selected_bp.getBackpack_Id() != -1){
+            selected_bp = bpdao.getBackpackById(selected_bp.getBackpack_Id(), validatedUser.getEmail());
+            backpack_spinner.setSelection((int)selected_bp.getBackpack_Id()-1);
+        }
+        if(selected_route.getRoute_Id() != -1){
+            selected_route = routesDAO.getRouteById(selected_route.getRoute_Id(), validatedUser.getEmail(), "");
+            route_spinner.setSelection(selected_route.getRoute_Id()-1);
+        }
+
+
+
         save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,26 +136,32 @@ public class EditEventActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 long bp_id = selected_event.getBackpack();
-                backpack_spinner.setSelection((int)bp_id-1);
+                backpack_spinner.setSelection((i));
                 selected_bp = (Backpack) adapterView.getItemAtPosition(i);
+                selected_event.setBackpack(bp_id);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                if(selected_bp.getBackpack_Id() == -1) {
+                    backpack_spinner.setSelection((int) selected_bp.getBackpack_Id() - 1);
+                }
             }
         });
         route_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 long route_id = selected_event.getRoute();
-                route_spinner.setSelection((int)route_id-1);
+                route_spinner.setSelection((i));
                 selected_route = (Route) adapterView.getItemAtPosition(i);
+                selected_event.setRoute(route_id);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                if(selected_route.getRoute_Id() == -1) {
+                    route_spinner.setSelection(selected_route.getRoute_Id() - 1);
+                }
             }
         });
     }
