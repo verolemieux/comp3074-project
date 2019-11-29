@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -53,25 +54,28 @@ public class AddBackpackActivity extends BaseActivity {
     ItemAdapter adapter;
     ItemBPDAO itemBPDAO;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-
+    TextView error_msg;
     ItemsDAO itemsDAO;
     Button addItem;
     BPDAO bpdao;
     ArrayList<String> selected = new ArrayList<>();
     ArrayList<Item> selected_items = new ArrayList<>();
-
+    TextView items_added;
+    View v;
+    AdapterView<?> adapterView;
+    View contentView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        @SuppressLint("InflateParams")
-        View contentView = inflater.inflate(R.layout.activity_add_backpack, null, false);
+
+        contentView = inflater.inflate(R.layout.activity_add_backpack, null, false);
         drawer.addView(contentView, 0);
         Toast.makeText(this.getApplicationContext(),"Long press an item to add it to the backpack" , Toast.LENGTH_LONG).show();
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        v = contentView;
         itemBPDAO = new ItemBPDAO(this);
         bpdao = new BPDAO(this);
         itemsDAO = new ItemsDAO(this);
@@ -80,12 +84,13 @@ public class AddBackpackActivity extends BaseActivity {
         validatedUser.Item_List = itemsDAO.getItems(validatedUser.getEmail(), "");
         items = validatedUser.Item_List;
         addItem = findViewById(R.id.btnAddItem);
-        final TextView error_msg = findViewById(R.id.error_tv_addbp);
-        final TextView items_added = findViewById(R.id.items_added_tv);
+        error_msg = findViewById(R.id.error_tv_addbp);
+        items_added = findViewById(R.id.items_added_tv);
         final TextView bp_name = findViewById(R.id.bp_name);
         btnAdd = findViewById(R.id.btnAdd);
         itemlist = findViewById(R.id.listItems);
         adapter = new ItemAdapter(this, R.layout.item_layout, items);
+        adapterView = itemlist;
         itemlist.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         itemlist.setAdapter(adapter);
         btnAdd.setOnClickListener(new View.OnClickListener(){
@@ -188,6 +193,37 @@ public class AddBackpackActivity extends BaseActivity {
                 } else {
                     Log.d("MainActivity", "Scanned");
                     Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                    Log.d("Results", result.getContents());
+                    int position = -1;
+                    for (int x = 0; x < items.size(); x++)
+                    {
+                        if(items.get(x).getItem_Name().equals(result.getContents()))
+                        {
+                            position = x;
+                            Log.d("item found", "a");
+                        }
+                    }
+
+                    error_msg.setText("");
+                    //v = adapter.getView(position, null, (ViewGroup) contentView);
+                    TextView textView = (TextView) v.findViewById(R.id.txtItemLayout);
+                    boolean repeated_item = false;
+                    for(int x = 0; x<selected_items.size();x++){
+                        if(selected_items.get(x).getItem_Name().equals(textView.getText().toString())){
+                            repeated_item = true;
+                        }
+                    }
+                    if(repeated_item){
+                        error_msg.setText("You have already added this item");
+                    }
+                    else {
+                        textView.setBackgroundColor(Color.GREEN);
+                        selected.add(textView.getText().toString());
+                        Item selected_item = (Item) adapterView.getItemAtPosition(position);
+                        selected_items.add(selected_item);
+                        items_added.setText(selected.size() + "");
+                        Toast.makeText(adapterView.getContext(), textView.getText().toString() + " selected", Toast.LENGTH_LONG).show();
+                    }
 
                 }
             } else {
