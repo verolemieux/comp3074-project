@@ -9,6 +9,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -127,6 +128,9 @@ public class AddRouteActivity extends BaseActivity {
                 openMaps.putExtra("origin", originAddress);
                 String destAddress = routeDestinationTxt.getText().toString();
                 openMaps.putExtra("destination", destAddress);
+
+                //startActivity(openMaps);
+                startActivityForResult(openMaps, 1);
                 if (!originAddress.isEmpty() && !destAddress.isEmpty()) startActivity(openMaps);
             }
         });
@@ -169,6 +173,17 @@ public class AddRouteActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1)
+        {
+            Log.d("1", "1");
+        }
+
     }
 
     @Override

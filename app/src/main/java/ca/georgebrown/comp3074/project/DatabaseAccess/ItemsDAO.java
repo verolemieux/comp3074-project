@@ -29,10 +29,10 @@ public class ItemsDAO {
         //dbHelper.getWritableDatabase().execSQL(ItemsContract.ItemsEntity.SQL_CREATE_ITEMS);
     }
 
-    public ArrayList<Item> getItems(String email)
+    public ArrayList<Item> getItems(String email, String key)
     {
 
-        c = getAllItems(email);
+        c = getAllItems(email, key);
         ItemList.clear();
         while(c.moveToNext())
         {
@@ -61,7 +61,7 @@ public class ItemsDAO {
         return ItemList;
     }
 
-    private Cursor getAllItems(String email)
+    private Cursor getAllItems(String email, String key)
     {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = {
@@ -72,9 +72,24 @@ public class ItemsDAO {
                 ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_CODE,
                 ItemsContract.ItemsEntity.COLUMN_NAME_BP_ID
         };
+        if(key != "")
+        {
+            String selection = ItemsContract.ItemsEntity.COLUMN_NAME_USER_EMAIL_ITEMS + "=? " +
+                    ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_NAME + "CONTAINS '?'";
+            String[] selectionArgs = {email, key};
+
+            return db.query(
+                    ItemsContract.ItemsEntity.TABLE_NAME_ITEMS,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+        }
         String selection = ItemsContract.ItemsEntity.COLUMN_NAME_USER_EMAIL_ITEMS + "=?";
         String[] selectionArgs = {email};
-
         return db.query(
                 ItemsContract.ItemsEntity.TABLE_NAME_ITEMS,
                 projection,
@@ -135,7 +150,7 @@ public class ItemsDAO {
                         "AND "+ ItemsContract.ItemsEntity.COLUMN_NAME_USER_EMAIL_ITEMS+" ='"+email+"'", null);
     }
     public ArrayList<Item> getBPItems(long bp_id, String email){
-        Cursor c = getAllItems(email);
+        Cursor c = getAllItems(email, "a");
         ArrayList<Item> items = new ArrayList<>();
         while(c.moveToNext()){
             long backpack_id = c.getInt(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity.COLUMN_NAME_BP_ID));
