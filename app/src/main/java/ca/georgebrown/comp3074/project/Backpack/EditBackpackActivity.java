@@ -71,6 +71,7 @@ public class EditBackpackActivity extends BaseActivity {
         bp_name.setText(selected_bp.getBackpack_Name());
         items = itemsDAO.getItems(validatedUser.getEmail(), "");
         final ListView total_item_list = findViewById(R.id.item_list);
+        edit_button = findViewById(R.id.btn_AddQR);
         final ListView selected_item_list = findViewById(R.id.selected_item_list);
         final ArrayList<Item> selected_items = itemsDAO.getBPItems(selected_bp.getBackpack_Id(),validatedUser.getEmail());
         itemAdapter = new ItemAdapter(this,R.layout.item_layout,items);
@@ -88,14 +89,14 @@ public class EditBackpackActivity extends BaseActivity {
             /*View tv = getViewByPosition(i,selected_item_list);
             tv.setBackgroundColor(Color.GREEN);*/
         }
-//        edit_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent return_event = new Intent(v.getContext(), QRCode.class);
-//                return_event.putExtra("ValidatedUser", validatedUser);
-//                startActivity(return_event);
-//            }
-//        });
+        edit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent return_event = new Intent(v.getContext(), QRCode.class);
+                return_event.putExtra("ValidatedUser", validatedUser);
+                startActivity(return_event);
+            }
+        });
 
         total_item_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
