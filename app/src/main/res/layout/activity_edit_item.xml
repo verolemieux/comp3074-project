@@ -13,13 +13,14 @@
         android:background="#EE0D0442"
         tools:context=".Backpack.AddBackpackActivity">
 
-        <Button
+        <ImageButton
             android:id="@+id/btnAddQRCode"
             android:layout_width="92dp"
             android:layout_height="92dp"
             android:layout_marginStart="43dp"
             android:layout_marginLeft="43dp"
             android:layout_marginTop="56dp"
+            android:background="@android:drawable/ic_menu_add"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnAddPhoto"
             tools:text="Export QR Code" />
@@ -50,7 +51,7 @@
             android:text="Delete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnSave"
-            app:layout_constraintTop_toBottomOf="@+id/imgQrCode" />
+            app:layout_constraintTop_toBottomOf="@+id/btnExport" />
 
         <ImageView
             android:id="@+id/imgQrCode"
@@ -80,7 +81,23 @@
             android:text="Save"
             app:layout_constraintEnd_toStartOf="@+id/btnDelete"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnExport" />
+
+        <Button
+            android:id="@+id/btnExport"
+            android:layout_width="329dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="42dp"
+            android:layout_marginLeft="42dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@android:color/darker_gray"
+            android:text="Export QR Code"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgQrCode" />
+
 
         <EditText
             android:id="@+id/txtItemDescription"
@@ -124,7 +141,7 @@
             android:layout_height="46dp"
             android:layout_marginStart="40dp"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="76dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="40dp"
             android:layout_marginRight="40dp"
             android:background="@android:color/white"
@@ -133,7 +150,7 @@
             android:inputType="textPersonName"
             android:padding="10sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
