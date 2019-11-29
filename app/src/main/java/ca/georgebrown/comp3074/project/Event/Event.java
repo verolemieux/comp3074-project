@@ -26,7 +26,7 @@ public class Event implements Serializable {
         return Event_Id;
     }
 
-    public void setEvent_Id(int event_Id) {
+    public void setEvent_Id(long event_Id) {
         Event_Id = event_Id;
     }
 

@@ -40,10 +40,6 @@ public class AddEventActivity extends BaseActivity {
     EventsDAO eventsDAO;
     Backpack selected_bp;
     Route selected_route;
-    Route route;
-    Backpack backpack;
-    int routeId;
-    long backpackId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +55,7 @@ public class AddEventActivity extends BaseActivity {
 
         //POPULATING SPINNERS
         final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
-        final ArrayList<Backpack> backpacks = bpdao.getAllBP(validatedUser.getEmail());
+        final ArrayList<Backpack> backpacks = bpdao.getAllBP(validatedUser.getEmail(), "");
         final ArrayList<Route> routes = routesDAO.getRouteList(validatedUser.getEmail(), "");
         events = validatedUser.Event_List;
         final Spinner backpack_spinner = (Spinner) findViewById(R.id.backpack_spinner);
@@ -78,47 +74,22 @@ public class AddEventActivity extends BaseActivity {
         final EditText event_date = findViewById(R.id.date_et);
         final EditText event_desc = findViewById(R.id.desc_et);
         final TextView error_label = findViewById(R.id.error_message);
-
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!event_name.getText().toString().equals("")&&!event_date.getText().toString().equals("")&&!event_desc.getText().toString().equals("")){
-                    if(!(selected_bp == null)) {
-                        Backpack backpack = bpdao.getBackpackByName(selected_bp.getBackpack_Name(), validatedUser.getEmail());
-                        backpackId = backpack.getBackpack_Id();
-                    }
-                    else{
-                        backpack = null;
-                        backpackId = -1;
-                    }
-                    if(!(selected_route == null))
-                    {
-                        Route route =  routesDAO.getRouteByName(selected_route.getRoute_Name(), validatedUser.getEmail(), "");
-                        routeId = route.getRoute_Id();
-                    }
-                    else
-                    {
-                        route = null;
-                        routeId = -1;
-                    }
-
+                    Backpack backpack =  bpdao.getBackpackByName(selected_bp.getBackpack_Name(), validatedUser.getEmail(), "");
+                    Route route =  routesDAO.getRouteByName(selected_route.getRoute_Name(), validatedUser.getEmail(), "");
                     long lastId = eventsDAO.addEvent(event_name.getText().toString(),
                             event_date.getText().toString(),
                             event_desc.getText().toString(),
-                            backpackId,
-                            routeId,
+                            backpack.getBackpack_Id(),
+                            route.getRoute_Id(),
                             validatedUser.getEmail()
                     );
 
-                    Event event = new Event(lastId,event_name.getText().toString(),event_date.getText().toString(),event_desc.getText().toString(),backpackId,routeId);
+                    Event event = new Event(lastId,event_name.getText().toString(),event_date.getText().toString(),event_desc.getText().toString(),backpack.getBackpack_Id(),route.getRoute_Id());
                     validatedUser.Event_List.add(event);
-                    /*eventsDAO.addEvent(event_name.getText().toString(),
-                            event_date.getText().toString(),
-                            event_desc.getText().toString(),
-                            backpackId,
-                            routeId,
-                            validatedUser.getEmail()
-                    );*/
                     Intent return_event = new Intent(view.getContext(), EventsActivity.class);
                     return_event.putExtra("ValidatedUser", validatedUser);
                     return_event.putExtra("NewEvent", event);
