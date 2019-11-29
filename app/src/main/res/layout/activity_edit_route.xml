@@ -7,7 +7,6 @@
     android:background="#EE0D0442"
     tools:context=".Route.EditRouteActivity">
 
-<<<<<<< HEAD
     <Spinner
         android:id="@+id/spinnerDifficulty"
         android:layout_width="wrap_content"
@@ -21,8 +20,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/btnOpenRoute" />
 
-=======
->>>>>>> a26217b2a8a6ce9aae755fa0c54648e308d996d2
+
     <Button
         android:id="@+id/btnOpenRoute"
         android:layout_width="326dp"
@@ -195,7 +193,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtRouteFrom" />
 
-<<<<<<< HEAD
     <TextView
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
@@ -233,6 +230,4 @@
         app:layout_constraintStart_toEndOf="@+id/textView23"
         app:layout_constraintTop_toBottomOf="@+id/btnOpenRoute" />
 
-=======
->>>>>>> a26217b2a8a6ce9aae755fa0c54648e308d996d2
 </androidx.constraintlayout.widget.ConstraintLayout>
