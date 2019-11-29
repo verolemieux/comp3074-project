@@ -32,7 +32,6 @@ public class EditRouteActivity extends BaseActivity {
     Button openRouteBtn;
     Button saveBtn;
     Button deleteBtn;
-    Button shareBtn;
     RoutesDAO routeTable;
     User validatedUser;
     Route editRoute;
@@ -57,7 +56,6 @@ public class EditRouteActivity extends BaseActivity {
         openRouteBtn = findViewById(R.id.btnOpenRoute);
         saveBtn = findViewById(R.id.btnSave);
         deleteBtn = findViewById(R.id.btnDelete);
-        shareBtn = findViewById(R.id.btnShare);
 
         validatedUser = (User)getIntent().getSerializableExtra("validatedUser");
         editRoute = (Route)getIntent().getSerializableExtra("editRoute");
@@ -142,13 +140,6 @@ public class EditRouteActivity extends BaseActivity {
                 routeIntent.putExtra("validatedUser", validatedUser);
                 setResult(2, routeIntent);
                 finish();
-            }
-        });
-
-        shareBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //do something
             }
         });
     }
