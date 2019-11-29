@@ -76,7 +76,17 @@ public class EditEventActivity extends BaseActivity {
         backpack_spinner.setAdapter(Backpack_adapter);
         route_adapter = new RouteSpinAdapter(this,R.layout.route_row_layout,routes);
         route_spinner.setAdapter(route_adapter);
-        selected_bp = (Backpack) backpack_spinner.getItemAtPosition(0);
+
+        long bp_id = selected_event.getBackpack();
+        long route_id = selected_event.getRoute();
+
+        if(bp_id != -1){
+            backpack_spinner.setSelection((int)bp_id-1);
+        }
+        if(route_id != -1){
+            route_spinner.setSelection((int)route_id-1);
+        }
+        /*selected_bp = (Backpack) backpack_spinner.getItemAtPosition(0);
         selected_route = (Route) route_spinner.getItemAtPosition(0);
         selected_bp.setBackpack_Id(eventsDAO.getBPId(selected_event.getEvent_Id(), validatedUser.getEmail(), ""));
         selected_route.setRoute_Id((int)eventsDAO.getRouteId(selected_event.getEvent_Id(), validatedUser.getEmail(), ""));
@@ -88,7 +98,7 @@ public class EditEventActivity extends BaseActivity {
         if(selected_route.getRoute_Id() != -1){
             selected_route = routesDAO.getRouteById(selected_route.getRoute_Id(), validatedUser.getEmail(), "");
             route_spinner.setSelection(selected_route.getRoute_Id()-1);
-        }
+        }*/
 
 
 
