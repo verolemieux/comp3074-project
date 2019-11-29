@@ -21,9 +21,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -60,6 +62,8 @@ public class AddRouteActivity extends BaseActivity {
     Button addBtn;
     RoutesDAO routeTable;
     Route newR = new Route(1, "", 0, 0, 0, "1", "1");
+    Spinner difficultySpinner;
+    Spinner ratingSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +93,16 @@ public class AddRouteActivity extends BaseActivity {
         startBtn = findViewById(R.id.btnStart);
         stopBtn = findViewById(R.id.btnStop);
         addBtn = findViewById(R.id.btnAdd);
+
+        difficultySpinner = findViewById(R.id.spinnerDifficulty);
+        ArrayAdapter<CharSequence> difficultyAdapter = ArrayAdapter.createFromResource(this, R.array.difficulty, android.R.layout.simple_spinner_item);
+        difficultyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        difficultySpinner.setAdapter(difficultyAdapter);
+
+        ratingSpinner = findViewById(R.id.spinnerRating);
+        ArrayAdapter<CharSequence> ratingAdapter = ArrayAdapter.createFromResource(this, R.array.rating, android.R.layout.simple_spinner_item);
+        ratingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        ratingSpinner.setAdapter(ratingAdapter);
 
         routeTable = new RoutesDAO(this);
 
