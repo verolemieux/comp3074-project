@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -37,6 +38,7 @@ public class EditBackpackActivity extends AppCompatActivity {
     Backpack selected_bp;
     TextView error_msg;
 
+    ArrayList<Item> items_added;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +77,20 @@ public class EditBackpackActivity extends AppCompatActivity {
         total_item_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-                Item new_item = (Item)parent.getItemAtPosition(i);
-                selected_items.add(new_item);
-                itemAdapter2.notifyDataSetChanged();
+                Item new_item = (Item) parent.getItemAtPosition(i);
+                boolean exists = false;
+                for(int x = 0; x<selected_items.size();x++){
+                    if(new_item.getItem_Name().equals(selected_items.get(x).getItem_Name())){
+                        exists = true;
+                    }
+                }
+                if(exists){
+                    Toast.makeText(EditBackpackActivity.this, "Item already exists in backpack", Toast.LENGTH_SHORT).show();
+                }else {
+                    selected_items.add(new_item);
+                    itemAdapter2.notifyDataSetChanged();
+                    items_added.add(new_item);
+                }
             }
         });
         selected_item_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
