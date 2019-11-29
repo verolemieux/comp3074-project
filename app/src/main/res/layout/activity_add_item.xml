@@ -14,33 +14,29 @@
         <ImageView
             android:id="@+id/imgQrCode"
             android:layout_width="191dp"
-            android:layout_height="128dp"
-            android:layout_marginStart="179dp"
-            android:layout_marginLeft="179dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginLeft="44dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="42dp"
             android:layout_marginRight="42dp"
             android:background="#48B1AAAA"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnAddQRCode"
             app:layout_constraintTop_toBottomOf="@+id/imgItem" />
 
         <Button
             android:id="@+id/btnSave"
             android:layout_width="329dp"
             android:layout_height="46dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="80dp"
+            android:layout_marginStart="42dp"
+            android:layout_marginLeft="42dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="42dp"
+            android:layout_marginRight="42dp"
             android:background="@android:color/holo_orange_dark"
             android:text="Add"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgQrCode" />
 
@@ -102,38 +98,38 @@
         <ImageView
             android:id="@+id/imgItem"
             android:layout_width="191dp"
-            android:layout_height="128dp"
-            android:layout_marginStart="179dp"
-            android:layout_marginLeft="179dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginLeft="44dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="42dp"
             android:layout_marginRight="42dp"
             android:background="#48B1AAAA"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnAddPhoto"
             app:layout_constraintTop_toBottomOf="@+id/txtItemDescription" />
 
         <ImageButton
             android:id="@+id/btnAddPhoto"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="92dp"
             android:layout_height="92dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginStart="43dp"
+            android:layout_marginLeft="43dp"
+            android:layout_marginTop="40dp"
             android:background="@android:drawable/ic_menu_camera"
-            app:layout_constraintEnd_toStartOf="@+id/imgItem"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtItemDescription"
-            style="?android:attr/borderlessButtonStyle" />
+            app:layout_constraintTop_toBottomOf="@+id/txtItemDescription" />
 
         <ImageButton
             android:id="@+id/btnAddQRCode"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="92dp"
             android:layout_height="92dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginStart="43dp"
+            android:layout_marginLeft="43dp"
+            android:layout_marginTop="40dp"
             android:background="@android:drawable/ic_menu_add"
-            app:layout_constraintEnd_toStartOf="@+id/imgQrCode"
-            app:layout_constraintHorizontal_bias="0.47"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnAddPhoto" />
 
