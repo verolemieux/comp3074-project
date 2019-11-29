@@ -13,11 +13,12 @@
         android:layout_height="53dp"
         android:layout_marginStart="25dp"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="128dp"
         android:layout_marginEnd="42dp"
         android:layout_marginRight="42dp"
         android:text="Stop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/btnStart"
         app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
 
@@ -29,11 +30,12 @@
         android:layout_marginLeft="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="36dp"
         android:background="@android:color/holo_orange_dark"
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -142,22 +144,68 @@
         android:layout_width="326dp"
         android:layout_height="53dp"
         android:layout_marginStart="41dp"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="44dp"
         android:text="Open Route in Maps"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnStop" />
+        app:layout_constraintTop_toBottomOf="@+id/btnStop"
+        android:layout_marginRight="44dp"
+        android:layout_marginLeft="41dp" />
 
     <Button
         android:id="@+id/btnStart"
         android:layout_width="151dp"
         android:layout_height="53dp"
-        android:layout_marginStart="43dp"
-        android:layout_marginLeft="43dp"
-        android:layout_marginTop="49dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="128dp"
         android:text="Start"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
+
+    <Spinner
+        android:id="@+id/spinnerRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toEndOf="@+id/textView21"
+        app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="49dp"
+        android:layout_marginLeft="49dp"
+        android:layout_marginTop="50dp"
+        android:background="#9C27B0"
+        android:text="Rating"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginRight="34dp"
+        android:background="#9C27B0"
+        android:text="Difficulty"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerDifficulty"
+        app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
+
+    <Spinner
+        android:id="@+id/spinnerDifficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="57dp"
+        android:layout_marginRight="57dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnOpenDest" />
 </androidx.constraintlayout.widget.ConstraintLayout>
