@@ -12,7 +12,7 @@ public class Route implements Serializable {
     private String Route_Start_Location;
     private String Route_End_Location;
 
-    public Route (int id, String name, float length, int rating, int difficulty, String start_loc, String end_loc)
+    public Route (int id, String name, float length, int difficulty, int rating, String start_loc, String end_loc)
     {
         Route_Id = id;
         Route_Name = name;
