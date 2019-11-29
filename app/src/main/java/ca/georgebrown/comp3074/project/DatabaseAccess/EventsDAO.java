@@ -50,6 +50,7 @@ public class EventsDAO {
 
     public ArrayList<Event> getAllEvents(String email){
         Cursor c = getAllEventsHelper(email);
+        events.clear();
         while(c.moveToNext()){
             Event e = new Event(
                     c.getInt(c.getColumnIndexOrThrow(EventsContract.EventsEntity._ID)),

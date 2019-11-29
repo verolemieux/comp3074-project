@@ -131,7 +131,8 @@ public class EditBackpackActivity extends AppCompatActivity {
                 }
                 if (bp_name.getText().toString().equals("")) {
                     error_msg.setText("Backpack name cannot be empty");
-                } else if (name_exists && !originText.equals(bp_name.getText().toString())) {
+                } else if (name_exists //&& !originText.equals(bp_name.getText().toString())
+                 ) {
                     error_msg.setText("Backpack name already exists!");
                 } else {
                     selected_bp.setBackpack_Name(bp_name.getText().toString());

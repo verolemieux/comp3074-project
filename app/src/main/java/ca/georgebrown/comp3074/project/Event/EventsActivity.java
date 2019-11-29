@@ -17,12 +17,17 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.georgebrown.comp3074.project.DatabaseAccess.EventsDAO;
 import ca.georgebrown.comp3074.project.HomeActivity;
 import ca.georgebrown.comp3074.project.BaseActivity;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
 public class EventsActivity extends BaseActivity {
+
+    EventsDAO eventTable;
+    ArrayList<Event> events;
+    EventAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +38,12 @@ public class EventsActivity extends BaseActivity {
         View contentView = inflater.inflate(R.layout.activity_event, null, false);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.addView(contentView, 0);
-
+        eventTable = new EventsDAO(this);
         ImageButton addEvent = findViewById(R.id.addEvent_btn);
         final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
-        final ArrayList<Event> events = validatedUser.Event_List;
+        //events = validatedUser.Event_List;
+        events = eventTable.getAllEvents(validatedUser.getEmail());
         ListView eventList = findViewById(R.id.event_list);
-        final EventAdapter adapter;
         adapter = new EventAdapter(this,R.layout.event_layout,events);
         eventList.setAdapter(adapter);
 
@@ -48,9 +53,20 @@ public class EventsActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent addEvent = new Intent(v.getContext(), AddEventActivity.class);
                 addEvent.putExtra("ValidatedUser", validatedUser);
-                startActivity(addEvent);
+                startActivityForResult(addEvent, 1);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1)
+        {
+            events = eventTable.getAllEvents(validatedUser.getEmail());
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
