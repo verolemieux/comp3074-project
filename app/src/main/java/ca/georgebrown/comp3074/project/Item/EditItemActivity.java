@@ -18,6 +18,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -33,8 +38,13 @@ public class EditItemActivity extends BaseActivity {
     Item editItem;
     User validatedUser;
     ItemsDAO itemTable;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    public final static int QRcodeWidth = 500 ;
     ImageView qrCode;
     ImageView imgItem;
+    Bitmap bitmap;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +72,7 @@ public class EditItemActivity extends BaseActivity {
         if(qrArr != null) {
             Bitmap qrBM = BitmapFactory.decodeByteArray(qrArr, 0, qrArr.length);
             qrCode.setImageBitmap(qrBM);
+            editItem.setItem_QR_Code(qrArr);
         }
 
 
@@ -71,7 +82,10 @@ public class EditItemActivity extends BaseActivity {
         {
             Bitmap itemP = BitmapFactory.decodeByteArray(itemPhoto, 0, itemPhoto.length);
             imgItem.setImageBitmap(itemP);
+            editItem.setItem_Picture(itemPhoto);
         }
+
+
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +110,40 @@ public class EditItemActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    Bitmap TextToImageEncode(String Value) throws WriterException {
+        BitMatrix bitMatrix;
+        try {
+            bitMatrix = new MultiFormatWriter().encode(
+                    Value,
+                    BarcodeFormat.DATA_MATRIX.QR_CODE,
+                    QRcodeWidth, QRcodeWidth, null
+            );
+
+        } catch (IllegalArgumentException Illegalargumentexception) {
+
+            return null;
+        }
+        int bitMatrixWidth = bitMatrix.getWidth();
+
+        int bitMatrixHeight = bitMatrix.getHeight();
+
+        int[] pixels = new int[bitMatrixWidth * bitMatrixHeight];
+
+        for (int y = 0; y < bitMatrixHeight; y++) {
+            int offset = y * bitMatrixWidth;
+
+            for (int x = 0; x < bitMatrixWidth; x++) {
+
+                pixels[offset + x] = bitMatrix.get(x, y) ?
+                        getResources().getColor(R.color.colorAccent):getResources().getColor(R.color.colorPrimary);
+            }
+        }
+        Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);
+
+        bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight);
+        return bitmap;
     }
 
     @Override
