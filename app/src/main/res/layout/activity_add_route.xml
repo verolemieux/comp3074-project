@@ -8,21 +8,6 @@
     tools:context=".Route.AddRouteActivity">
 
     <Button
-        android:id="@+id/btnStop"
-        android:layout_width="151dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginRight="42dp"
-        android:background="@android:color/holo_red_dark"
-        android:text="Stop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnStart"
-        app:layout_constraintTop_toBottomOf="@+id/txtRouteName" />
-
-    <Button
         android:id="@+id/btnAdd"
         android:layout_width="329dp"
         android:layout_height="46dp"
@@ -31,13 +16,15 @@
         android:layout_marginTop="95dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="36dp"
         android:background="@android:color/holo_orange_dark"
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOpenRoute" />
+        app:layout_constraintTop_toBottomOf="@+id/btnOpenRoute"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/txtRouteFrom"
@@ -149,11 +136,13 @@
         android:layout_height="46dp"
         android:layout_marginStart="43dp"
         android:layout_marginLeft="43dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="88dp"
         android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
         android:background="@android:color/darker_gray"
         android:text="Open Route in Maps"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
 
@@ -163,12 +152,75 @@
         android:layout_height="46dp"
         android:layout_marginStart="43dp"
         android:layout_marginLeft="43dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="152dp"
         android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
         android:background="@android:color/holo_green_dark"
         android:text="Start"
         app:layout_constraintEnd_toStartOf="@+id/btnStop"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
+
+    <Button
+        android:id="@+id/btnStop"
+        android:layout_width="151dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginRight="42dp"
+        android:background="@android:color/holo_red_dark"
+        android:text="Stop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/btnStart"
         app:layout_constraintTop_toBottomOf="@+id/txtRouteName" />
+
+
+
+    <Spinner
+        android:id="@+id/spinnerRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toEndOf="@+id/textView21"
+        app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="49dp"
+        android:layout_marginLeft="49dp"
+        android:layout_marginTop="50dp"
+        android:background="#9C27B0"
+        android:text="Rating"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginRight="34dp"
+        android:background="#9C27B0"
+        android:text="Difficulty"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerDifficulty"
+        app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
+
+    <Spinner
+        android:id="@+id/spinnerDifficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="57dp"
+        android:layout_marginRight="57dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnOpenDest" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

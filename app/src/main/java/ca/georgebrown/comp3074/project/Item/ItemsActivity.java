@@ -76,11 +76,13 @@ public class ItemsActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                items = itemTable.getItems(validatedUser.getEmail(), txtItemName.getText().toString());
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -100,11 +102,11 @@ public class ItemsActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1)
         {
-            items = itemTable.getItems(validatedUser.getEmail(),"");
+            items = itemTable.getItems(validatedUser.getEmail(), "");
             adapter.notifyDataSetChanged();
         }
         if(requestCode == 2) {
-            items = itemTable.getItems(validatedUser.getEmail(),"");
+            items = itemTable.getItems(validatedUser.getEmail(), "");
             adapter.notifyDataSetChanged();
         }
         }

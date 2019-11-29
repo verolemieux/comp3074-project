@@ -74,9 +74,9 @@ public class ItemsDAO {
         };
         if(key != "")
         {
-            String selection = ItemsContract.ItemsEntity.COLUMN_NAME_USER_EMAIL_ITEMS + "=? " +
-                    ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_NAME + "CONTAINS '?'";
-            String[] selectionArgs = {email, key};
+            String selection = ItemsContract.ItemsEntity.COLUMN_NAME_USER_EMAIL_ITEMS + "=? AND " +
+                    ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_NAME + " LIKE '%" + key + "%'";
+            String[] selectionArgs = {email};
 
             return db.query(
                     ItemsContract.ItemsEntity.TABLE_NAME_ITEMS,
