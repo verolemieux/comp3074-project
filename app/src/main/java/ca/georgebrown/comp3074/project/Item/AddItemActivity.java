@@ -1,12 +1,16 @@
 package ca.georgebrown.comp3074.project.Item;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -41,7 +45,6 @@ import com.google.zxing.common.BitMatrix;
 
 public class AddItemActivity extends BaseActivity {
 
-    int maxId = 1;
     ImageButton addPhoto;
     ImageView imgItem;
     ImageView imgQRCode;
@@ -53,7 +56,6 @@ public class AddItemActivity extends BaseActivity {
 
     ItemsDAO itemTable;
     Item addItem = new Item(1, "", "");
-    int nextId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +91,7 @@ public class AddItemActivity extends BaseActivity {
 
         addPhoto.setOnClickListener(new View.OnClickListener()
         {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 dispatchTakePictureIntent();
@@ -99,27 +102,37 @@ public class AddItemActivity extends BaseActivity {
             @Override
             public void onClick(View view)
             {
-                try {
-                    bitmap = TextToImageEncode(itemName.getText().toString());
+                if(!itemName.getText().toString().equals("") && !itemName.getText().equals(null)) {
+                    try {
+                        bitmap = TextToImageEncode(itemName.getText().toString());
 
-                    imgQRCode.setImageBitmap(bitmap);
+                        imgQRCode.setImageBitmap(bitmap);
 
-                    ByteArrayOutputStream bosQR = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, bosQR);
-                    byte[] qrArray = bosQR.toByteArray();
+                        ByteArrayOutputStream bosQR = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bosQR);
+                        byte[] qrArray = bosQR.toByteArray();
 
-                    addItem.setItem_QR_Code(qrArray);
-                } catch (WriterException e) {
-                    e.printStackTrace();
+                        addItem.setItem_QR_Code(qrArray);
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void dispatchTakePictureIntent() {
+        final int MY_CAMERA_REQUEST_CODE = 100;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    MY_CAMERA_REQUEST_CODE);
+        }
+        if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);  }
         }
     }
 

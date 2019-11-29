@@ -1,20 +1,26 @@
 package ca.georgebrown.comp3074.project.Item;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +50,8 @@ public class EditItemActivity extends BaseActivity {
     ImageView qrCode;
     ImageView imgItem;
     Bitmap bitmap;
+    ImageButton addQRCode;
+    ImageButton addPhoto;
 
 
     @Override
@@ -67,6 +75,8 @@ public class EditItemActivity extends BaseActivity {
         itemDesc.setText(editItem.getDescription());
         imgItem = findViewById(R.id.imgItem);
         qrCode = findViewById(R.id.imgQrCode);
+        addPhoto = findViewById(R.id.btnAddPhoto);
+        addQRCode = findViewById(R.id.btnAddQRCode);
 
         byte[] qrArr = editItem.getItem_QR_Code();
 
@@ -76,6 +86,15 @@ public class EditItemActivity extends BaseActivity {
             editItem.setItem_QR_Code(qrArr);
         }
 
+        addPhoto.setOnClickListener(new View.OnClickListener()
+        {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+
+                dispatchTakePictureIntent();
+            }
+        });
 
         byte[] itemPhoto = editItem.getItem_Picture();
 
@@ -86,27 +105,48 @@ public class EditItemActivity extends BaseActivity {
             editItem.setItem_Picture(itemPhoto);
         }
 
+        addQRCode.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view)
+            {
+                if(!itemName.getText().toString().equals("") && !itemName.getText().equals(null)) {
+                    try {
+                        bitmap = TextToImageEncode(itemName.getText().toString());
 
+                        qrCode.setImageBitmap(bitmap);
+
+                        ByteArrayOutputStream bosQR = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bosQR);
+                        byte[] qrArray = bosQR.toByteArray();
+
+                        editItem.setItem_QR_Code(qrArray);
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 ///////////////
+                if(!itemName.getText().toString().equals("") && !itemName.getText().equals(null)) {
+                    try {
+                        bitmap = TextToImageEncode(itemName.getText().toString());
 
-                try{
-                bitmap = TextToImageEncode(itemName.getText().toString());
+                        qrCode.setImageBitmap(bitmap);
 
-                qrCode.setImageBitmap(bitmap);
+                        ByteArrayOutputStream bosQR = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bosQR);
+                        byte[] qrArray = bosQR.toByteArray();
 
-                ByteArrayOutputStream bosQR = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, bosQR);
-                byte[] qrArray = bosQR.toByteArray();
-
-                editItem.setItem_QR_Code(qrArray);
-            } catch (WriterException e) {
-                e.printStackTrace();
-            }
+                        editItem.setItem_QR_Code(qrArray);
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 ///////////////////
 
@@ -131,6 +171,37 @@ public class EditItemActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        final int MY_CAMERA_REQUEST_CODE = 100;
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    MY_CAMERA_REQUEST_CODE);
+        }
+        if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);  }
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imgItem.setImageBitmap(imageBitmap);
+
+            ByteArrayOutputStream bosPic = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, bosPic);
+            byte[] picArray = bosPic.toByteArray();
+
+            editItem.setItem_Picture(picArray);
+        }
     }
 
     Bitmap TextToImageEncode(String Value) throws WriterException {
