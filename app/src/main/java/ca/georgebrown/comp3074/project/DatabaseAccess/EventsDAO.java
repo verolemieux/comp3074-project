@@ -30,6 +30,24 @@ public class EventsDAO {
         db.update(EventsContract.EventsEntity.TABLE_NAME_EVENTS, cv, "_id="+event.getEvent_Id()+" and "+
                 EventsContract.EventsEntity.COLUMN_NAME_USER_EMAIL_EVENTS+" = '"+email+"'", null);
     }
+    public long getBPId(long eventId, String email, String key){
+        ArrayList<Event> events = getAllEvents(email, key);
+        for(int x = 0; x<events.size();x++){
+            if(events.get(x).getEvent_Id() == eventId){
+                return events.get(x).getBackpack();
+            }
+        }
+        return -1;
+    }
+    public long getRouteId(long eventId, String email, String key){
+        ArrayList<Event> events = getAllEvents(email, key);
+        for(int x = 0; x<events.size();x++){
+            if(events.get(x).getEvent_Id() == eventId){
+                return events.get(x).getRoute();
+            }
+        }
+        return -1;
+    }
     public long addEvent(String name, String date, String desc, long bp_id, long r_id, String email){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();

@@ -32,7 +32,7 @@ public class Backpack implements Serializable{
         return Backpack_Id;
     }
 
-    public void setBackpack_Id(int backpack_Id) {
+    public void setBackpack_Id(long backpack_Id) {
         Backpack_Id = backpack_Id;
     }
 

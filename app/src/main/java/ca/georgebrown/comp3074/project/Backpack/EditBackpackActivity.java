@@ -55,14 +55,18 @@ public class EditBackpackActivity extends AppCompatActivity {
         bp_name = findViewById(R.id.txtBPName);
         save_btn = findViewById(R.id.saveBtn);
         delete_btn = findViewById(R.id.deleteBtn);
+        edit_button = findViewById(R.id.btn_AddQR);
 
+
+        items_added = new ArrayList<>();
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         selected_bp = (Backpack)getIntent().getSerializableExtra("BP");
         bp_name.setText(selected_bp.getBackpack_Name());
+        final String originText = bp_name.getText().toString();
         items = itemsDAO.getItems(validatedUser.getEmail(), "");
         final ListView total_item_list = findViewById(R.id.item_list);
         final ListView selected_item_list = findViewById(R.id.selected_item_list);
-        final ArrayList<Item> selected_items = itemsDAO.getBPItems(selected_bp.getBackpack_Id(),validatedUser.getEmail());
+        final ArrayList<Item> selected_items = itemBPDAO.getItemsFromBP(selected_bp.getBackpack_Id(), validatedUser.getEmail());//itemsDAO.getBPItems(selected_bp.getBackpack_Id(),validatedUser.getEmail());
         itemAdapter = new ItemAdapter(this,R.layout.item_layout,items);
         itemAdapter2 = new ItemAdapter(this,R.layout.item_layout, selected_items);
         total_item_list.setAdapter(itemAdapter);
@@ -112,6 +116,7 @@ public class EditBackpackActivity extends AppCompatActivity {
                 Item delete_item = (Item)parent.getItemAtPosition(i);
                 for(int x = 0; x<selected_items.size();x++){
                     if(selected_items.get(x).getItem_Name().equals(delete_item.getItem_Name())){
+                        itemBPDAO.deleteItemToBP(selected_bp.getBackpack_Id(), selected_items.get(x).getItem_Id(), validatedUser.getEmail());
                         selected_items.remove(x);
                     }
                 }
@@ -131,7 +136,7 @@ public class EditBackpackActivity extends AppCompatActivity {
                 }
                 if (bp_name.getText().toString().equals("")) {
                     error_msg.setText("Backpack name cannot be empty");
-                } else if (name_exists /*&& !originText.equals(bp_name.getText().toString()*/) {
+                } else if (name_exists && !originText.equals(bp_name.getText().toString())) {
                     error_msg.setText("Backpack name already exists!");
                 } else {
                     selected_bp.setBackpack_Name(bp_name.getText().toString());
@@ -155,6 +160,7 @@ public class EditBackpackActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 bpdao.deleteBP(selected_bp, validatedUser.getEmail());
+                itemBPDAO.deleteBP(selected_bp.getBackpack_Id(), validatedUser.getEmail());
                 Intent returnIntent = new Intent(view.getContext(), BackpacksActivity.class);
                 returnIntent.putExtra("ValidatedUser", validatedUser);
                 setResult(2,returnIntent);

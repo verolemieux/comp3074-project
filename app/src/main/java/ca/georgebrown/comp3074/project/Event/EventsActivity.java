@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.georgebrown.comp3074.project.Backpack.EditBackpackActivity;
+
 import ca.georgebrown.comp3074.project.DatabaseAccess.EventsDAO;
 import ca.georgebrown.comp3074.project.HomeActivity;
 import ca.georgebrown.comp3074.project.BaseActivity;
@@ -34,6 +35,9 @@ public class EventsActivity extends BaseActivity {
     ArrayList<Event> userEvents;
     EventAdapter adapter;
     EditText txtEventName;
+
+    EventsDAO eventTable;
+    ArrayList<Event> events;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,7 @@ public class EventsActivity extends BaseActivity {
         validatedUser.Event_List = userEvents;
         ListView eventList = findViewById(R.id.event_list);
         adapter = new EventAdapter(this,R.layout.event_layout,userEvents);
+
         eventList.setAdapter(adapter);
 
         addEvent.setOnClickListener(new View.OnClickListener()
@@ -112,6 +117,7 @@ public class EventsActivity extends BaseActivity {
             adapter.notifyDataSetChanged();
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
