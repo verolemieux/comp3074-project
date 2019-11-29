@@ -11,20 +11,18 @@
         android:id="@+id/btnAdd"
         android:layout_width="329dp"
         android:layout_height="46dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="95dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="34dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="80dp"
         android:background="@android:color/holo_orange_dark"
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOpenRoute"
-        app:layout_constraintVertical_bias="0.122" />
+        app:layout_constraintTop_toBottomOf="@+id/btnOpenRoute" />
 
     <EditText
         android:id="@+id/txtRouteFrom"
@@ -42,7 +40,7 @@
         android:padding="10sp"
         app:layout_constraintEnd_toStartOf="@+id/btnOpenOrigin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRouteName" />
+        app:layout_constraintTop_toBottomOf="@+id/btnStop" />
 
     <EditText
         android:id="@+id/txtRouteTo"
@@ -76,7 +74,7 @@
         android:tint="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtRouteFrom"
-        app:layout_constraintTop_toBottomOf="@+id/txtRouteName" />
+        app:layout_constraintTop_toBottomOf="@+id/btnStop" />
 
     <ImageButton
         android:id="@+id/btnOpenDest"
@@ -134,17 +132,16 @@
         android:id="@+id/btnOpenRoute"
         android:layout_width="326dp"
         android:layout_height="46dp"
-        android:layout_marginStart="43dp"
-        android:layout_marginLeft="43dp"
-        android:layout_marginTop="88dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginRight="44dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="43dp"
+        android:layout_marginRight="43dp"
         android:background="@android:color/darker_gray"
         android:text="Open Route in Maps"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerRating" />
 
     <Button
         android:id="@+id/btnStart"
@@ -152,15 +149,14 @@
         android:layout_height="46dp"
         android:layout_marginStart="43dp"
         android:layout_marginLeft="43dp"
-        android:layout_marginTop="152dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
         android:background="@android:color/holo_green_dark"
         android:text="Start"
         app:layout_constraintEnd_toStartOf="@+id/btnStop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
-
+        app:layout_constraintTop_toBottomOf="@+id/txtRouteName" />
 
     <Button
         android:id="@+id/btnStop"
@@ -168,23 +164,26 @@
         android:layout_height="46dp"
         android:layout_marginStart="25dp"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="276dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="42dp"
         android:layout_marginRight="42dp"
         android:background="@android:color/holo_red_dark"
         android:text="Stop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/btnStart"
         app:layout_constraintTop_toBottomOf="@+id/txtRouteName" />
+
 
     <Spinner
         android:id="@+id/spinnerRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginRight="27dp"
         android:background="@android:drawable/btn_dropdown"
+        app:layout_constraintEnd_toStartOf="@+id/textView22"
         app:layout_constraintStart_toEndOf="@+id/textView21"
         app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
 
@@ -192,11 +191,16 @@
         android:id="@+id/textView21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="49dp"
-        android:layout_marginLeft="49dp"
-        android:layout_marginTop="50dp"
-        android:background="#9C27B0"
+        android:layout_marginStart="43dp"
+        android:layout_marginLeft="43dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#EE0D0442"
         android:text="Rating"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerRating"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
 
@@ -204,11 +208,13 @@
         android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
-        android:background="#9C27B0"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:background="#EE0D0442"
         android:text="Difficulty"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/spinnerDifficulty"
         app:layout_constraintTop_toBottomOf="@+id/txtRouteTo" />
 
@@ -216,9 +222,9 @@
         android:id="@+id/spinnerDifficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginRight="44dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
         android:background="@android:drawable/btn_dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnOpenDest" />

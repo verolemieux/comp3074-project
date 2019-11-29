@@ -11,18 +11,17 @@
         android:id="@+id/txtSearchBackpacks2"
         android:layout_width="326dp"
         android:layout_height="46dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="43dp"
+        android:layout_marginRight="43dp"
         android:background="@android:color/white"
         android:ems="10"
         android:hint="Search"
         android:inputType="textPersonName"
         android:padding="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
@@ -61,17 +60,17 @@
 
     <ListView
         android:id="@+id/route_list"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="85dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
+        android:layout_width="326dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="43dp"
+        android:layout_marginRight="43dp"
         app:layout_constraintBottom_toTopOf="@+id/btnAddRoute"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSearchBackpacks2" />
+        app:layout_constraintTop_toBottomOf="@+id/txtSearchBackpacks2"
+        app:layout_constraintVertical_bias="0.044" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
