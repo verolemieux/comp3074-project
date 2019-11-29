@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -131,35 +132,40 @@ public class EditItemActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                ///////////////
-                if(!itemName.getText().toString().equals("") && !itemName.getText().equals(null)) {
-                    try {
-                        bitmap = TextToImageEncode(itemName.getText().toString());
 
-                        qrCode.setImageBitmap(bitmap);
+                if (itemName.getText().toString().equals("")) {
+                    Toast.makeText(EditItemActivity.this, "Item name cannot be blank", Toast.LENGTH_SHORT).show();
+                } else {
+                    ///////////////
+                    if (!itemName.getText().toString().equals("") && !itemName.getText().equals(null)) {
+                        try {
+                            bitmap = TextToImageEncode(itemName.getText().toString());
 
-                        ByteArrayOutputStream bosQR = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bosQR);
-                        byte[] qrArray = bosQR.toByteArray();
+                            qrCode.setImageBitmap(bitmap);
 
-                        editItem.setItem_QR_Code(qrArray);
-                    } catch (WriterException e) {
-                        e.printStackTrace();
+                            ByteArrayOutputStream bosQR = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bosQR);
+                            byte[] qrArray = bosQR.toByteArray();
+
+                            editItem.setItem_QR_Code(qrArray);
+                        } catch (WriterException e) {
+                            e.printStackTrace();
+                        }
                     }
+
+                    ///////////////////
+
+
+                    editItem.setItem_Name(itemName.getText().toString());
+                    editItem.setDescription(itemDesc.getText().toString());
+                    Intent itemIntent = new Intent(v.getContext(), ItemsActivity.class);
+                    itemIntent.putExtra("ValidatedUser", validatedUser);
+                    itemTable.editItem(editItem, validatedUser, editItem.getItem_Id());
+                    setResult(2, itemIntent);
+                    finish();
                 }
-
-                ///////////////////
-
-
-                editItem.setItem_Name(itemName.getText().toString());
-                editItem.setDescription(itemDesc.getText().toString());
-                Intent itemIntent = new Intent(v.getContext(), ItemsActivity.class);
-                itemIntent.putExtra("ValidatedUser", validatedUser);
-                itemTable.editItem(editItem, validatedUser, editItem.getItem_Id());
-                setResult(2, itemIntent);
-                finish();
-            }
-        });
+                }
+            });
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -32,6 +32,7 @@ import android.graphics.Bitmap;
 import android.provider.MediaStore;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.zxing.WriterException;
 
@@ -81,11 +82,19 @@ public class AddItemActivity extends BaseActivity {
                 Intent addItemIntent = new Intent(view.getContext(), ItemsActivity.class);
                 addItemIntent.putExtra("ValidatedUser", validatedUser);
 
-                addItem.setItem_Name(itemName.getText().toString());
-                addItem.setDescription(itemDesc.getText().toString());
-                itemTable.addItem(addItem, validatedUser);
-                setResult(1, addItemIntent);
-                finish();
+                if(itemName.getText().toString().equals(""))
+                {
+                    Toast.makeText(AddItemActivity.this, "Item name cannot be blank", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    addItem.setItem_Name(itemName.getText().toString());
+                    addItem.setDescription(itemDesc.getText().toString());
+                    itemTable.addItem(addItem, validatedUser);
+                    setResult(1, addItemIntent);
+                    finish();
+                }
+
             }
         });
 
