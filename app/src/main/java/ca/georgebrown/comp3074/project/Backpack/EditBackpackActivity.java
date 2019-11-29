@@ -22,6 +22,7 @@ import ca.georgebrown.comp3074.project.DatabaseAccess.BPDAO;
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
 import ca.georgebrown.comp3074.project.Item.Item;
 import ca.georgebrown.comp3074.project.Item.ItemAdapter;
+import ca.georgebrown.comp3074.project.QRCode.QRCode;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
@@ -35,6 +36,7 @@ public class EditBackpackActivity extends AppCompatActivity {
     ItemAdapter itemAdapter2;
     Button save_btn;
     Button delete_btn;
+    Button edit_button;
     Backpack selected_bp;
     TextView error_msg;
 
@@ -103,6 +105,14 @@ public class EditBackpackActivity extends AppCompatActivity {
                     }
                 }
                 itemAdapter2.notifyDataSetChanged();
+            }
+        });
+        edit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent return_event = new Intent(v.getContext(), QRCode.class);
+                return_event.putExtra("ValidatedUser", validatedUser);
+                startActivity(return_event);
             }
         });
         save_btn.setOnClickListener(new View.OnClickListener() {
