@@ -179,9 +179,13 @@ public class AddRouteActivity extends BaseActivity {
                 String routeName = routeNameTxt.getText().toString();
                 String originAddress = routeOriginTxt.getText().toString();
                 String destinationAddress = routeDestinationTxt.getText().toString();
+                int rating = Integer.parseInt(ratingSpinner.getSelectedItem().toString());
+                int difficulty = Integer.parseInt(difficultySpinner.getSelectedItem().toString());
                 newR.setRoute_Name(routeName);
                 newR.setRoute_Start_Location(originAddress);
                 newR.setRoute_End_Location(destinationAddress);
+                newR.setRoute_Difficulty(difficulty);
+                newR.setRoute_Rating(rating);
                 routeTable.addRoute(newR, validatedUser);
                 setResult(1, addRIntent);
                 finish();
