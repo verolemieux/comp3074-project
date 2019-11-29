@@ -118,4 +118,15 @@
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/error_editbp"
+        android:layout_width="93dp"
+        android:layout_height="29dp"
+        android:text="hdjd"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#FDF00404"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="174dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

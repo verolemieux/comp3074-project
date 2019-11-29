@@ -28,10 +28,7 @@ public class EventsActivity extends BaseActivity {
     EventsDAO eventsDAO;
     ArrayList<Event> userEvents;
     EventAdapter adapter;
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

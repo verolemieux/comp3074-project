@@ -29,6 +29,15 @@ public class BPDAO {
         cv.put(BPContract.BPEntity.COLUMN_USER_EMAIL, email);
         return db.insert(BPContract.BPEntity.TABLE_NAME_BP, null, cv);
     }
+    public void updateBP(Backpack bp, String email){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(BPContract.BPEntity.COLUMN_NAME_BP_NAME, bp.getBackpack_Name());
+        cv.put(BPContract.BPEntity.COLUMN_NAME_NUM_ITEMS, bp.getItem_List().size());
+        cv.put(BPContract.BPEntity.COLUMN_NAME_CREATED, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        cv.put(BPContract.BPEntity.COLUMN_USER_EMAIL, email);
+        db.update(BPContract.BPEntity.TABLE_NAME_BP,cv,"_id="+bp.getBackpack_Id()+" and " + BPContract.BPEntity.COLUMN_USER_EMAIL+ " = '"+email+"'", null);
+    }
     public void deleteBP(Backpack bp,String email ){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
