@@ -219,7 +219,7 @@ public class AddItemActivity extends BaseActivity {
             for (int x = 0; x < bitMatrixWidth; x++) {
 
                 pixels[offset + x] = bitMatrix.get(x, y) ?
-                        getResources().getColor(R.color.colorAccent):getResources().getColor(R.color.colorPrimary);
+                        getResources().getColor(R.color.black):getResources().getColor(R.color.white);
             }
         }
         Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);
