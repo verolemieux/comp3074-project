@@ -86,6 +86,7 @@
         <activity android:name=".Item.ItemsActivity" />
         <activity android:name=".Backpack.AddBackpackActivity" />
         <activity android:name=".Backpack.BackpacksActivity" />
+        <activity android:name=".QRCode.QRCode"/>
     </application>
 
 </manifest>
