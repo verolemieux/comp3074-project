@@ -1,10 +1,15 @@
 package ca.georgebrown.comp3074.project.Backpack;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,6 +23,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import ca.georgebrown.comp3074.project.BaseActivity;
 import ca.georgebrown.comp3074.project.DatabaseAccess.BPDAO;
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemBPDAO;
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
@@ -27,7 +33,7 @@ import ca.georgebrown.comp3074.project.QRCode.QRCode;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
-public class EditBackpackActivity extends AppCompatActivity {
+public class EditBackpackActivity extends BaseActivity {
     BPDAO bpdao;
     ItemsDAO itemsDAO;
     TextView bp_name;
@@ -46,7 +52,11 @@ public class EditBackpackActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_backpack);
+
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        @SuppressLint("InflateParams")
+        View contentView = inflater.inflate(R.layout.activity_edit_backpack, null, false);
+        drawer.addView(contentView, 0);
 
         bpdao = new BPDAO(this);
         itemBPDAO = new ItemBPDAO(this);
@@ -78,14 +88,14 @@ public class EditBackpackActivity extends AppCompatActivity {
             /*View tv = getViewByPosition(i,selected_item_list);
             tv.setBackgroundColor(Color.GREEN);*/
         }
-        edit_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent return_event = new Intent(v.getContext(), QRCode.class);
-                return_event.putExtra("ValidatedUser", validatedUser);
-                startActivity(return_event);
-            }
-        });
+//        edit_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent return_event = new Intent(v.getContext(), QRCode.class);
+//                return_event.putExtra("ValidatedUser", validatedUser);
+//                startActivity(return_event);
+//            }
+//        });
 
         total_item_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -131,7 +141,8 @@ public class EditBackpackActivity extends AppCompatActivity {
                 }
                 if (bp_name.getText().toString().equals("")) {
                     error_msg.setText("Backpack name cannot be empty");
-                } else if (name_exists && !originText.equals(bp_name.getText().toString())) {
+                } else if (name_exists) {
+                    //&& !originText.equals(bp_name.getText().toString())
                     error_msg.setText("Backpack name already exists!");
                 } else {
                     selected_bp.setBackpack_Name(bp_name.getText().toString());
@@ -186,5 +197,10 @@ public class EditBackpackActivity extends AppCompatActivity {
             final int childIndex = pos - firstListItemPosition;
             return listView.getChildAt(childIndex);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }
