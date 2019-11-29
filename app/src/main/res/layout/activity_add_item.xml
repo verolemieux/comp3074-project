@@ -11,6 +11,21 @@
         android:layout_height="match_parent"
         android:background="#EE0D0442">
 
+        <Button
+            android:id="@+id/btnExport"
+            android:layout_width="329dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="42dp"
+            android:layout_marginLeft="42dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@android:color/darker_gray"
+            android:text="Export QR Code"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgQrCode" />
+
         <ImageView
             android:id="@+id/imgQrCode"
             android:layout_width="191dp"
@@ -38,24 +53,23 @@
             android:text="Add"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgQrCode" />
+            app:layout_constraintTop_toBottomOf="@+id/btnExport" />
 
         <EditText
             android:id="@+id/txtItemDescription"
             android:layout_width="326dp"
             android:layout_height="46dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginStart="43dp"
+            android:layout_marginLeft="43dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="42dp"
+            android:layout_marginRight="42dp"
             android:background="@android:color/white"
             android:ems="10"
             android:hint="Item Description"
             android:inputType="textPersonName"
             android:padding="10sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtItemName" />
 
@@ -80,18 +94,17 @@
             android:id="@+id/txtItemName"
             android:layout_width="326dp"
             android:layout_height="46dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="76dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginStart="43dp"
+            android:layout_marginLeft="43dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="42dp"
+            android:layout_marginRight="42dp"
             android:background="@android:color/white"
             android:ems="10"
             android:hint="Item Name"
             android:inputType="textPersonName"
             android:padding="10sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
