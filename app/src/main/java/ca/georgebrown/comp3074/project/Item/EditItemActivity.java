@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -32,6 +33,7 @@ import com.google.zxing.common.BitMatrix;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Array;
+import java.net.URI;
 import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
@@ -53,7 +55,7 @@ public class EditItemActivity extends BaseActivity {
     Bitmap bitmap;
     ImageButton addQRCode;
     ImageButton addPhoto;
-
+    Bitmap qrBM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +81,10 @@ public class EditItemActivity extends BaseActivity {
         addPhoto = findViewById(R.id.btnAddPhoto);
         addQRCode = findViewById(R.id.btnAddQRCode);
 
-        byte[] qrArr = editItem.getItem_QR_Code();
+        final byte[] qrArr = editItem.getItem_QR_Code();
 
         if(qrArr != null) {
-            Bitmap qrBM = BitmapFactory.decodeByteArray(qrArr, 0, qrArr.length);
+            qrBM = BitmapFactory.decodeByteArray(qrArr, 0, qrArr.length);
             qrCode.setImageBitmap(qrBM);
             editItem.setItem_QR_Code(qrArr);
         }
@@ -110,7 +112,7 @@ public class EditItemActivity extends BaseActivity {
             @Override
             public void onClick(View view)
             {
-                if(!itemName.getText().toString().equals("") && !itemName.getText().equals(null)) {
+                /*if(!itemName.getText().toString().equals("") && !itemName.getText().equals(null)) {
                     try {
                         bitmap = TextToImageEncode(itemName.getText().toString());
 
@@ -124,7 +126,21 @@ public class EditItemActivity extends BaseActivity {
                     } catch (WriterException e) {
                         e.printStackTrace();
                     }
+                }*/
+
+
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("application/image");
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"thibeau.jeremy@gmail.com"});
+                i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
+                i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+                i.putExtra(Intent.EXTRA_STREAM, Uri.parse(String.valueOf(qrBM)));
+                try {
+                    startActivity(Intent.createChooser(i, "Send mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(EditItemActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
