@@ -29,7 +29,11 @@ public class ItemsDAO {
         //dbHelper.getWritableDatabase().execSQL(ItemsContract.ItemsEntity.SQL_CREATE_ITEMS);
     }
 
+<<<<<<< Updated upstream
     public ArrayList<Item> getItemDetails(long id, String email) {
+=======
+    public Item getItemDetails(long id, String email) {
+>>>>>>> Stashed changes
         c = getAllItems(email);
         Item i = null;
         ArrayList<Item> items = new ArrayList<>();
@@ -52,11 +56,19 @@ public class ItemsDAO {
                 if (itemPhoto != null) {
                     i.setItem_Picture(itemPhoto);
                 }
+<<<<<<< Updated upstream
                 items.add(i);
             }
         }
         c.close();
         return items;
+=======
+                return i;
+            }
+        }
+        c.close();
+        return i;
+>>>>>>> Stashed changes
     }
 
     public ArrayList<Item> getItems(String email)

@@ -12,7 +12,11 @@ public class Route implements Serializable {
     private String Route_Content;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     public Route (int id, String name, float length, int rating, int difficulty, String content)
+=======
+    public Route (long id, String name, float length, int rating, int difficulty, String start_loc, String end_loc)
+>>>>>>> Stashed changes
 =======
     public Route (long id, String name, float length, int rating, int difficulty, String start_loc, String end_loc)
 >>>>>>> Stashed changes
@@ -23,8 +27,11 @@ public class Route implements Serializable {
         Route_Rating = rating;
         Route_Difficulty = difficulty;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         Route_Content = content;
 =======
+=======
+>>>>>>> Stashed changes
         Route_Start_Location = start_loc;
         Route_End_Location = end_loc;
         //Route_Content = content;
