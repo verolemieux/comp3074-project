@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.BaseActivity;
 import ca.georgebrown.comp3074.project.DatabaseAccess.BPDAO;
+import ca.georgebrown.comp3074.project.DatabaseAccess.ItemBPDAO;
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
 import ca.georgebrown.comp3074.project.Item.AddItemActivity;
 import ca.georgebrown.comp3074.project.Item.Item;
@@ -36,6 +37,8 @@ public class AddBackpackActivity extends BaseActivity {
     ArrayList<Backpack> userBackpacks;
     ArrayList<Item> items;
     ItemAdapter adapter;
+    ItemBPDAO itemBPDAO;
+
     ItemsDAO itemsDAO;
     Button addItem;
     BPDAO bpdao;
@@ -54,6 +57,7 @@ public class AddBackpackActivity extends BaseActivity {
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        itemBPDAO = new ItemBPDAO(this);
         bpdao = new BPDAO(this);
         itemsDAO = new ItemsDAO(this);
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
@@ -94,7 +98,8 @@ public class AddBackpackActivity extends BaseActivity {
                     Intent addBackpackIntent = new Intent(v.getContext(), BackpacksActivity.class);
                     bp.setItem_List(selected_items);
                     for(int x = 0; x<selected_items.size();x++){
-                        itemsDAO.addToBP(selected_items.get(x), bpId, validatedUser.getEmail());
+                        itemBPDAO.addItemToBP(bpId,selected_items.get(x).getItem_Id(),validatedUser.getEmail());
+                        //itemsDAO.addToBP(selected_items.get(x), bpId, validatedUser.getEmail());
                     }
                     //addBackpackIntent.putExtra("Items_Selected", selected_items);
                     addBackpackIntent.putExtra("NewBP", bp);

@@ -4,27 +4,37 @@ import java.io.Serializable;
 
 public class Route implements Serializable {
 
-    private int Route_Id;
+    private long Route_Id;
     private String Route_Name;
     private float Route_Length;
     private int Route_Rating;
     private int Route_Difficulty;
     private String Route_Content;
 
+<<<<<<< Updated upstream
     public Route (int id, String name, float length, int rating, int difficulty, String content)
+=======
+    public Route (long id, String name, float length, int rating, int difficulty, String start_loc, String end_loc)
+>>>>>>> Stashed changes
     {
         Route_Id = id;
         Route_Name = name;
         Route_Length = length;
         Route_Rating = rating;
         Route_Difficulty = difficulty;
+<<<<<<< Updated upstream
         Route_Content = content;
+=======
+        Route_Start_Location = start_loc;
+        Route_End_Location = end_loc;
+        //Route_Content = content;
+>>>>>>> Stashed changes
     }
-    public int getRoute_Id() {
+    public long getRoute_Id() {
         return Route_Id;
     }
 
-    public void setRoute_Id(int route_Id) {
+    public void setRoute_Id(long route_Id) {
         Route_Id = route_Id;
     }
 

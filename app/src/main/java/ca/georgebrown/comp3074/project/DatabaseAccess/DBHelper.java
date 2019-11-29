@@ -21,12 +21,13 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(ItemsContract.ItemsEntity.SQL_CREATE_ITEMS);
         db.execSQL(UsersContract.UsersEntity.SQL_CREATE_USERS);
         db.execSQL(BPContract.BPEntity.SQL_CREATE_BP);
+        db.execSQL(ItemBPContract.ItempBPEntity.SQL_CREATE_ITEM_BACKPACK);
         db.execSQL(EventsContract.EventsEntity.SQL_CREATE_EVENTS);
         //db.execSQL(DBContract.DBEntity.SQL_CREATE_ITEMS);
         //db.execSQL(DBContract.DBEntity.SQL_CREATE_USERS);
         db.execSQL(DBContract.DBEntity.SQL_CREATE_ROUTES);
         //db.execSQL(DBContract.DBEntity.SQL_CREATE_BACKPACK);
-        db.execSQL(DBContract.DBEntity.SQL_CREATE_ITEM_BACKPACK);
+        //db.execSQL(DBContract.DBEntity.SQL_CREATE_ITEM_BACKPACK);
         //db.execSQL(DBContract.DBEntity.SQL_CREATE_EVENTS);
     }
 

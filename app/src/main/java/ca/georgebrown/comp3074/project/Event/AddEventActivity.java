@@ -23,12 +23,17 @@ import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.Backpack.Backpack;
 import ca.georgebrown.comp3074.project.BaseActivity;
+import ca.georgebrown.comp3074.project.DatabaseAccess.BPDAO;
+import ca.georgebrown.comp3074.project.DatabaseAccess.EventsDAO;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.Route.Route;
 import ca.georgebrown.comp3074.project.User.User;
 
 public class AddEventActivity extends BaseActivity {
     ArrayList<Event> events;
+    BPDAO bpdao;
+    EventsDAO eventDao;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +45,10 @@ public class AddEventActivity extends BaseActivity {
         drawer.addView(contentView, 0);
 
         //POPULATING SPINNERS
+        eventDao = new EventsDAO(this);
+        bpdao = new BPDAO(this);
         final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
-        final ArrayList<Backpack> backpacks = validatedUser.Backpack_List;
+        final ArrayList<Backpack> backpacks = bpdao.getAllBP(validatedUser.getEmail());
         final ArrayList<Route> routes = validatedUser.Route_List;
         events = validatedUser.Event_List;
         final Spinner backpack_spinner = (Spinner) findViewById(R.id.backpack_spinner);
@@ -64,15 +71,23 @@ public class AddEventActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if(!event_name.getText().toString().equals("")&&!event_date.getText().toString().equals("")&&!event_desc.getText().toString().equals("")){
-                    int lastId = events.get(events.size()-1).getEvent_Id();
-                    lastId++;
                     Backpack backpack = validatedUser.getBackpack(backpack_spinner.getSelectedItem().toString());
-                    Route route = validatedUser.getRoute(route_spinner.getSelectedItem().toString());
+                    Route route =  new Route(1,"Route 1", 5, 4, 4, "1346 Danforth Road", "160 Kendal avenue");//validatedUser.getRoute(route_spinner.getSelectedItem().toString());
+                    long lastId = eventDao.addEvent(event_name.getText().toString(),
+                                          event_date.getText().toString(),
+                                          event_desc.getText().toString(),
+                                          backpack.getBackpack_Id(),
+                                          route.getRoute_Id(),
+                                          validatedUser.getEmail()
+                                         );
+
                     Event event = new Event(lastId,event_name.getText().toString(),event_date.getText().toString(),event_desc.getText().toString(),backpack.getBackpack_Id(),route.getRoute_Id());
                     validatedUser.Event_List.add(event);
                     Intent return_event = new Intent(view.getContext(), EventsActivity.class);
                     return_event.putExtra("ValidatedUser", validatedUser);
-                    startActivity(return_event);
+                    return_event.putExtra("NewEvent", event);
+                    setResult(1,return_event);
+                    finish();
                 }else {
                     if (event_name.getText().toString().equals("")) {
                         error_label.setText("Please add a name");

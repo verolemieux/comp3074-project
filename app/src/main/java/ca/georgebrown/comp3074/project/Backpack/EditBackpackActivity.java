@@ -12,12 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.DatabaseAccess.BPDAO;
+import ca.georgebrown.comp3074.project.DatabaseAccess.ItemBPDAO;
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
 import ca.georgebrown.comp3074.project.Item.Item;
 import ca.georgebrown.comp3074.project.Item.ItemAdapter;
@@ -35,6 +37,10 @@ public class EditBackpackActivity extends AppCompatActivity {
     Button save_btn;
     Button delete_btn;
     Backpack selected_bp;
+    TextView error_msg;
+    ItemBPDAO itemBPDAO;
+
+    ArrayList<Item> items_added;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +49,22 @@ public class EditBackpackActivity extends AppCompatActivity {
 
         bpdao = new BPDAO(this);
         itemsDAO = new ItemsDAO(this);
+        itemBPDAO = new ItemBPDAO(this);
+        error_msg = findViewById(R.id.error_editbp);
         bp_name = findViewById(R.id.txtBPName);
         save_btn = findViewById(R.id.saveBtn);
         delete_btn = findViewById(R.id.deleteBtn);
 
+
+        items_added = new ArrayList<>();
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         selected_bp = (Backpack)getIntent().getSerializableExtra("BP");
         bp_name.setText(selected_bp.getBackpack_Name());
+        final String originText = bp_name.getText().toString();
         items = itemsDAO.getItems(validatedUser.getEmail());
         final ListView total_item_list = findViewById(R.id.item_list);
         final ListView selected_item_list = findViewById(R.id.selected_item_list);
-        final ArrayList<Item> selected_items = itemsDAO.getBPItems(selected_bp.getBackpack_Id(),validatedUser.getEmail());
+        final ArrayList<Item> selected_items =  itemBPDAO.getItemsFromBP(selected_bp.getBackpack_Id(), validatedUser.getEmail());//itemsDAO.getBPItems(selected_bp.getBackpack_Id(),validatedUser.getEmail());
         itemAdapter = new ItemAdapter(this,R.layout.item_layout,items);
         itemAdapter2 = new ItemAdapter(this,R.layout.item_layout, selected_items);
         total_item_list.setAdapter(itemAdapter);
@@ -73,9 +84,20 @@ public class EditBackpackActivity extends AppCompatActivity {
         total_item_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-                Item new_item = (Item)parent.getItemAtPosition(i);
-                selected_items.add(new_item);
-                itemAdapter2.notifyDataSetChanged();
+                Item new_item = (Item) parent.getItemAtPosition(i);
+                boolean exists = false;
+                for(int x = 0; x<selected_items.size();x++){
+                    if(new_item.getItem_Name().equals(selected_items.get(x).getItem_Name())){
+                        exists = true;
+                    }
+                }
+                if(exists){
+                    Toast.makeText(EditBackpackActivity.this, "Item already exists in backpack", Toast.LENGTH_SHORT).show();
+                }else {
+                    selected_items.add(new_item);
+                    itemAdapter2.notifyDataSetChanged();
+                    items_added.add(new_item);
+                }
             }
         });
         selected_item_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,8 +116,28 @@ public class EditBackpackActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 itemsDAO.removeAllItemsFromBP(validatedUser.getEmail());
-                for(int x = 0; x<selected_items.size();x++){
-                    itemsDAO.addToBP(selected_items.get(x), selected_bp.getBackpack_Id(), validatedUser.getEmail());
+                ArrayList<Backpack> backpacks = bpdao.getAllBP(validatedUser.getEmail());
+                boolean name_exists = false;
+                for (int x = 0; x < backpacks.size(); x++) {
+                    if (backpacks.get(x).getBackpack_Name().equals(bp_name.getText().toString())) {
+                        name_exists = true;
+                    }
+                }
+                if (bp_name.getText().toString().equals("")) {
+                    error_msg.setText("Backpack name cannot be empty");
+                } else if (name_exists && !originText.equals(bp_name.getText().toString())) {
+                    error_msg.setText("Backpack name already exists!");
+                } else {
+                    selected_bp.setBackpack_Name(bp_name.getText().toString());
+                    bpdao.updateBP(selected_bp, validatedUser.getEmail());
+                    for (int x = 0; x < items_added.size(); x++) {
+                        itemBPDAO.addItemToBP(selected_bp.getBackpack_Id(),items_added.get(x).getItem_Id(),validatedUser.getEmail());
+                        //itemsDAO.addToBP(selected_items.get(x), selected_bp.getBackpack_Id(), validatedUser.getEmail());
+                    }
+                    Intent returnIntent = new Intent(view.getContext(), BackpacksActivity.class);
+                    returnIntent.putExtra("ValidatedUser", validatedUser);
+                    setResult(2, returnIntent);
+                    finish();
                 }
                 Intent returnIntent = new Intent(view.getContext(), BackpacksActivity.class);
                 returnIntent.putExtra("ValidatedUser", validatedUser);

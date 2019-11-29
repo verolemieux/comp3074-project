@@ -29,6 +29,36 @@ public class ItemsDAO {
         //dbHelper.getWritableDatabase().execSQL(ItemsContract.ItemsEntity.SQL_CREATE_ITEMS);
     }
 
+    public ArrayList<Item> getItemDetails(long id, String email) {
+        c = getAllItems(email);
+        Item i = null;
+        ArrayList<Item> items = new ArrayList<>();
+        while (c.moveToNext()) {
+            int item_Id = c.getInt(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity._ID));
+            if (item_Id == id) {
+                i = new Item(c.getInt(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity._ID))
+                        , c.getString(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_NAME))
+                        , c.getString(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_DESCRIPTION)));
+                // , c.getString(c.getColumnIndexOrThrow(DBContract.DBEntity.COLUMN_NAME_ITEM_PICTURE))
+                // , c.getString(c.getColumnIndexOrThrow(DBContract.DBEntity.COLUMN_NAME_ITEM_CODE)));
+                byte[] itemPhoto = c.getBlob(c.getColumnIndex(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_PICTURE));
+                byte[] qrCode = c.getBlob(c.getColumnIndex(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_CODE));
+                if (qrCode != null) {
+                    Log.d("a", "success");
+                    //Bitmap qrBM = BitmapFactory.decodeByteArray(qrCode, 0, qrCode.length);
+                    i.setItem_QR_Code(qrCode);
+                }
+
+                if (itemPhoto != null) {
+                    i.setItem_Picture(itemPhoto);
+                }
+                items.add(i);
+            }
+        }
+        c.close();
+        return items;
+    }
+
     public ArrayList<Item> getItems(String email)
     {
 
@@ -36,7 +66,7 @@ public class ItemsDAO {
         ItemList.clear();
         while(c.moveToNext())
         {
-            Item i = new Item(c.getInt(c.getColumnIndexOrThrow(DBContract.DBEntity._ID))
+            Item i = new Item(c.getInt(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity._ID))
             , c.getString(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_NAME))
              , c.getString(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_DESCRIPTION)));
             // , c.getString(c.getColumnIndexOrThrow(DBContract.DBEntity.COLUMN_NAME_ITEM_PICTURE))
