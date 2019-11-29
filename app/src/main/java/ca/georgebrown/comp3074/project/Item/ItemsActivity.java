@@ -52,7 +52,7 @@ public class ItemsActivity extends BaseActivity {
 
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         itemList = findViewById(R.id.listItems);
-        items = itemTable.getItems(validatedUser.getEmail());
+        items = itemTable.getItems(validatedUser.getEmail(), "");
         ImageButton addItem = findViewById(R.id.btnAddItem);
         adapter = new ItemAdapter(this, R.layout.item_layout, items, "apple");
         itemList.setAdapter(adapter);
@@ -100,11 +100,11 @@ public class ItemsActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1)
         {
-            items = itemTable.getItems(validatedUser.getEmail());
+            items = itemTable.getItems(validatedUser.getEmail(),"");
             adapter.notifyDataSetChanged();
         }
         if(requestCode == 2) {
-            items = itemTable.getItems(validatedUser.getEmail());
+            items = itemTable.getItems(validatedUser.getEmail(),"");
             adapter.notifyDataSetChanged();
         }
         }

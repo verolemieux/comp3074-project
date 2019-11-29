@@ -4,11 +4,11 @@
     android:layout_height="match_parent">
 
 
-
     <TextView
         android:id="@+id/txtBackpackLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:background="@android:color/holo_red_dark"/>
+        android:layout_height="45dp"
+        android:background="@android:color/holo_red_dark"
+        android:gravity="center_vertical"
+        android:textSize="24sp" />
 </LinearLayout>

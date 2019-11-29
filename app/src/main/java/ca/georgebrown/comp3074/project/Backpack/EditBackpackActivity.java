@@ -52,7 +52,7 @@ public class EditBackpackActivity extends AppCompatActivity {
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         selected_bp = (Backpack)getIntent().getSerializableExtra("BP");
         bp_name.setText(selected_bp.getBackpack_Name());
-        items = itemsDAO.getItems(validatedUser.getEmail());
+        items = itemsDAO.getItems(validatedUser.getEmail(), "");
         final ListView total_item_list = findViewById(R.id.item_list);
         final ListView selected_item_list = findViewById(R.id.selected_item_list);
         final ArrayList<Item> selected_items = itemsDAO.getBPItems(selected_bp.getBackpack_Id(),validatedUser.getEmail());

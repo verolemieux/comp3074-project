@@ -6,7 +6,8 @@
     <TextView
         android:id="@+id/route_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:background="@android:color/holo_red_dark"
+        android:gravity="center_vertical"
         android:textSize="24sp" />
 </LinearLayout>

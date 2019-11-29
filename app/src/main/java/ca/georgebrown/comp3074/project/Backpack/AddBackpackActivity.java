@@ -66,7 +66,7 @@ public class AddBackpackActivity extends BaseActivity {
         itemsDAO = new ItemsDAO(this);
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         userBackpacks = (ArrayList<Backpack>)getIntent().getSerializableExtra("UserBackpacks");
-        validatedUser.Item_List = itemsDAO.getItems(validatedUser.getEmail());
+        validatedUser.Item_List = itemsDAO.getItems(validatedUser.getEmail(), "");
         items = validatedUser.Item_List;
         addItem = findViewById(R.id.btnAddItem);
         final TextView error_msg = findViewById(R.id.error_tv_addbp);
@@ -155,7 +155,7 @@ public class AddBackpackActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1){
             if (resultCode == RESULT_OK){
-                validatedUser.Item_List = itemsDAO.getItems(validatedUser.getEmail());
+                validatedUser.Item_List = itemsDAO.getItems(validatedUser.getEmail(), "");
                 items = validatedUser.Item_List;
                 adapter = new ItemAdapter(this, R.layout.item_layout, items, "");
                 itemlist.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
