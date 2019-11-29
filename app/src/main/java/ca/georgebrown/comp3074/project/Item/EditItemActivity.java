@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,6 +57,7 @@ public class EditItemActivity extends BaseActivity {
     ImageButton addQRCode;
     ImageButton addPhoto;
     Bitmap qrBM;
+    Button exportQR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class EditItemActivity extends BaseActivity {
         drawer.addView(contentView, 0);
 
         itemTable = new ItemsDAO(this);
-
+        exportQR = findViewById(R.id.btnExport);
         itemName = findViewById(R.id.txtItemName);
         itemDesc = findViewById(R.id.txtItemDescription);
         Button btnSave = findViewById(R.id.btnSave);
@@ -141,6 +143,35 @@ public class EditItemActivity extends BaseActivity {
                     Toast.makeText(EditItemActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+
+        btnExport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(bitmap != null)
+                {
+                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap,"title", null);
+                    Log.d("Path", path);
+                    Uri screenshotUri = Uri.parse(path);
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.setType("application/image");
+                    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{validatedUser.getEmail()});
+                    i.putExtra(Intent.EXTRA_SUBJECT, "QR Code");
+                    i.putExtra(Intent.EXTRA_TEXT   , "This is the QR Code for " + itemName.getText().toString());
+                    i.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+                    try {
+                        startActivity(Intent.createChooser(i, "Send mail..."));
+                    } catch (android.content.ActivityNotFoundException ex) {
+                        Toast.makeText(EditItemActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(EditItemActivity.this, "There is no QR Code generated", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
