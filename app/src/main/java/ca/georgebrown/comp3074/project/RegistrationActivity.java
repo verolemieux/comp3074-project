@@ -36,7 +36,12 @@ public class RegistrationActivity extends AppCompatActivity {
                     error_msg.setText("Email cannot be empty");
                 } else if (isEmpty(txtPassword)) {
                     error_msg.setText("Password cannot be empty");
-                } else {
+                }
+                else if (userDao.userExist(txtEmail.getText().toString()))
+                {
+                    Toast.makeText(v.getContext(), "Username already in use.", Toast.LENGTH_LONG).show();
+                }
+                else {
                     long id = userDao.addUser(
                             txtEmail.getText().toString(),
                             txtName.getText().toString(),
