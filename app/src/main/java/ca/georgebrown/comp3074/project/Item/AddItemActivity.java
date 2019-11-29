@@ -104,17 +104,11 @@ public class AddItemActivity extends BaseActivity {
 
                     imgQRCode.setImageBitmap(bitmap);
 
-
-                    //File file = new File("ca/georgebrown/comp3074/project/Item/Test.bmp");
-                    //OutputStream os = new BufferedOutputStream(new FileOutputStream(file));
-                    //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
-
                     ByteArrayOutputStream bosQR = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, bosQR);
                     byte[] qrArray = bosQR.toByteArray();
 
                     addItem.setItem_QR_Code(qrArray);
-                    //os.close();
                 } catch (WriterException e) {
                     e.printStackTrace();
                 }

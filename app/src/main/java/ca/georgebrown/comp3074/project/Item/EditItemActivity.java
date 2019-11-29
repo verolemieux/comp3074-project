@@ -23,6 +23,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -90,6 +91,26 @@ public class EditItemActivity extends BaseActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                ///////////////
+
+                try{
+                bitmap = TextToImageEncode(itemName.getText().toString());
+
+                qrCode.setImageBitmap(bitmap);
+
+                ByteArrayOutputStream bosQR = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, bosQR);
+                byte[] qrArray = bosQR.toByteArray();
+
+                editItem.setItem_QR_Code(qrArray);
+            } catch (WriterException e) {
+                e.printStackTrace();
+            }
+
+                ///////////////////
+
+
                 editItem.setItem_Name(itemName.getText().toString());
                 editItem.setDescription(itemDesc.getText().toString());
                 Intent itemIntent = new Intent(v.getContext(), ItemsActivity.class);
