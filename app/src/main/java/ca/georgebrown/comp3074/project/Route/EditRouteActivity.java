@@ -8,14 +8,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import ca.georgebrown.comp3074.project.BaseActivity;
@@ -37,9 +34,6 @@ public class EditRouteActivity extends BaseActivity {
     RoutesDAO routeTable;
     User validatedUser;
     Route editRoute;
-
-    Spinner difficultySpinner;
-    Spinner ratingSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,24 +57,9 @@ public class EditRouteActivity extends BaseActivity {
         validatedUser = (User)getIntent().getSerializableExtra("validatedUser");
         editRoute = (Route)getIntent().getSerializableExtra("editRoute");
 
-        Log.d("Dif Edit", String.valueOf(editRoute.getRoute_Difficulty()));
-        Log.d("Rating Edit", String.valueOf(editRoute.getRoute_Rating()));
-
         routeNameTxt.setText(editRoute.getRoute_Name());
         routeOriginTxt.setText(editRoute.getRoute_Start_Location());
         routeDestinationTxt.setText(editRoute.getRoute_End_Location());
-
-        difficultySpinner = findViewById(R.id.spinnerDifficulty);
-        ArrayAdapter<CharSequence> difficultyAdapter = ArrayAdapter.createFromResource(this, R.array.difficulty, android.R.layout.simple_spinner_item);
-        difficultyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        difficultySpinner.setAdapter(difficultyAdapter);
-        difficultySpinner.setSelection(editRoute.getRoute_Difficulty()-1);
-
-        ratingSpinner = findViewById(R.id.spinnerRating);
-        ArrayAdapter<CharSequence> ratingAdapter = ArrayAdapter.createFromResource(this, R.array.rating, android.R.layout.simple_spinner_item);
-        ratingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        ratingSpinner.setAdapter(ratingAdapter);
-        ratingSpinner.setSelection(editRoute.getRoute_Rating()-1);
 
         openRouteOriginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,13 +103,9 @@ public class EditRouteActivity extends BaseActivity {
                 String routeName = routeNameTxt.getText().toString();
                 String originAddress = routeOriginTxt.getText().toString();
                 String destinationAddress = routeDestinationTxt.getText().toString();
-                int rating = Integer.parseInt(ratingSpinner.getSelectedItem().toString());
-                int difficulty = Integer.parseInt(difficultySpinner.getSelectedItem().toString());
                 editRoute.setRoute_Name(routeName);
                 editRoute.setRoute_Start_Location(originAddress);
                 editRoute.setRoute_End_Location(destinationAddress);
-                editRoute.setRoute_Difficulty(difficulty);
-                editRoute.setRoute_Rating(rating);
                 routeTable.editRoute(editRoute, validatedUser, editRoute.getRoute_Id());
                 routeIntent.putExtra("validatedUser", validatedUser);
                 setResult(2, routeIntent);

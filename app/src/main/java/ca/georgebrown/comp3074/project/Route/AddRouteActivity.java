@@ -186,8 +186,6 @@ public class AddRouteActivity extends BaseActivity {
                 newR.setRoute_End_Location(destinationAddress);
                 newR.setRoute_Difficulty(difficulty);
                 newR.setRoute_Rating(rating);
-                Log.d("Dif Add", String.valueOf(difficulty));
-                Log.d("Rating add", String.valueOf(rating));
                 routeTable.addRoute(newR, validatedUser);
                 setResult(1, addRIntent);
                 finish();
