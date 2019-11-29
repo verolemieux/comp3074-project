@@ -54,7 +54,7 @@ public class ItemsActivity extends BaseActivity {
         itemList = findViewById(R.id.listItems);
         items = itemTable.getItems(validatedUser.getEmail(), "");
         ImageButton addItem = findViewById(R.id.btnAddItem);
-        adapter = new ItemAdapter(this, R.layout.item_layout, items, "apple");
+        adapter = new ItemAdapter(this, R.layout.item_layout, items);
         itemList.setAdapter(adapter);
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

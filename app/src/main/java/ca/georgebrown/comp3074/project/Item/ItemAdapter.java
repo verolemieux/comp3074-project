@@ -18,7 +18,7 @@ import ca.georgebrown.comp3074.project.R;
 
 public class ItemAdapter extends ArrayAdapter<Item> implements Serializable {
 
-    public ItemAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Item> objects, String key) {
+    public ItemAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Item> objects) {
         super(context, resource, objects);
 
     }
