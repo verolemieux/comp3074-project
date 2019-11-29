@@ -7,6 +7,26 @@
     android:background="#EE0D0442"
     tools:context=".Event.EditEventActivity">
 
+    <Spinner
+        android:id="@+id/backpack_spinner2"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        app:layout_constraintEnd_toStartOf="@+id/route_spinner2"
+        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+    <Spinner
+        android:id="@+id/route_spinner2"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
     <Button
         android:id="@+id/btnDelete"
         android:layout_width="150dp"
@@ -68,6 +88,7 @@
         android:layout_height="46dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:background="@android:color/white"
@@ -76,8 +97,9 @@
         android:inputType="textPersonName"
         android:padding="10sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="169dp" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <EditText
         android:id="@+id/txtEventDate"
@@ -85,6 +107,7 @@
         android:layout_height="46dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
+        android:layout_marginTop="35dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:background="@android:color/white"
@@ -95,7 +118,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="242dp" />
+        app:layout_constraintTop_toBottomOf="@+id/txtEventName" />
 
     <EditText
         android:id="@+id/txtEventDescription"
@@ -103,6 +126,7 @@
         android:layout_height="80dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
+        android:layout_marginTop="37dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:background="@android:color/white"
@@ -112,7 +136,33 @@
         android:inputType="textMultiLine"
         android:padding="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="377dp" />
+        app:layout_constraintTop_toBottomOf="@+id/txtEventDate" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Backpack:"
+        android:textColor="#FF9800"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toStartOf="@+id/textView24"
+        app:layout_constraintHorizontal_bias="0.314"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEventDescription" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginRight="84dp"
+        android:text="Route:"
+        android:textColor="#FF9800"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEventDescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>

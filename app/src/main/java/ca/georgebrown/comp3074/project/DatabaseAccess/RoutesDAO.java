@@ -22,6 +22,15 @@ public class RoutesDAO {
         dbHelper = new DBHelper(context);
         dbHelper.getReadableDatabase();
     }
+    public Route getRouteByName(String name, String email, String key){
+        ArrayList<Route> routes = getRouteList(email, key);
+        for(Route route: routes){
+            if(route.getRoute_Name().equals(name)){
+                return route;
+            }
+        }
+        return null;
+    }
 
     public ArrayList<Route> getRouteList(String email, String key)
     {

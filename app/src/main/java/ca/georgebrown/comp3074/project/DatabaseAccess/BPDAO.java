@@ -44,6 +44,24 @@ public class BPDAO {
         db.delete(BPContract.BPEntity.TABLE_NAME_BP, "_id="+bp.getBackpack_Id()+" AND "+
                 BPContract.BPEntity.COLUMN_USER_EMAIL+" = '"+email+"'",null);
     }
+    public Backpack getBackpackByName(String name, String email){
+        ArrayList<Backpack> backpacks = getAllBP(email);
+        for(Backpack bp: backpacks){
+            if(bp.getBackpack_Name().equals(name)){
+                return bp;
+            }
+        }
+        return null;
+    }
+    public Backpack getBackpackById(long id, String email){
+        ArrayList<Backpack> backpacks = getAllBP(email);
+        for(Backpack bp: backpacks){
+            if(bp.getBackpack_Id() == id){
+                return bp;
+            }
+        }
+        return null;
+    }
     public long getBPID(String name, String email){
         Cursor c = getAllBPHelper(email);
         while(c.moveToNext()){

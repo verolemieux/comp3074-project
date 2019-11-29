@@ -19,6 +19,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 import ca.georgebrown.comp3074.project.DatabaseAccess.BPDAO;
+import ca.georgebrown.comp3074.project.DatabaseAccess.ItemBPDAO;
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
 import ca.georgebrown.comp3074.project.Item.Item;
 import ca.georgebrown.comp3074.project.Item.ItemAdapter;
@@ -39,6 +40,7 @@ public class EditBackpackActivity extends AppCompatActivity {
     Button edit_button;
     Backpack selected_bp;
     TextView error_msg;
+    ItemBPDAO itemBPDAO;
 
     ArrayList<Item> items_added;
     @Override
@@ -47,6 +49,7 @@ public class EditBackpackActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_backpack);
 
         bpdao = new BPDAO(this);
+        itemBPDAO = new ItemBPDAO(this);
         itemsDAO = new ItemsDAO(this);
         error_msg = findViewById(R.id.error_editbp);
         bp_name = findViewById(R.id.txtBPName);
@@ -75,6 +78,14 @@ public class EditBackpackActivity extends AppCompatActivity {
             /*View tv = getViewByPosition(i,selected_item_list);
             tv.setBackgroundColor(Color.GREEN);*/
         }
+        edit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent return_event = new Intent(v.getContext(), QRCode.class);
+                return_event.putExtra("ValidatedUser", validatedUser);
+                startActivity(return_event);
+            }
+        });
 
         total_item_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -107,14 +118,6 @@ public class EditBackpackActivity extends AppCompatActivity {
                 itemAdapter2.notifyDataSetChanged();
             }
         });
-        edit_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent return_event = new Intent(v.getContext(), QRCode.class);
-                return_event.putExtra("ValidatedUser", validatedUser);
-                startActivity(return_event);
-            }
-        });
         save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,19 +131,24 @@ public class EditBackpackActivity extends AppCompatActivity {
                 }
                 if (bp_name.getText().toString().equals("")) {
                     error_msg.setText("Backpack name cannot be empty");
-                } else if (name_exists) {
+                } else if (name_exists && !originText.equals(bp_name.getText().toString())) {
                     error_msg.setText("Backpack name already exists!");
                 } else {
                     selected_bp.setBackpack_Name(bp_name.getText().toString());
                     bpdao.updateBP(selected_bp, validatedUser.getEmail());
-                    for (int x = 0; x < selected_items.size(); x++) {
-                        itemsDAO.addToBP(selected_items.get(x), selected_bp.getBackpack_Id(), validatedUser.getEmail());
+                    for (int x = 0; x < items_added.size(); x++) {
+                        itemBPDAO.addItemToBP(selected_bp.getBackpack_Id(),items_added.get(x).getItem_Id(),validatedUser.getEmail());
+                        //itemsDAO.addToBP(selected_items.get(x), selected_bp.getBackpack_Id(), validatedUser.getEmail());
                     }
                     Intent returnIntent = new Intent(view.getContext(), BackpacksActivity.class);
                     returnIntent.putExtra("ValidatedUser", validatedUser);
                     setResult(2, returnIntent);
                     finish();
                 }
+                Intent returnIntent = new Intent(view.getContext(), BackpacksActivity.class);
+                returnIntent.putExtra("ValidatedUser", validatedUser);
+                setResult(2,returnIntent);
+                finish();
             }
         });
         delete_btn.setOnClickListener(new View.OnClickListener() {
