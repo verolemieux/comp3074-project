@@ -67,7 +67,7 @@ public class EditEventActivity extends BaseActivity {
         event_date.setText(selected_event.getDate());
         event_desc = findViewById(R.id.txtEventDescription);
         event_desc.setText(selected_event.getDescription());
-        final ArrayList<Backpack> backpacks = bpdao.getAllBP(validatedUser.getEmail());
+        final ArrayList<Backpack> backpacks = bpdao.getAllBP(validatedUser.getEmail(), "");
         final ArrayList<Route> routes = routesDAO.getRouteList(validatedUser.getEmail(), "");
         final BackpackSpinAdapter Backpack_adapter;
         final RouteSpinAdapter route_adapter;

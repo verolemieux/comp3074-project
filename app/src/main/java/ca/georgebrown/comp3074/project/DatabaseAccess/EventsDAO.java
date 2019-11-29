@@ -48,8 +48,8 @@ public class EventsDAO {
                 EventsContract.EventsEntity.COLUMN_NAME_USER_EMAIL_EVENTS +" = '"+email+"'",null);
     }
 
-    public ArrayList<Event> getAllEvents(String email){
-        Cursor c = getAllEventsHelper(email);
+    public ArrayList<Event> getAllEvents(String email, String key){
+        Cursor c = getAllEventsHelper(email, key);
         while(c.moveToNext()){
             Event e = new Event(
                     c.getInt(c.getColumnIndexOrThrow(EventsContract.EventsEntity._ID)),
@@ -64,7 +64,7 @@ public class EventsDAO {
         c.close();
         return events;
     }
-    private Cursor getAllEventsHelper(String email){
+    private Cursor getAllEventsHelper(String email, String key){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = {
                 EventsContract.EventsEntity._ID,
@@ -75,7 +75,22 @@ public class EventsDAO {
                 EventsContract.EventsEntity.COLUMN_NAME_EVENT_ROUTE,
                 EventsContract.EventsEntity.COLUMN_NAME_USER_EMAIL_EVENTS
         };
-        String selection = EventsContract.EventsEntity.COLUMN_NAME_USER_EMAIL_EVENTS+"=?";
+        if(key!="") {
+            String selection = EventsContract.EventsEntity.COLUMN_NAME_USER_EMAIL_EVENTS + "=? AND "+
+                    EventsContract.EventsEntity.COLUMN_NAME_EVENT_NAME + " LIKE '%"+key+"%'";
+            String[] selectionArgs = {email};
+
+            return db.query(
+                    EventsContract.EventsEntity.TABLE_NAME_EVENTS,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+        }
+        String selection = EventsContract.EventsEntity.COLUMN_NAME_USER_EMAIL_EVENTS + "=?";
         String[] selectionArgs = {email};
 
         return db.query(
@@ -87,5 +102,6 @@ public class EventsDAO {
                 null,
                 null
         );
+
     }
 }

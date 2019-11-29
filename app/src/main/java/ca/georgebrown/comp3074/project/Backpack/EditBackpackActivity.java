@@ -122,7 +122,7 @@ public class EditBackpackActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 itemsDAO.removeAllItemsFromBP(validatedUser.getEmail());
-                ArrayList<Backpack> backpacks = bpdao.getAllBP(validatedUser.getEmail());
+                ArrayList<Backpack> backpacks = bpdao.getAllBP(validatedUser.getEmail(), "");
                 boolean name_exists = false;
                 for (int x = 0; x < backpacks.size(); x++) {
                     if (backpacks.get(x).getBackpack_Name().equals(bp_name.getText().toString())) {
@@ -131,7 +131,7 @@ public class EditBackpackActivity extends AppCompatActivity {
                 }
                 if (bp_name.getText().toString().equals("")) {
                     error_msg.setText("Backpack name cannot be empty");
-                } else if (name_exists && !originText.equals(bp_name.getText().toString())) {
+                } else if (name_exists /*&& !originText.equals(bp_name.getText().toString()*/) {
                     error_msg.setText("Backpack name already exists!");
                 } else {
                     selected_bp.setBackpack_Name(bp_name.getText().toString());

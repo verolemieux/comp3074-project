@@ -55,7 +55,7 @@ public class AddEventActivity extends BaseActivity {
 
         //POPULATING SPINNERS
         final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
-        final ArrayList<Backpack> backpacks = bpdao.getAllBP(validatedUser.getEmail());
+        final ArrayList<Backpack> backpacks = bpdao.getAllBP(validatedUser.getEmail(), "");
         final ArrayList<Route> routes = routesDAO.getRouteList(validatedUser.getEmail(), "");
         events = validatedUser.Event_List;
         final Spinner backpack_spinner = (Spinner) findViewById(R.id.backpack_spinner);
@@ -78,7 +78,7 @@ public class AddEventActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if(!event_name.getText().toString().equals("")&&!event_date.getText().toString().equals("")&&!event_desc.getText().toString().equals("")){
-                    Backpack backpack =  bpdao.getBackpackByName(selected_bp.getBackpack_Name(), validatedUser.getEmail());
+                    Backpack backpack =  bpdao.getBackpackByName(selected_bp.getBackpack_Name(), validatedUser.getEmail(), "");
                     Route route =  routesDAO.getRouteByName(selected_route.getRoute_Name(), validatedUser.getEmail(), "");
                     long lastId = eventsDAO.addEvent(event_name.getText().toString(),
                             event_date.getText().toString(),

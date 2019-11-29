@@ -7,10 +7,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -30,6 +33,7 @@ public class BackpacksActivity extends BaseActivity {
     ArrayList<Backpack> userBackpacks;
     BackpackAdapter adapter;
     BPDAO bpdao;
+    EditText txtBPName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +46,10 @@ public class BackpacksActivity extends BaseActivity {
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         bpdao = new BPDAO(this);
+        txtBPName = findViewById(R.id.txtSearchBackpacks);
         addBackpack = findViewById(R.id.btnAddBackpack);
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
-        userBackpacks = bpdao.getAllBP(validatedUser.getEmail());
+        userBackpacks = bpdao.getAllBP(validatedUser.getEmail(), "");
         validatedUser.Backpack_List = userBackpacks;
         backpackList = findViewById(R.id.listBackpack);
         adapter = new BackpackAdapter(this, R.layout.backpack_layout, userBackpacks);
@@ -80,6 +85,24 @@ public class BackpacksActivity extends BaseActivity {
             }
         });
 
+        txtBPName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                userBackpacks = bpdao.getAllBP(validatedUser.getEmail(), txtBPName.getText().toString());
+                adapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
     @Override
@@ -98,7 +121,7 @@ public class BackpacksActivity extends BaseActivity {
         if(requestCode == 2)
         {
             adapter.clear();
-            userBackpacks = bpdao.getAllBP(validatedUser.getEmail());
+            userBackpacks = bpdao.getAllBP(validatedUser.getEmail(), "");
             adapter.notifyDataSetChanged();
         }
     }

@@ -78,7 +78,7 @@ public class AddBackpackActivity extends BaseActivity {
             public void onClick(View v)
             {
                 boolean name_exists =  false;
-                userBackpacks = bpdao.getAllBP(validatedUser.getEmail());
+                userBackpacks = bpdao.getAllBP(validatedUser.getEmail(), "");
                 for(int i = 0; i<userBackpacks.size();i++){
                     if(userBackpacks.get(i).getBackpack_Name().equals(bp_name.getText().toString())){
                         name_exists = true;
