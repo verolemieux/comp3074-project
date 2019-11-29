@@ -146,7 +146,7 @@ public class EditItemActivity extends BaseActivity {
             }
         });
 
-        btnExport.setOnClickListener(new View.OnClickListener() {
+        exportQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
