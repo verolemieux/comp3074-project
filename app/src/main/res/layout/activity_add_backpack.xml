@@ -67,7 +67,7 @@
         android:layout_marginEnd="43dp"
         android:layout_marginRight="43dp"
         android:background="@android:color/darker_gray"
-        android:text="Add New Item to my list"
+        android:text="Add Item Using QR Code"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
