@@ -54,6 +54,7 @@ public class AddBackpackActivity extends BaseActivity {
     ItemAdapter adapter;
     ItemBPDAO itemBPDAO;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
     TextView error_msg;
     ItemsDAO itemsDAO;
     Button addItem;
@@ -74,7 +75,6 @@ public class AddBackpackActivity extends BaseActivity {
         drawer.addView(contentView, 0);
         Toast.makeText(this.getApplicationContext(),"Long press an item to add it to the backpack" , Toast.LENGTH_LONG).show();
 
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         v = contentView;
         itemBPDAO = new ItemBPDAO(this);
         bpdao = new BPDAO(this);
@@ -93,6 +93,7 @@ public class AddBackpackActivity extends BaseActivity {
         adapterView = itemlist;
         itemlist.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         itemlist.setAdapter(adapter);
+
         btnAdd.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v)
@@ -128,21 +129,18 @@ public class AddBackpackActivity extends BaseActivity {
                 }
             }
         });
+
         addItem.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA)
-                        == PackageManager.PERMISSION_DENIED) {
-                    ActivityCompat.requestPermissions(AddBackpackActivity.this, new String[] {Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE);
+                if (checkPermission()) {
+                    scanCode();
+                } else {
+                    requestPermission();
                 }
-                qrScan = new IntentIntegrator(AddBackpackActivity.this);
-                qrScan.setBeepEnabled(true);
-                qrScan.setOrientationLocked(true);
-                qrScan.setPrompt("Scan a QR Code");
-                qrScan.initiateScan();
             }
         });
+
         itemlist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -203,9 +201,7 @@ public class AddBackpackActivity extends BaseActivity {
                             Log.d("item found", "a");
                         }
                     }
-
                     error_msg.setText("");
-                    //v = adapter.getView(position, null, (ViewGroup) contentView);
                     TextView textView = (TextView) v.findViewById(R.id.txtItemLayout);
                     boolean repeated_item = false;
                     for(int x = 0; x<selected_items.size();x++){
@@ -227,11 +223,45 @@ public class AddBackpackActivity extends BaseActivity {
 
                 }
             } else {
-                // This is important, otherwise the result will not be passed to the fragment
                 super.onActivityResult(requestCode, resultCode, data);
             }
         }
+    }
 
+    private void scanCode(){
+        qrScan = new IntentIntegrator(AddBackpackActivity.this);
+        qrScan.setBeepEnabled(true);
+        qrScan.setOrientationLocked(true);
+        qrScan.setPrompt("Scan a QR Code");
+        qrScan.initiateScan();
+    }
+
+    public boolean checkPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        }
+        return true;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.CAMERA},
+                CAMERA_PERMISSION_REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case CAMERA_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+                    scanCode();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 
     @Override

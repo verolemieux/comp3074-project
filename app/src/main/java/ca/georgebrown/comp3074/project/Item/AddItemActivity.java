@@ -3,6 +3,8 @@ package ca.georgebrown.comp3074.project.Item;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
@@ -37,6 +39,7 @@ import android.widget.Toast;
 
 import com.google.zxing.WriterException;
 
+import ca.georgebrown.comp3074.project.Backpack.AddBackpackActivity;
 import ca.georgebrown.comp3074.project.BaseActivity;
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
 import ca.georgebrown.comp3074.project.R;
@@ -52,10 +55,13 @@ public class AddItemActivity extends BaseActivity {
     ImageView imgQRCode;
     ImageButton addQRCode;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
+    static final int STORAGE_PERMISSION_REQUEST_CODE = 200;
     public final static int QRcodeWidth = 500 ;
     TextView itemName;
     Bitmap bitmap;
     Button btnExport;
+    Button btnSave;
 
     ItemsDAO itemTable;
     Item addItem = new Item(1, "", "");
@@ -67,17 +73,18 @@ public class AddItemActivity extends BaseActivity {
         @SuppressLint("InflateParams")
         View contentView = inflater.inflate(R.layout.activity_add_item, null, false);
         drawer.addView(contentView, 0);
-        btnExport = findViewById(R.id.btnExport);
         itemTable = new ItemsDAO(this);
-
         addPhoto = findViewById(R.id.btnAddPhoto);
         imgItem = findViewById(R.id.imgItem);
         imgQRCode =  findViewById(R.id.imgQrCode);
-        Button btnSave = findViewById(R.id.btnSave);
+        btnSave = findViewById(R.id.btnSave);
+        btnExport = findViewById(R.id.btnExport);
+        addQRCode = findViewById(R.id.btnAddQRCode);
         itemName = findViewById(R.id.txtItemName);
         final TextView itemDesc = findViewById(R.id.txtItemDescription);
         final User validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
         final ArrayList<Item> list = (ArrayList<Item>)getIntent().getSerializableExtra("ListItems");
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,28 +110,10 @@ public class AddItemActivity extends BaseActivity {
         btnExport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(bitmap != null)
-                {
-                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap,"title", null);
-                    Log.d("Path", path);
-                    Uri screenshotUri = Uri.parse(path);
-                    Intent i = new Intent(Intent.ACTION_SEND);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.setType("application/image");
-                    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{validatedUser.getEmail()});
-                    i.putExtra(Intent.EXTRA_SUBJECT, "QR Code");
-                    i.putExtra(Intent.EXTRA_TEXT   , "This is the QR Code for " + itemName.getText().toString());
-                    i.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-                    try {
-                        startActivity(Intent.createChooser(i, "Send mail..."));
-                    } catch (android.content.ActivityNotFoundException ex) {
-                        Toast.makeText(AddItemActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else
-                {
-                    Toast.makeText(AddItemActivity.this, "There is no QR Code generated", Toast.LENGTH_SHORT).show();
+                if (checkPermission("storage")) {
+                    exportCode();
+                } else {
+                    requestPermission("storage");
                 }
             }
         });
@@ -137,7 +126,7 @@ public class AddItemActivity extends BaseActivity {
                 dispatchTakePictureIntent();
             }
         });
-        addQRCode = findViewById(R.id.btnAddQRCode);
+
         addQRCode.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view)
@@ -161,21 +150,13 @@ public class AddItemActivity extends BaseActivity {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void dispatchTakePictureIntent() {
-        //final int MY_CAMERA_REQUEST_CODE = 100;
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        /*if (checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                    MY_CAMERA_REQUEST_CODE);
+        if (checkPermission("camera")) {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        } else {
+            requestPermission("camera");
         }
-        if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);  }
-        }*/
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);  }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -190,6 +171,31 @@ public class AddItemActivity extends BaseActivity {
             byte[] picArray = bosPic.toByteArray();
 
             addItem.setItem_Picture(picArray);
+        }
+    }
+
+    private void exportCode(){
+        if(bitmap != null)
+        {
+            String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap,"title", null);
+            Log.d("Path", path);
+            Uri screenshotUri = Uri.parse(path);
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.setType("application/image");
+            i.putExtra(Intent.EXTRA_EMAIL  , new String[]{validatedUser.getEmail()});
+            i.putExtra(Intent.EXTRA_SUBJECT, "QR Code");
+            i.putExtra(Intent.EXTRA_TEXT   , "This is the QR Code for " + itemName.getText().toString());
+            i.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+            try {
+                startActivity(Intent.createChooser(i, "Send mail..."));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(AddItemActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else
+        {
+            Toast.makeText(AddItemActivity.this, "There is no QR Code generated", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -225,6 +231,59 @@ public class AddItemActivity extends BaseActivity {
 
         bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight);
         return bitmap;
+    }
+
+    public boolean checkPermission(String permission){
+        if (permission == "camera") {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+            return true;
+        }
+        if (permission == "storage"){
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void requestPermission(String permission) {
+        if (permission == "camera") {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    CAMERA_PERMISSION_REQUEST_CODE);
+        }
+        if (permission == "storage"){
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    STORAGE_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case CAMERA_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+                    dispatchTakePictureIntent();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case STORAGE_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+                    exportCode();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 
     @Override
