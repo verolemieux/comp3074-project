@@ -111,14 +111,14 @@ public class BackpacksActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1)
         {
-            Backpack bp = (Backpack) data.getSerializableExtra("NewBP");
+            if (data != null){
+                Backpack bp = (Backpack) data.getSerializableExtra("NewBP");
+                //ArrayList<Item> items = (ArrayList<Item>)getIntent().getSerializableExtra("Items_Selected");
+                userBackpacks.add(bp);
+                adapter.notifyDataSetChanged();
+            }
 
-            //ArrayList<Item> items = (ArrayList<Item>)getIntent().getSerializableExtra("Items_Selected");
-            userBackpacks.add(bp);
-            adapter.notifyDataSetChanged();
-
-        }
-        if(requestCode == 2)
+        } else if(requestCode == 2)
         {
             adapter.clear();
             userBackpacks = bpdao.getAllBP(validatedUser.getEmail(), "");

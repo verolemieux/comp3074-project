@@ -1,10 +1,20 @@
 package ca.georgebrown.comp3074.project.Backpack;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,10 +24,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import ca.georgebrown.comp3074.project.BaseActivity;
 import ca.georgebrown.comp3074.project.DatabaseAccess.BPDAO;
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemBPDAO;
 import ca.georgebrown.comp3074.project.DatabaseAccess.ItemsDAO;
@@ -27,26 +41,37 @@ import ca.georgebrown.comp3074.project.QRCode.QRCode;
 import ca.georgebrown.comp3074.project.R;
 import ca.georgebrown.comp3074.project.User.User;
 
-public class EditBackpackActivity extends AppCompatActivity {
+public class EditBackpackActivity extends BaseActivity {
+    static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
+    private IntentIntegrator qrScan;
+    View v;
+    AdapterView<?> adapterView;
+
     BPDAO bpdao;
     ItemsDAO itemsDAO;
     TextView bp_name;
     ArrayList<Item> items;
+    ArrayList<Item> selected_items = new ArrayList<>();
+    ArrayList<String> selected = new ArrayList<>();
     User validatedUser;
     ItemAdapter itemAdapter;
     ItemAdapter itemAdapter2;
     Button save_btn;
     Button delete_btn;
-    Button edit_button;
+    Button add_btn;
     Backpack selected_bp;
     TextView error_msg;
     ItemBPDAO itemBPDAO;
-
     ArrayList<Item> items_added;
+    View contentView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_backpack);
+
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        contentView = inflater.inflate(R.layout.activity_edit_backpack, null, false);
+        drawer.addView(contentView, 0);
 
         bpdao = new BPDAO(this);
         itemBPDAO = new ItemBPDAO(this);
@@ -55,8 +80,7 @@ public class EditBackpackActivity extends AppCompatActivity {
         bp_name = findViewById(R.id.txtBPName);
         save_btn = findViewById(R.id.saveBtn);
         delete_btn = findViewById(R.id.deleteBtn);
-        edit_button = findViewById(R.id.btn_AddQR);
-
+        add_btn = findViewById(R.id.btn_AddQR);
 
         items_added = new ArrayList<>();
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
@@ -82,14 +106,6 @@ public class EditBackpackActivity extends AppCompatActivity {
             /*View tv = getViewByPosition(i,selected_item_list);
             tv.setBackgroundColor(Color.GREEN);*/
         }
-        edit_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent return_event = new Intent(v.getContext(), QRCode.class);
-                return_event.putExtra("ValidatedUser", validatedUser);
-                startActivity(return_event);
-            }
-        });
 
         total_item_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -110,6 +126,7 @@ public class EditBackpackActivity extends AppCompatActivity {
                 }
             }
         });
+
         selected_item_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
@@ -123,6 +140,7 @@ public class EditBackpackActivity extends AppCompatActivity {
                 itemAdapter2.notifyDataSetChanged();
             }
         });
+
         save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,6 +174,7 @@ public class EditBackpackActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         delete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,6 +184,17 @@ public class EditBackpackActivity extends AppCompatActivity {
                 returnIntent.putExtra("ValidatedUser", validatedUser);
                 setResult(2,returnIntent);
                 finish();
+            }
+        });
+
+        add_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checkPermission()) {
+                    scanCode();
+                } else {
+                    requestPermission();
+                }
             }
         });
         //ArrayList<Item> selected_bp_items = selected_bp.getItem_List();
@@ -192,5 +222,92 @@ public class EditBackpackActivity extends AppCompatActivity {
             final int childIndex = pos - firstListItemPosition;
             return listView.getChildAt(childIndex);
         }
+    }
+
+    private void scanCode(){
+        qrScan = new IntentIntegrator(EditBackpackActivity.this);
+        qrScan.setBeepEnabled(true);
+        qrScan.setOrientationLocked(true);
+        qrScan.setPrompt("Scan a QR Code");
+        qrScan.initiateScan();
+    }
+
+    public boolean checkPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        }
+        return true;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.CAMERA},
+                CAMERA_PERMISSION_REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case CAMERA_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+                    scanCode();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null){
+            if(result.getContents() == null) {
+                Log.d("MainActivity", "Cancelled scan");
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                Log.d("MainActivity", "Scanned");
+                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                Log.d("Results", result.getContents());
+                int position = -1;
+                for (int x = 0; x < items.size(); x++)
+                {
+                    if(items.get(x).getItem_Name().equals(result.getContents()))
+                    {
+                        position = x;
+                        Log.d("item found", "a");
+                    }
+                }
+                error_msg.setText("");
+                TextView textView = (TextView) v.findViewById(R.id.txtItemLayout);
+                boolean repeated_item = false;
+                for(int x = 0; x<selected_items.size();x++){
+                    if(selected_items.get(x).getItem_Name().equals(textView.getText().toString())){
+                        repeated_item = true;
+                    }
+                }
+                if(repeated_item){
+                    error_msg.setText("You have already added this item");
+                }
+                else {
+                    textView.setBackgroundColor(Color.GREEN);
+                    selected.add(textView.getText().toString());
+                    Item selected_item = (Item) adapterView.getItemAtPosition(position);
+                    selected_items.add(selected_item);
+                    Toast.makeText(adapterView.getContext(), textView.getText().toString() + " selected", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }

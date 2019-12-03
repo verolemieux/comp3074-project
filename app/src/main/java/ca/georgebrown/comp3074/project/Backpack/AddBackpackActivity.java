@@ -120,9 +120,7 @@ public class AddBackpackActivity extends BaseActivity {
                     bp.setItem_List(selected_items);
                     for(int x = 0; x<selected_items.size();x++){
                         itemBPDAO.addItemToBP(bpId,selected_items.get(x).getItem_Id(),validatedUser.getEmail());
-                        //itemsDAO.addToBP(selected_items.get(x), bpId, validatedUser.getEmail());
                     }
-                    //addBackpackIntent.putExtra("Items_Selected", selected_items);
                     addBackpackIntent.putExtra("NewBP", bp);
                     setResult(1, addBackpackIntent);
                     finish();

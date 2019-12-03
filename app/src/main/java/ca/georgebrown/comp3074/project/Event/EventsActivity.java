@@ -107,9 +107,11 @@ public class EventsActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1){
-            Event event = (Event) data.getSerializableExtra("NewEvent");
-            userEvents.add(event);
-            adapter.notifyDataSetChanged();
+            if (data != null) {
+                Event event = (Event) data.getSerializableExtra("NewEvent");
+                userEvents.add(event);
+                adapter.notifyDataSetChanged();
+            }
         }
         if(requestCode == 2){
             adapter.clear();

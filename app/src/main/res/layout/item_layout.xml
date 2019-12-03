@@ -10,5 +10,7 @@
         android:layout_height="45dp"
         android:background="@android:color/holo_red_dark"
         android:gravity="center_vertical"
+        android:paddingLeft="10sp"
+        android:paddingRight="10sp"
         android:textSize="24sp" />
 </LinearLayout>
