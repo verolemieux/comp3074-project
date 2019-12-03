@@ -48,7 +48,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 
-public class AddItemActivity extends BaseActivity {
+public class    AddItemActivity extends BaseActivity {
 
     ImageButton addPhoto;
     ImageView imgItem;

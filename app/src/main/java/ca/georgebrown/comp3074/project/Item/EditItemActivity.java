@@ -3,6 +3,8 @@ package ca.georgebrown.comp3074.project.Item;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
@@ -50,6 +52,8 @@ public class EditItemActivity extends BaseActivity {
     User validatedUser;
     ItemsDAO itemTable;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
+    static final int STORAGE_PERMISSION_REQUEST_CODE = 200;
     public final static int QRcodeWidth = 500 ;
     ImageView qrCode;
     ImageView imgItem;
@@ -150,9 +154,14 @@ public class EditItemActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                if(bitmap != null)
+                if(qrBM != null)
                 {
-                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap,"title", null);
+                    if (checkPermission("storage")) {
+                        exportCode();
+                    } else {
+                        requestPermission("storage");
+                    }
+                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), qrBM,"title", null);
                     Log.d("Path", path);
                     Uri screenshotUri = Uri.parse(path);
                     Intent i = new Intent(Intent.ACTION_SEND);
@@ -175,11 +184,10 @@ public class EditItemActivity extends BaseActivity {
             }
         });
 
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 if (itemName.getText().toString().equals("")) {
                     Toast.makeText(EditItemActivity.this, "Item name cannot be blank", Toast.LENGTH_SHORT).show();
                 } else {
@@ -225,6 +233,78 @@ public class EditItemActivity extends BaseActivity {
             }
         });
     }
+    /*private void GrantReadStoragePermission(){
+        if(Build.VERSION.SDK_INT >=23){
+            if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                    PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
+            }
+        }
+    }*/
+    private void exportCode(){
+        if(bitmap != null)
+        {
+            String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap,"title", null);
+            Log.d("Path", path);
+            Uri screenshotUri = Uri.parse(path);
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.setType("application/image");
+            i.putExtra(Intent.EXTRA_EMAIL  , new String[]{validatedUser.getEmail()});
+            i.putExtra(Intent.EXTRA_SUBJECT, "QR Code");
+            i.putExtra(Intent.EXTRA_TEXT   , "This is the QR Code for " + itemName.getText().toString());
+            i.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+            try {
+                startActivity(Intent.createChooser(i, "Send mail..."));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(EditItemActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else
+        {
+            Toast.makeText(EditItemActivity.this, "There is no QR Code generated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public boolean checkPermission(String permission){
+        if (permission.equals("storage")){
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+    private void requestPermission(String permission) {
+        if (permission.equals("storage")){
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    STORAGE_PERMISSION_REQUEST_CODE);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case CAMERA_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+                    dispatchTakePictureIntent();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case STORAGE_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+                    exportCode();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
