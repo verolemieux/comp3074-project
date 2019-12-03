@@ -28,6 +28,37 @@ public class ItemsDAO {
         //dbHelper.getWritableDatabase().execSQL(ItemsContract.ItemsEntity.SQL_DROP_ITEMS_);
         //dbHelper.getWritableDatabase().execSQL(ItemsContract.ItemsEntity.SQL_CREATE_ITEMS);
     }
+    public Item getItemByName(String name, String email){
+        c = getAllItems(email,"");
+        Item i = null;
+        ArrayList<Item> items = new ArrayList<>();
+        while (c.moveToNext()) {
+            String item_name = c.getString(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_NAME));
+            if (name.equals(item_name)) {
+                i = new Item(c.getInt(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity._ID))
+                        , c.getString(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_NAME))
+                        , c.getString(c.getColumnIndexOrThrow(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_DESCRIPTION)));
+                // , c.getString(c.getColumnIndexOrThrow(DBContract.DBEntity.COLUMN_NAME_ITEM_PICTURE))
+                // , c.getString(c.getColumnIndexOrThrow(DBContract.DBEntity.COLUMN_NAME_ITEM_CODE)));
+                byte[] itemPhoto = c.getBlob(c.getColumnIndex(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_PICTURE));
+                byte[] qrCode = c.getBlob(c.getColumnIndex(ItemsContract.ItemsEntity.COLUMN_NAME_ITEM_CODE));
+                if (qrCode != null) {
+                    Log.d("a", "success");
+                    i.setItem_QR_Code(qrCode);
+                }
+
+                if (itemPhoto != null) {
+                    i.setItem_Picture(itemPhoto);
+                }
+
+                return i;
+            }
+        }
+        c.close();
+        return i;
+
+    }
+
     public Item getItemDetails(long id, String email) {
         c = getAllItems(email, "");
         Item i = null;

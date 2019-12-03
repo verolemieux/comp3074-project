@@ -50,6 +50,7 @@ public class EditBackpackActivity extends BaseActivity {
     BPDAO bpdao;
     ItemsDAO itemsDAO;
     TextView bp_name;
+    ListView total_item_list;
     ArrayList<Item> items;
     ArrayList<Item> selected_items = new ArrayList<>();
     ArrayList<String> selected = new ArrayList<>();
@@ -81,6 +82,7 @@ public class EditBackpackActivity extends BaseActivity {
         save_btn = findViewById(R.id.saveBtn);
         delete_btn = findViewById(R.id.deleteBtn);
         add_btn = findViewById(R.id.btn_AddQR);
+        v = contentView;
 
         items_added = new ArrayList<>();
         validatedUser = (User)getIntent().getSerializableExtra("ValidatedUser");
@@ -88,9 +90,9 @@ public class EditBackpackActivity extends BaseActivity {
         bp_name.setText(selected_bp.getBackpack_Name());
         final String originText = bp_name.getText().toString();
         items = itemsDAO.getItems(validatedUser.getEmail(), "");
-        final ListView total_item_list = findViewById(R.id.item_list);
+        total_item_list = findViewById(R.id.item_list);
         final ListView selected_item_list = findViewById(R.id.selected_item_list);
-        final ArrayList<Item> selected_items = itemBPDAO.getItemsFromBP(selected_bp.getBackpack_Id(), validatedUser.getEmail());//itemsDAO.getBPItems(selected_bp.getBackpack_Id(),validatedUser.getEmail());
+        selected_items = itemBPDAO.getItemsFromBP(selected_bp.getBackpack_Id(), validatedUser.getEmail());//itemsDAO.getBPItems(selected_bp.getBackpack_Id(),validatedUser.getEmail());
         itemAdapter = new ItemAdapter(this,R.layout.item_layout,items);
         itemAdapter2 = new ItemAdapter(this,R.layout.item_layout, selected_items);
         total_item_list.setAdapter(itemAdapter);
@@ -264,6 +266,7 @@ public class EditBackpackActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        boolean repeated_item = false;
         if (result != null){
             if(result.getContents() == null) {
                 Log.d("MainActivity", "Cancelled scan");
@@ -272,6 +275,7 @@ public class EditBackpackActivity extends BaseActivity {
                 Log.d("MainActivity", "Scanned");
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 Log.d("Results", result.getContents());
+                TextView textView = null;
                 int position = -1;
                 for (int x = 0; x < items.size(); x++)
                 {
@@ -279,25 +283,34 @@ public class EditBackpackActivity extends BaseActivity {
                     {
                         position = x;
                         Log.d("item found", "a");
+                        View v = total_item_list.getAdapter().getView(x,null,null);
+                        textView = (TextView) v.findViewById(R.id.txtItemLayout);
+                        for (int z = 0; z < selected_items.size(); z++) {
+                            if (selected_items.get(z).getItem_Name().equals(textView.getText().toString())) {
+                                repeated_item = true;
+                            }
+                        }
                     }
                 }
-                error_msg.setText("");
-                TextView textView = (TextView) v.findViewById(R.id.txtItemLayout);
-                boolean repeated_item = false;
-                for(int x = 0; x<selected_items.size();x++){
-                    if(selected_items.get(x).getItem_Name().equals(textView.getText().toString())){
-                        repeated_item = true;
+                if(textView != null) {
+                    error_msg.setText("");
+
+                    if (repeated_item) {
+                        error_msg.setText("You have already added this item");
+                    } else {
+                        Item i = itemsDAO.getItemByName(result.getContents(), validatedUser.getEmail());
+                        if (i != null) {
+                            selected_items.add(i);
+                        }
+                        itemAdapter2.notifyDataSetChanged();
+                        itemBPDAO.addItemToBP(selected_bp.getBackpack_Id(), i.getItem_Id(), validatedUser.getEmail());
+                        textView.setBackgroundColor(Color.GREEN);
+                        //Item selected_item = (Item) adapterView.getItemAtPosition(position);
+                        //selected_items.add(selected_item);
+                        Toast.makeText(getApplicationContext(), textView.getText().toString() + " selected", Toast.LENGTH_LONG).show();
                     }
-                }
-                if(repeated_item){
-                    error_msg.setText("You have already added this item");
-                }
-                else {
-                    textView.setBackgroundColor(Color.GREEN);
-                    selected.add(textView.getText().toString());
-                    Item selected_item = (Item) adapterView.getItemAtPosition(position);
-                    selected_items.add(selected_item);
-                    Toast.makeText(adapterView.getContext(), textView.getText().toString() + " selected", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "No item returned", Toast.LENGTH_LONG).show();
                 }
 
             }
