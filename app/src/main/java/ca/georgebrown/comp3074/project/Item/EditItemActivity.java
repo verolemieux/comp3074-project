@@ -177,7 +177,7 @@ public class EditItemActivity extends BaseActivity {
                         Toast.makeText(EditItemActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
                     }
                 }
-                else
+                if(qrBM== null)
                 {
                     Toast.makeText(EditItemActivity.this, "There is no QR Code generated", Toast.LENGTH_SHORT).show();
                 }
@@ -242,9 +242,9 @@ public class EditItemActivity extends BaseActivity {
         }
     }*/
     private void exportCode(){
-        if(bitmap != null)
+        if(qrBM != null)
         {
-            String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap,"title", null);
+            String path = MediaStore.Images.Media.insertImage(getContentResolver(), qrBM,"title", null);
             Log.d("Path", path);
             Uri screenshotUri = Uri.parse(path);
             Intent i = new Intent(Intent.ACTION_SEND);

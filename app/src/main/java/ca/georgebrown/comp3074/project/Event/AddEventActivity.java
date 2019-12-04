@@ -40,6 +40,10 @@ public class AddEventActivity extends BaseActivity {
     EventsDAO eventsDAO;
     Backpack selected_bp;
     Route selected_route;
+    Route route;
+    Backpack backpack;
+    int routeId;
+    long backpackId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,17 +82,34 @@ public class AddEventActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if(!event_name.getText().toString().equals("")&&!event_date.getText().toString().equals("")&&!event_desc.getText().toString().equals("")){
-                    Backpack backpack =  bpdao.getBackpackByName(selected_bp.getBackpack_Name(), validatedUser.getEmail(), "");
-                    Route route =  routesDAO.getRouteByName(selected_route.getRoute_Name(), validatedUser.getEmail(), "");
+                    if(!(selected_bp == null)) {
+                        backpack = bpdao.getBackpackByName(selected_bp.getBackpack_Name(), validatedUser.getEmail(), "");
+                        backpackId = backpack.getBackpack_Id();
+                    }
+                    else{
+                        backpack = null;
+                        backpackId = -1;
+                    }
+                    if(!(selected_route == null))
+                    {
+                        Route route =  routesDAO.getRouteByName(selected_route.getRoute_Name(), validatedUser.getEmail(), "");
+                        routeId = route.getRoute_Id();
+                    }
+                    else
+                    {
+                        route = null;
+                        routeId = -1;
+                    }
+
                     long lastId = eventsDAO.addEvent(event_name.getText().toString(),
                             event_date.getText().toString(),
                             event_desc.getText().toString(),
-                            backpack.getBackpack_Id(),
-                            route.getRoute_Id(),
-                            validatedUser.getEmail()
-                    );
+                            backpackId,
+                            routeId,
+                            validatedUser.getEmail());
 
-                    Event event = new Event(lastId,event_name.getText().toString(),event_date.getText().toString(),event_desc.getText().toString(),backpack.getBackpack_Id(),route.getRoute_Id());
+
+                    Event event = new Event(lastId,event_name.getText().toString(),event_date.getText().toString(),event_desc.getText().toString(),backpackId,routeId);
                     validatedUser.Event_List.add(event);
                     Intent return_event = new Intent(view.getContext(), EventsActivity.class);
                     return_event.putExtra("ValidatedUser", validatedUser);
