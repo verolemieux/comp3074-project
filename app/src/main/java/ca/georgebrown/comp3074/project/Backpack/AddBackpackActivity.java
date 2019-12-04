@@ -183,6 +183,8 @@ public class AddBackpackActivity extends BaseActivity {
         } else {
             IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             if (result != null){
+
+                /*
                 if(result.getContents() == null) {
                     Log.d("MainActivity", "Cancelled scan");
                     Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
@@ -221,7 +223,44 @@ public class AddBackpackActivity extends BaseActivity {
                             items_added.setText(selected.size() + "");
                             Toast.makeText(adapterView.getContext(), textView.getText().toString() + " selected", Toast.LENGTH_LONG).show();
                         }
-                    }
+                    }*/
+                    if(result.getContents() == null) {
+                        Log.d("MainActivity", "Cancelled scan");
+                        Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+                    } else {
+                        Log.d("MainActivity", "Scanned");
+                        Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                        Log.d("Results", result.getContents());
+                        int position = -1;
+                        for (int x = 0; x < items.size(); x++)
+                        {
+                            if(items.get(x).getItem_Name().equals(result.getContents()))
+                            {
+                                position = x;
+                                Log.d("item found", "a");
+                            }
+                        }
+
+                        error_msg.setText("");
+                        //v = adapter.getView(position, null, (ViewGroup) contentView);
+                        TextView textView = (TextView) v.findViewById(R.id.txtItemLayout);
+                        boolean repeated_item = false;
+                        for(int x = 0; x<selected_items.size();x++){
+                            if(selected_items.get(x).getItem_Name().equals(textView.getText().toString())){
+                                repeated_item = true;
+                            }
+                        }
+                        if(repeated_item){
+                            error_msg.setText("You have already added this item");
+                        }
+                        else {
+                            textView.setBackgroundColor(Color.GREEN);
+                            selected.add(textView.getText().toString());
+                            Item selected_item = (Item) adapterView.getItemAtPosition(position);
+                            selected_items.add(selected_item);
+                            items_added.setText(selected.size() + "");
+                            Toast.makeText(adapterView.getContext(), textView.getText().toString() + " selected", Toast.LENGTH_LONG).show();
+                        }
                 }
             } else {
                 super.onActivityResult(requestCode, resultCode, data);
